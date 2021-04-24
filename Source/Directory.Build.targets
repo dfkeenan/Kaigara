@@ -1,0 +1,16 @@
+<Project>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)..\Images\PackageIcon.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
+
+  <Target Name="CopyPackage"  AfterTargets="Pack" >
+    <ItemGroup>
+      <OldNuGetPackage Include="$(NuGetDestionationPath)\$(PackageId).$(PackageVersion).nupkg" />
+    </ItemGroup>
+    <ItemGroup>
+      <NewNugetFile Include="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" />
+    </ItemGroup>
+    <Delete Files="@(OldNuGetPackage)" />
+    <Copy SourceFiles="@(NewNugetFile)" DestinationFolder="$(NuGetDestionationPath)"/>
+  </Target>
+</Project>
