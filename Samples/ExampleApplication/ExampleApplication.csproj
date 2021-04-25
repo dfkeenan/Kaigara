@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <ApplicationIcon>Application.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Application.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
+   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
+    <ProjectReference Include="..\..\Source\Kaigara.Hosting\Kaigara.Hosting.csproj" />
+  </ItemGroup>
+</Project>

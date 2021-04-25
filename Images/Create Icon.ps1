@@ -1,0 +1,1 @@
+magick convert -density 384 -background transparent PackageIcon.svg -define icon:auto-resize Application.ico

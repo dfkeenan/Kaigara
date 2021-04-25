@@ -1,13 +1,16 @@
 <Project>
  <PropertyGroup>
     <Authors>Daniel Keenan</Authors>
-    <PackageProjectUrl>https://github.com/dfkeenan/dotnet-repository-template</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/dfkeenan/Kaigara</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>Copyright © 2020</Copyright>
-    <RepositoryUrl>https://github.com/dfkeenan/dotnet-repository-template.git</RepositoryUrl>
+    <Copyright>Copyright © 2021</Copyright>
+    <RepositoryUrl>https://github.com/dfkeenan/Kaigara.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIcon>PackageIcon.png</PackageIcon>
  </PropertyGroup>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
   <PropertyGroup>
     <NuGetDestionationPath>$(MSBuildThisFileDirectory)..\Build\NuGetPackages</NuGetDestionationPath>
   </PropertyGroup>

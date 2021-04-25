@@ -1,0 +1,79 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ldc="using:Kaigara.Avalonia.Controls"
+        xmlns:lcv="using:Kaigara.Avalonia.Converters">
+
+  <Style Selector="ldc|ChromeWindow">
+    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}"/>
+    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}"/>
+    <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}"/>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}">
+          <VisualLayerManager>
+            <ContentPresenter Name="PART_ContentPresenter"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Content="{TemplateBinding Content}"
+                              Margin="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          </VisualLayerManager>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="ldc|ChromeWindow:platformWindows">
+    <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlMidBrush}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <!--<Setter Property="HasSystemDecorations" Value="false" />-->
+    <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+    <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+    <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
+    <!--<Setter Property="TitleBarTemplate">
+      <Template>
+        <TextBlock Text="{TemplateBinding }" VerticalAlignment="Center" />
+      </Template>
+    </Setter>-->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid>
+          <VisualLayerManager>
+            <Border Name="Window_Border"
+                  Background="{TemplateBinding Background}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  BorderBrush="{TemplateBinding BorderBrush}">
+
+              <DockPanel>
+                <Grid Name="PART_TitleBar" DockPanel.Dock="Top" ColumnDefinitions="Auto,*,Auto" Background="{TemplateBinding Background}">
+                  <Image Grid.Column="0"
+                         Margin="4"
+                         Source="{TemplateBinding Icon, Converter={x:Static lcv:WindowIconToBitmapConverter.Instance}}"
+                         Stretch="UniformToFill" Width="{TemplateBinding IconSize}" Height="{TemplateBinding IconSize}" />
+                  <ContentPresenter Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Name="PART_TitleBarContentPresenter"
+                                    ContentTemplate="{TemplateBinding TitleBarTemplate}"
+                                    Content="{TemplateBinding Title}"/>
+                  <ldc:ChromeWindowButtons Grid.Column="2"  />
+                </Grid>
+                <ContentPresenter Name="PART_ContentPresenter"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+              </DockPanel>
+            </Border>
+          </VisualLayerManager>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="ldc|ChromeWindow[IsActive=true]:platformWindows /template/ :is(Border)#Window_Border">
+    <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush}" />
+  </Style>
+</Styles>

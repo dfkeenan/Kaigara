@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="Controls\ChromeWindow.axaml" />
+    <AvaloniaXaml Remove="Controls\ChromeWindowButtons.axaml" />
+    <AvaloniaXaml Remove="Themes\DefaultTheme.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Controls\ChromeWindow.axaml" />
+    <AvaloniaResource Include="Controls\ChromeWindowButtons.axaml" />
+    <AvaloniaResource Include="Themes\DefaultTheme.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+  </ItemGroup>
+</Project>

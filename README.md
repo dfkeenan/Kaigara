@@ -1,5 +1,6 @@
-# dotnet-repository-template
-Template for GitHub repositories.
+# Kaigara
+
+A shell/document editor framework.
 
 ## License
 

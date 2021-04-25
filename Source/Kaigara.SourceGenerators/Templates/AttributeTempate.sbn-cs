@@ -1,0 +1,24 @@
+﻿using System;
+namespace {{namespace}}
+{
+    [AttributeUsage({{targets}}, Inherited = {{inherited}}, AllowMultiple = {{allow_multiple}})]
+    [System.Diagnostics.Conditional("{{name}}_DEBUG")]
+    sealed class {{name}} : Attribute
+    {
+        public {{name}}({{for property in properties  | array.filter @(do;ret $0.constructor; end)}}{{if !for.first}}, {{end}}{{property.type_name}} {{property.parameter_name}}{{end}})
+        {
+        {{~ for property in properties  | array.filter @(do;ret $0.constructor; end) ~}}
+            {{property.name}} = {{property.parameter_name}};
+        {{~ end ~}}
+        }
+
+        {{ for property in properties ~}}
+            {{- if property.constructor}}
+        public {{property.type_name}} {{property.name}} { get; }
+            {{- else -}}
+        public {{property.type_name}}? {{property.name}} { get; set; }
+            {{- end -}}
+        {{~ end ~}}
+
+    }
+}
