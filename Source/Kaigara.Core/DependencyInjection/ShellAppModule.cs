@@ -42,6 +42,17 @@ namespace Kaigara.DependencyInjection
             }
         }
 
+        protected override void Load(ContainerBuilder builder)
+        {
+            base.Load(builder);
+            builder.RegisterBuildCallback(OnBuild);
+        }
+
+        protected virtual void OnBuild(ILifetimeScope scope)
+        {
+           
+        }
+
         protected void RegisterViewModels(ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
         {
 
