@@ -3,8 +3,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kar="using:Kaigara.Avalonia.ReactiveUI"
+        xmlns:kcv="using:Kaigara.Avalonia.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Kaigara.Views.MainWindow"
-        Title="{Binding Title}">
+        x:Class="Kaigara.Views.MainWindowView"
+        Title="{Binding Title}"
+        Icon="{Binding IconUri,Converter={x:Static kcv:UriToAssetConverter.Instance}}"
+        WindowStartupLocation="{Binding StartupLocation}"
+        Width="{Binding Width}"
+        Height="{Binding Height}"
+        >
   
 </Window>

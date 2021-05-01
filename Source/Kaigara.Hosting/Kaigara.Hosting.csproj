@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Kaigara.Avalonia.ReactiveUI\Kaigara.Avalonia.ReactiveUI.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
+    <ProjectReference Include="..\Kaigara.Core.Avalonia\Kaigara.Core.Avalonia.csproj" />
     <ProjectReference Include="..\Kaigara.Core\Kaigara.Core.csproj" />
   </ItemGroup>
 

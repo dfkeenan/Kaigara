@@ -13,9 +13,9 @@ namespace ExampleApplication
         // yet and stuff might break.
         public static void Main(string[] args) 
             => BuildAvaloniaApp()
-                .ConfigureKaigara(args)
+                .ConfigureShellApp(args)
                 .RegisterDefaultModules()
-                .Start();
+                .Start(size: new Size(1920,1080));
 
         // Avalonia configuration, don't remove; also used by visual designer.
         public static AppBuilder BuildAvaloniaApp()

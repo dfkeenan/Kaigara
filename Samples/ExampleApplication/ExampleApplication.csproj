@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <ApplicationIcon>Application.ico</ApplicationIcon>
+    <ProductName>Example Application</ProductName>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Application.ico" />

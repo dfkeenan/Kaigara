@@ -6,9 +6,9 @@ using Kaigara.ViewModels;
 
 namespace Kaigara.Views
 {
-    public class MainWindow : ReactiveChromeWindow<MainWindowViewModel>
+    public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
     {
-        public MainWindow()
+        public MainWindowView()
         {
             InitializeComponent();
         }
