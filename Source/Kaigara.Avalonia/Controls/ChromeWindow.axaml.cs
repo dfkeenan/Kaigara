@@ -65,6 +65,12 @@ namespace Kaigara.Avalonia.Controls
             var titleBar = e.NameScope.Find<Control>("PART_TitleBar");
 
             titleBar.PointerPressed += TitleBar_PointerPressed;
+            titleBar.DoubleTapped += TitleBar_DoubleTapped;
+        }
+
+        private void TitleBar_DoubleTapped(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
         }
 
         private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)

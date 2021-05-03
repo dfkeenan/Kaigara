@@ -12,5 +12,7 @@
         Width="{Binding Width}"
         Height="{Binding Height}"
         >
-  
+  <DockPanel>
+    <ContentControl Content="{Binding Shell}"/>
+  </DockPanel>
 </Window>

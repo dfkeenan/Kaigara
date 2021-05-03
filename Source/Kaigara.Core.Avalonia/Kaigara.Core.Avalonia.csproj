@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.3" />
+    <PackageReference Include="Dock.Avalonia" Version="0.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Kaigara.Core\Kaigara.Core.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia.ReactiveUI\Kaigara.Avalonia.ReactiveUI.csproj" />
