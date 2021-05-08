@@ -11,6 +11,7 @@
         WindowStartupLocation="{Binding StartupLocation}"
         Width="{Binding Width}"
         Height="{Binding Height}"
+        IconSize="24"
         >
   <DockPanel>
     <ContentControl Content="{Binding Shell}"/>

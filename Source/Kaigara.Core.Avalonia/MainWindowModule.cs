@@ -7,20 +7,21 @@ using Autofac;
 using Avalonia.Data;
 using Dock.Avalonia.Controls;
 using Dock.Model.Core;
-using Kaigara.DependencyInjection;
 using Kaigara.Menus;
 using Kaigara.Shell;
 
 namespace Kaigara
 {
-    public class MainWindowModule : ShellAppModule
+    public class MainWindowModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            DependsOnModule<MenuModule>(builder);
-            DependsOnModule<ShellModule>(builder);
-            RegisterViewModels(builder);
+            builder
+                .DependsOnModule<MenuModule>()
+                .DependsOnModule<ShellModule>()
+                .RegisterViewModels<MainWindowModule>();
+
 
             builder.Register<IHostWindow>(c =>
             {
@@ -30,14 +31,6 @@ namespace Kaigara
                 };
                 return hostWindow;
             });
-        }
-
-        protected override void OnBuild(ILifetimeScope scope)
-        {
-            if (scope.TryResolve<IMenuManager>(out var menuManager))
-            {
-
-            }
         }
     }
 }

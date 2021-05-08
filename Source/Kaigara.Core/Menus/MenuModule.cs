@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
-using Kaigara.DependencyInjection;
 
 namespace Kaigara.Menus
 {
-    public sealed class MenuModule : ShellAppModule
+    public sealed class MenuModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

@@ -14,6 +14,8 @@ namespace Kaigara.Shell
     public class ShellDockFactory : Factory
     {
         private readonly Func<IHostWindow> hostWindowFactory;
+        private IRootDock? rootDock;
+        private IDocumentDock? mainDocumentsDock;
 
         public ShellDockFactory(Func<IHostWindow> hostWindowFactory)
         {
@@ -21,6 +23,18 @@ namespace Kaigara.Shell
         }
         public override IRootDock CreateLayout()
         {
+            var mainDocumentsDock = new DocumentDock
+            {
+                Id = "DocumentsPane",
+                Title = "DocumentsPane",
+                Proportion = double.NaN,
+                IsCollapsable = false,
+                VisibleDockables = CreateList<IDockable>
+                                    (
+
+                                    )
+            };
+
             var mainLayout = new ProportionalDock
             {
                 Id = "MainLayout",
@@ -28,19 +42,9 @@ namespace Kaigara.Shell
                 Proportion = double.NaN,
                 Orientation = Orientation.Horizontal,
                 ActiveDockable = null,
-                VisibleDockables = CreateList<IDockable>
+                VisibleDockables = base.CreateList<IDockable>
                 (
-                    new DocumentDock
-                    {
-                        Id = "DocumentsPane",
-                        Title = "DocumentsPane",
-                        Proportion = double.NaN,
-                        IsCollapsable = false,
-                        VisibleDockables = CreateList<IDockable>
-                        (
-                           
-                        )
-                    }
+                    mainDocumentsDock
                 )
             };
 
@@ -52,57 +56,25 @@ namespace Kaigara.Shell
                 VisibleDockables = CreateList<IDockable>(mainLayout)
             };
 
-            var root = CreateRootDock();
+            var rootDock = CreateRootDock();
 
-            root.Id = "Root";
-            root.Title = "Root";
-            root.ActiveDockable = mainView;
-            root.DefaultDockable = mainView;
-            root.VisibleDockables = CreateList<IDockable>(mainView);
+            rootDock.Id = "Root";
+            rootDock.Title = "Root";
+            rootDock.ActiveDockable = mainView;
+            rootDock.DefaultDockable = mainView;
+            rootDock.VisibleDockables = CreateList<IDockable>(mainView);
 
-            return root;
+            this.rootDock = rootDock;
+            this.mainDocumentsDock = mainDocumentsDock;
+
+            return rootDock;
         }
 
         public override void InitLayout(IDockable layout)
         {
             this.ContextLocator = new Dictionary<string, Func<object>>
             {
-                //[nameof(IRootDock)] = () => _context,
-                //// [nameof(IPinDock)] = () => _context,
-                //[nameof(IProportionalDock)] = () => _context,
-                //[nameof(IDocumentDock)] = () => _context,
-                //[nameof(IToolDock)] = () => _context,
-                //[nameof(ISplitterDockable)] = () => _context,
-                //[nameof(IDockWindow)] = () => _context,
-                //[nameof(IDocument)] = () => _context,
-                //[nameof(ITool)] = () => _context,
-                //["Document1"] = () =>
-                //{
-                //    return new Document1();
-                //},
-                //["Document2"] = () => new Document2(),
-                //["LeftTop1"] = () => new LeftTopTool1(),
-                //["LeftTop2"] = () => new LeftTopTool2(),
-                //["LeftBottom1"] = () => new LeftBottomTool1(),
-                //["LeftBottom2"] = () => new LeftBottomTool2(),
-                //["RightTop1"] = () => new RightTopTool1(),
-                //["RightTop2"] = () => new RightTopTool2(),
-                //["RightBottom1"] = () => new RightBottomTool1(),
-                //["RightBottom2"] = () => new RightBottomTool2(),
-                //["LeftPane"] = () => _context,
-                //["LeftPaneTop"] = () => _context,
-                //["LeftPaneTopSplitter"] = () => _context,
-                //["LeftPaneBottom"] = () => _context,
-                //["RightPane"] = () => _context,
-                //["RightPaneTop"] = () => _context,
-                //["RightPaneTopSplitter"] = () => _context,
-                //["RightPaneBottom"] = () => _context,
-                //["DocumentsPane"] = () => _context,
-                //["MainLayout"] = () => _context,
-                //["LeftSplitter"] = () => _context,
-                //["RightSplitter"] = () => _context,
-                //["MainLayout"] = () => _context,
-                //["Main"] = () => _context,
+                
             };
 
             this.HostWindowLocator = new Dictionary<string, Func<IHostWindow>>
@@ -112,6 +84,8 @@ namespace Kaigara.Shell
 
             this.DockableLocator = new Dictionary<string, Func<IDockable?>>
             {
+                ["Root"] = () => rootDock,
+                ["Documents"] = ()=> mainDocumentsDock
             };
 
             base.InitLayout(layout);

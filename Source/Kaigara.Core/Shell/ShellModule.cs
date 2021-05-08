@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Dock.Model.Core;
-using Kaigara.DependencyInjection;
 using Kaigara.Shell.ViewModels;
 
 namespace Kaigara.Shell
 {
-    public sealed class ShellModule : ShellAppModule
+    public sealed class ShellModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
