@@ -62,7 +62,7 @@ namespace Kaigara.Hosting
             }
 
             configurationBuilder.SetBasePath(Environment.CurrentDirectory)
-                                .AddJsonFile("appSettings.json", true)
+                                .AddJsonFile("appsettings.json", true)
                                 .AddJsonFile(userSettingsFilePath, true);
 
             return this;
