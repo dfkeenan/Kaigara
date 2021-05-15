@@ -29,12 +29,12 @@ namespace Kaigara.Hosting
 
         private Func<IShell, IConfiguration, IContainer, Startup>? startupFactory;
 
-        public ShellAppBuilder(AppBuilderBase<TAppBuilder> appBuilder, string[] args)
+        public ShellAppBuilder(AppBuilderBase<TAppBuilder> appBuilder, ApplicationInfo appInfo, string[] args)
         {
             this.appBuilder = appBuilder ?? throw new ArgumentNullException(nameof(appBuilder));
+            this.appInfo = appInfo;
             this.args = args;
             containerBuilder = new ContainerBuilder();
-            appInfo = ApplicationInfo.FromEntryAssembly();
         }
 
         public ShellAppBuilder<TAppBuilder> ConfigureAppInfo(Func<ApplicationInfo, ApplicationInfo> option)

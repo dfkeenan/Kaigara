@@ -17,8 +17,7 @@ namespace ExampleApplication
         // yet and stuff might break.
         public static void Main(string[] args) 
             => BuildAvaloniaApp()
-                .ConfigureShellApp(args)
-                .ConfigureAppInfo(info => info with
+                .ConfigureShellApp(args, info => info with
                 {
                     ProductName = "Example Application"
                 })
