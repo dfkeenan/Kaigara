@@ -21,6 +21,7 @@ namespace ExampleApplication
                 {
                     ProductName = "Example Application"
                 })
+                .AddDefaultConfiguration()
                 .RegisterDefaultModules()
                 .RegisterAllAppModels()
                 .Startup((IShell shell, IConfiguration configuration, IContainer container) =>

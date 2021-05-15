@@ -14,7 +14,7 @@ namespace Kaigara
         protected Startup(IShell shell, IConfiguration configuration, IContainer container)
         {
             Shell = shell ?? throw new ArgumentNullException(nameof(shell));
-            //Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            Configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             Container = container ?? throw new ArgumentNullException(nameof(container));
         }
 

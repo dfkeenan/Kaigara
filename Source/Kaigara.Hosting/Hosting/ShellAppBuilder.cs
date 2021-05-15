@@ -15,6 +15,7 @@ using Kaigara.ViewModels;
 using System.Reflection;
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Kaigara.Hosting
 {
@@ -24,6 +25,7 @@ namespace Kaigara.Hosting
         private readonly AppBuilderBase<TAppBuilder> appBuilder;
         private readonly string[] args;
         private ContainerBuilder containerBuilder;
+        private ConfigurationBuilder configurationBuilder;
         private ApplicationInfo appInfo;
         private IContainer? container;
 
@@ -35,16 +37,33 @@ namespace Kaigara.Hosting
             this.appInfo = appInfo;
             this.args = args;
             containerBuilder = new ContainerBuilder();
+            configurationBuilder = new ConfigurationBuilder();
         }
 
-        public ShellAppBuilder<TAppBuilder> ConfigureAppInfo(Func<ApplicationInfo, ApplicationInfo> option)
+        public ShellAppBuilder<TAppBuilder> Configure(Action<ConfigurationBuilder> builderCallback)
         {
-            if (option is null)
+            if (builderCallback is null)
             {
-                throw new ArgumentNullException(nameof(option));
+                throw new ArgumentNullException(nameof(builderCallback));
             }
 
-            appInfo = option.Invoke(appInfo) ?? appInfo;
+            builderCallback.Invoke(configurationBuilder);
+
+            return this;
+        }
+
+        public ShellAppBuilder<TAppBuilder> AddDefaultConfiguration()
+        {
+            string userSettingsFilePath = Path.Combine(appInfo.ApplicationDataPath, "settings.json");
+
+            if (!File.Exists(userSettingsFilePath))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(userSettingsFilePath)!);
+            }
+
+            configurationBuilder.SetBasePath(Environment.CurrentDirectory)
+                                .AddJsonFile("appSettings.json", true)
+                                .AddJsonFile(userSettingsFilePath, true);
 
             return this;
         }
@@ -100,12 +119,15 @@ namespace Kaigara.Hosting
 
         public void Start(Action<IWindowViewModel>? mainWindowOptions = null)
         {
+            var configuration = configurationBuilder.Build();
+            containerBuilder.RegisterInstance(configuration).As<IConfiguration>();
+
             container = containerBuilder.Build();
 
             var csl = new AutofacServiceLocator(container);
             ServiceLocator.SetLocatorProvider(() => csl);
-            //container.Resolve<IConfiguration>()
-            startupFactory?.Invoke(container.Resolve<IShell>(), null, container)?.Start();
+            
+            startupFactory?.Invoke(container.Resolve<IShell>(), container.Resolve<IConfiguration>(), container)?.Start();
             
             appBuilder.Start(StartApplication,args);
 

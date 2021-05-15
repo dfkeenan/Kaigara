@@ -17,4 +17,9 @@
     <ProjectReference Include="..\..\Source\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Hosting\Kaigara.Hosting.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
