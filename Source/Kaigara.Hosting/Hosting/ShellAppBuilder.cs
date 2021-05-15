@@ -24,7 +24,9 @@ namespace Kaigara.Hosting
         private readonly AppBuilderBase<TAppBuilder> appBuilder;
         private readonly string[] args;
         private ContainerBuilder containerBuilder;
+        private ApplicationInfo appInfo;
         private IContainer? container;
+
         private Func<IShell, IConfiguration, IContainer, Startup>? startupFactory;
 
         public ShellAppBuilder(AppBuilderBase<TAppBuilder> appBuilder, string[] args)
@@ -32,6 +34,19 @@ namespace Kaigara.Hosting
             this.appBuilder = appBuilder ?? throw new ArgumentNullException(nameof(appBuilder));
             this.args = args;
             containerBuilder = new ContainerBuilder();
+            appInfo = ApplicationInfo.FromEntryAssembly();
+        }
+
+        public ShellAppBuilder<TAppBuilder> ConfigureAppInfo(Func<ApplicationInfo, ApplicationInfo> option)
+        {
+            if (option is null)
+            {
+                throw new ArgumentNullException(nameof(option));
+            }
+
+            appInfo = option.Invoke(appInfo) ?? appInfo;
+
+            return this;
         }
 
         public ShellAppBuilder<TAppBuilder> Register(Action<ContainerBuilder> builderCallback)
@@ -110,12 +125,8 @@ namespace Kaigara.Hosting
 
         public void Start(string? title = null, Uri? iconUri = null, Size? size = null, WindowStartupLocation startLocation = WindowStartupLocation.CenterScreen)
         {
-            var entryAssembly = Assembly.GetEntryAssembly()!;
-
-            title ??= entryAssembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product ??
-                      entryAssembly.GetName().Name;
-
-            iconUri ??= new Uri($"resm:{entryAssembly.GetName().Name}.Application.ico");
+            title ??= appInfo.ProductName;
+            iconUri ??= appInfo.IconUri;
 
             Start(w =>
             {

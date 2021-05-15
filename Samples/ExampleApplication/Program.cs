@@ -18,6 +18,10 @@ namespace ExampleApplication
         public static void Main(string[] args) 
             => BuildAvaloniaApp()
                 .ConfigureShellApp(args)
+                .ConfigureAppInfo(info => info with
+                {
+                    ProductName = "Example Application"
+                })
                 .RegisterDefaultModules()
                 .RegisterAllAppModels()
                 .Startup((IShell shell, IConfiguration configuration, IContainer container) =>
