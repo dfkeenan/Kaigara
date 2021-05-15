@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
+using Dock.Model.Controls;
+using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.ViewModels;
 
@@ -69,11 +72,132 @@ namespace Kaigara
 
             var moduleType = typeof(TModule);
 
-            builder.RegisterAssemblyTypes(moduleType.Assembly)
-                   .AssignableTo<ViewModel>()
-                   .Where(GetNamespacePredicate(moduleType.Namespace!, namespaceRule))
-                   .AsSelf()
-                   .InstancePerDependency();
+            return builder.RegisterViewModels(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+
+        public static ContainerBuilder RegisterViewModels(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+            builder.RegisterAssemblyTypes(assembly)
+                               .AssignableTo<ViewModel>()
+                               .Where(t => namespacePredicate(t))
+                               .AsSelf()
+                               .InstancePerDependency();
+            return builder;
+        }
+
+        public static ContainerBuilder RegisterDocuments<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+            where TModule : IModule
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            var moduleType = typeof(TModule);
+
+            return builder.RegisterDocuments(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+
+        public static ContainerBuilder RegisterDocuments(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+            //Documents
+            builder.RegisterAssemblyTypes(assembly)
+                               .AssignableTo<IDocument>()
+                               .Where(t => namespacePredicate(t))
+                               .AsSelf()
+                               .InstancePerDependency();
+
+            return builder;
+        }
+
+        public static ContainerBuilder RegisterTools<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+            where TModule : IModule
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            var moduleType = typeof(TModule);
+
+            return builder.RegisterTools(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+        public static ContainerBuilder RegisterTools(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+            builder.RegisterAssemblyTypes(assembly)
+                               .AssignableTo<ITool>()
+                               .Where(t => namespacePredicate(t))
+                               .AsSelf()
+                               .AsImplementedInterfaces()
+                               .SingleInstance();
+
+            return builder;
+        }
+
+        public static ContainerBuilder RegisterAllModels<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+            where TModule : IModule
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            var moduleType = typeof(TModule);
+
+            return builder.RegisterAllModels(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+
+        public static ContainerBuilder RegisterAllModels(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            builder.RegisterViewModels(assembly, @namespace, namespaceRule);
+            builder.RegisterDocuments(assembly, @namespace, namespaceRule);
+            builder.RegisterTools(assembly, @namespace, namespaceRule);
 
             return builder;
         }
