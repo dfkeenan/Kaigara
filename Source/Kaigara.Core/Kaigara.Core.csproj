@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.1.0" />
+    <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="Autofac.Configuration" Version="6.0.0" />
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.1" />
-    <PackageReference Include="Dock.Model.ReactiveUI" Version="0.10.3" />
+    <PackageReference Include="Dock.Model.ReactiveUI" Version="0.10.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-    <PackageReference Include="ReactiveUI" Version="13.2.18" />
+    <PackageReference Include="ReactiveUI" Version="13.3.2" />
   </ItemGroup>
 
   <ItemGroup>
