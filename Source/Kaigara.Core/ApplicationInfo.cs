@@ -32,23 +32,25 @@ namespace Kaigara
                    assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version
                 ?? assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version
                 ?? "1.0.0";
-            
-            
+
             Uri? iconUri = null;
 
             if (assembly.GetManifestResourceNames().Contains($"{assembly.GetName().Name}.Application.ico"))
             {
                 iconUri = new Uri($"resm:{assembly.GetName().Name}.Application.ico");
             }
-
-
+#if DEBUG
+            string appDataPath = Path.GetDirectoryName(assembly.Location)!;
+#else
+            string appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), productName);
+#endif
             return new ApplicationInfo
             {
                 ProductName = productName,
                 CompnayName = assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company,
                 Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>()?.Copyright ?? $"© {DateTime.Now.Year}",
                 Version = version,
-                ApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), productName),
+                ApplicationDataPath = appDataPath,
                 IconUri = iconUri,
             };
         }
