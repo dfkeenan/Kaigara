@@ -7,7 +7,6 @@ using Avalonia.Controls;
 using Avalonia;
 using Autofac;
 using Autofac.Core;
-using Kaigara.Views;
 using Avalonia.Platform;
 using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
@@ -16,6 +15,8 @@ using System.Reflection;
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Kaigara.MainWindow.ViewModels;
+using Kaigara.MainWindow.Views;
 
 namespace Kaigara.Hosting
 {

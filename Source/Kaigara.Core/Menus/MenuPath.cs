@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace Kaigara.Menus
 {
@@ -10,10 +12,28 @@ namespace Kaigara.Menus
 
         public MenuPath(string path)
         {
-            originalPath = path ?? throw new System.ArgumentNullException(nameof(path));
-            pathSegments = path.Split(pathSeparators);
+            originalPath = path ?? throw new ArgumentNullException(nameof(path));
+            pathSegments = path.Split(pathSeparators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        }
+
+        public MenuPath(IEnumerable<string> path)
+        {
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            if(!path.Any())
+            {
+                throw new ArgumentOutOfRangeException(nameof(path), "Must have at least 1 item");
+            }
+
+            originalPath = String.Join('/', path);
+            pathSegments = path.ToArray();
         }
 
         public IReadOnlyList<string> PathSegments => pathSegments;
+
+        public override string ToString() => originalPath;
     }
 }

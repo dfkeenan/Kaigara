@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Data;
+using Dock.Avalonia.Controls;
 using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.ReactiveUI;
@@ -13,14 +16,14 @@ namespace Kaigara.Shell
 {
     public class ShellDockFactory : Factory
     {
-        private readonly Func<IHostWindow> hostWindowFactory;
         private IRootDock? rootDock;
         private IDocumentDock? mainDocumentsDock;
 
-        public ShellDockFactory(Func<IHostWindow> hostWindowFactory)
+        public ShellDockFactory()
         {
-            this.hostWindowFactory = hostWindowFactory ?? throw new ArgumentNullException(nameof(hostWindowFactory));
+            
         }
+
         public override IRootDock CreateLayout()
         {
             var mainDocumentsDock = new DocumentDock
@@ -48,26 +51,23 @@ namespace Kaigara.Shell
                 )
             };
 
-            var mainView = new ShellRootDockViewModel
-            {
-                Id = "Main",
-                Title = "Main",
-                ActiveDockable = mainLayout,
-                VisibleDockables = CreateList<IDockable>(mainLayout)
-            };
-
             var rootDock = CreateRootDock();
 
             rootDock.Id = "Root";
             rootDock.Title = "Root";
-            rootDock.ActiveDockable = mainView;
-            rootDock.DefaultDockable = mainView;
-            rootDock.VisibleDockables = CreateList<IDockable>(mainView);
+            rootDock.ActiveDockable = mainLayout;
+            rootDock.DefaultDockable = mainLayout;
+            rootDock.VisibleDockables = CreateList<IDockable>(mainLayout);
 
             this.rootDock = rootDock;
             this.mainDocumentsDock = mainDocumentsDock;
 
             return rootDock;
+        }
+
+        public override IRootDock CreateRootDock()
+        {
+            return new ShellRootDockViewModel();
         }
 
         public override void InitLayout(IDockable layout)
@@ -79,7 +79,10 @@ namespace Kaigara.Shell
 
             this.HostWindowLocator = new Dictionary<string, Func<IHostWindow>>
             {
-                [nameof(IDockWindow)] = hostWindowFactory
+                [nameof(IDockWindow)] = () => new HostWindow()
+                {
+                    [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
+                }
             };
 
             this.DockableLocator = new Dictionary<string, Func<IDockable?>>

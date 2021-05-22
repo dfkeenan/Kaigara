@@ -10,6 +10,8 @@ using Dock.Model.Controls;
 using Dock.Model.Core;
 using Kaigara.ViewModels;
 using ReactiveUI;
+using System.Reactive.Linq;
+using System.Diagnostics;
 
 namespace Kaigara.Shell.ViewModels
 {
@@ -73,7 +75,29 @@ namespace Kaigara.Shell.ViewModels
             Tools = new ReadOnlyObservableCollection<ITool>(tools);
             toolActivated = new BehaviorSubject<ITool?>(null);
             activeTool = toolActivated.ToProperty(this, o => o.ActiveTool);
-            
+
+
+            var fo = new ReactiveDockFactory(factory);
+
+            fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            {
+                Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+            });
+
+            fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            {
+                Debug.WriteLine($"Focus {d?.Id ?? "NULL"}");
+            });
+
+            fo.DockableClosed.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            {
+                Debug.WriteLine($"Closed {d?.Id ?? "NULL"}");
+            });
+
+            fo.WindowRemoved.Select(e => e.EventArgs.Window).Subscribe(d =>
+            {
+                Debug.WriteLine($"Window Removed {d?.Id ?? "NULL"}");
+            });
         }
 
         public void OpenDocument(IDocument document)
@@ -113,10 +137,13 @@ namespace Kaigara.Shell.ViewModels
             }
         }
 
-        public void OpenDocument<TDocument>()
+        public TDocument OpenDocument<TDocument>()
             where TDocument : IDocument
         {
-            OpenDocument(lifetimeScope.Resolve<TDocument>());
+            TDocument document = lifetimeScope.Resolve<TDocument>();
+            OpenDocument(document);
+
+            return document;
         }
 
         private IDocumentDock? GetDocumentsDockable()
@@ -161,10 +188,12 @@ namespace Kaigara.Shell.ViewModels
             }
         }
 
-        public void OpenTool<TTool>(bool focus = false)
+        public TTool OpenTool<TTool>(bool focus = false)
             where TTool : ITool
         {
-            OpenTool(lifetimeScope.Resolve<TTool>(), focus);
+            TTool tool = lifetimeScope.Resolve<TTool>();
+            OpenTool(tool, focus);
+            return tool;
         }
 
         private IToolDock GetToolsDockable(ITool tool)

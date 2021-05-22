@@ -2,9 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
-using Kaigara.ViewModels;
+using Kaigara.MainWindow.ViewModels;
 
-namespace Kaigara.Views
+namespace Kaigara.MainWindow.Views
 {
     public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
     {

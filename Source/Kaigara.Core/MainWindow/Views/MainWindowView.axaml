@@ -1,11 +1,13 @@
-<Window xmlns="https://github.com/avaloniaui"
+<kc:ChromeWindow xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kar="using:Kaigara.Avalonia.ReactiveUI"
         xmlns:kcv="using:Kaigara.Avalonia.Converters"
+        xmlns:kc="using:Kaigara.Avalonia.Controls"
+        xmlns:kcm="using:Kaigara.Menus.Controls"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Kaigara.Views.MainWindowView"
+        x:Class="Kaigara.MainWindow.Views.MainWindowView"
         Title="{Binding Title}"
         Icon="{Binding IconUri,Converter={x:Static kcv:UriToAssetConverter.Instance}}"
         WindowStartupLocation="{Binding StartupLocation}"
@@ -13,7 +15,16 @@
         Height="{Binding Height}"
         IconSize="24"
         >
+  <!--<kc:ChromeWindow.TitleBarTemplate>
+    <DataTemplate>
+      <StackPanel Orientation="Horizontal" Spacing="10">
+        <kcm:DynamicMenu Menu="{Binding MainMenu}" />
+        <TextBlock Text="{Binding Title}"/>
+      </StackPanel>
+    </DataTemplate>
+  </kc:ChromeWindow.TitleBarTemplate>-->
   <DockPanel>
+    <kcm:DynamicMenu Menu="{Binding MainMenu}" DockPanel.Dock="Top" />
     <ContentControl Content="{Binding Shell}"/>
   </DockPanel>
-</Window>
+</kc:ChromeWindow>

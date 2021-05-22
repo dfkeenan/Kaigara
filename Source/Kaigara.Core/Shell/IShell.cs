@@ -23,8 +23,8 @@ namespace Kaigara.Shell
         IObservable<ITool?> ToolActivated { get; }
 
         void OpenDocument(IDocument document);
-        void OpenDocument<TDocument>() where TDocument : IDocument;
+        TDocument OpenDocument<TDocument>() where TDocument : IDocument;
         void OpenTool(ITool tool, bool focus = false);
-        void OpenTool<TTool>(bool focus = false) where TTool : ITool;
+        TTool OpenTool<TTool>(bool focus = false) where TTool : ITool;
     }
 }

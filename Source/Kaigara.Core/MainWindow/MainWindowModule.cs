@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Avalonia.Controls;
 using Avalonia.Data;
 using Dock.Avalonia.Controls;
 using Dock.Model.Core;
+using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Shell;
 
-namespace Kaigara
+namespace Kaigara.MainWindow
 {
     public class MainWindowModule : Module
     {
@@ -22,15 +24,7 @@ namespace Kaigara
                 .DependsOnModule<ShellModule>()
                 .RegisterViewModels<MainWindowModule>();
 
-
-            builder.Register<IHostWindow>(c =>
-            {
-                var hostWindow = new HostWindow()
-                {
-                    [!HostWindow.TitleProperty] = new Binding("ActiveDockable.Title")
-                };
-                return hostWindow;
-            });
+            builder.RegisterType<MainMenuViewModel>().AsSelf().SingleInstance();
         }
     }
 }

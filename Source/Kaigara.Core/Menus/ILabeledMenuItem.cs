@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dock.Model.ReactiveUI.Controls;
 
-namespace Kaigara.Shell.ViewModels
+namespace Kaigara.Menus
 {
-    public class ShellRootDockViewModel : RootDock
+    public interface ILabeledMenuItem
     {
-
+        string Label { get; }
+        string IconSource { get; }
     }
 }

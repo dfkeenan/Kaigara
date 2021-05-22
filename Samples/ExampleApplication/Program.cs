@@ -27,6 +27,8 @@ namespace ExampleApplication
                 .Startup((IShell shell, IConfiguration configuration, IContainer container) =>
                 {
                     shell.OpenDocument<ExampleDocumentViewModel>();
+                    shell.OpenDocument<ExampleDocumentViewModel>();
+                    shell.OpenDocument<ExampleDocumentViewModel>();
                 })
                 .Start(size: new Size(1920,1080));
 

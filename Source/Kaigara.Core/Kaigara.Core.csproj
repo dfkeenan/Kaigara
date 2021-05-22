@@ -14,6 +14,14 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="ReactiveUI" Version="13.3.2" />
+    <PackageReference Include="Avalonia" Version="0.10.4" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.4" />
+    <PackageReference Include="Dock.Avalonia" Version="0.10.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
+    <ProjectReference Include="..\Kaigara.Avalonia.ReactiveUI\Kaigara.Avalonia.ReactiveUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DependencyInjection\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
