@@ -11,7 +11,7 @@
         <Setter Property="Items" Value="{Binding Items}"/>
         <Setter Property="Command" Value="{Binding Command}"/>
         <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
-        <Setter Property="InputGesture" Value="{Binding KeyGesture}"/>
+        <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
       </Style>
     </Menu.Styles>
   </Menu>

@@ -35,5 +35,15 @@ namespace Kaigara.Menus
         public IReadOnlyList<string> PathSegments => pathSegments;
 
         public override string ToString() => originalPath;
+
+        public MenuPath GetSubMenuPath(string name)
+        {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            return new MenuPath(pathSegments.Append(name));
+        }
     }
 }

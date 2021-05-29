@@ -7,30 +7,26 @@ using Kaigara.Menus;
 
 namespace Kaigara.MainWindow.ViewModels
 {
-    public sealed class MainMenuViewModel : MenuViewModel
+    public  class MainMenuViewModel : MenuViewModel
     {
-        public MainMenuViewModel(IMenuManager menuManager) : base(menuManager)
-        {
-        }
-
-        protected override IEnumerable<IMenuItem> Build()
-            => new List<IMenuItem>
+        protected override MenuDefinition CreateDefinition()
+            => new MenuDefinition("MainMenu")
             {
-                new MenuItemViewModel("File", "_File")
+                new MenuItemDefinition("File", "_File")
                 {
-                    new MenuItemViewModel("Exit", "E_xit")
+                    new MenuItemDefinition("Exit", "E_xit")
                 },
-                new MenuItemViewModel("Edit", "_Edit")
+                new MenuItemDefinition("Edit", "_Edit")
                 {
-                    
+
                 },
-                new MenuItemViewModel("Window", "_Window")
+                new MenuItemDefinition("Window", "_Window")
                 {
-                   
+
                 },
-                new MenuItemViewModel("Help", "_Help")
+                new MenuItemDefinition("Help", "_Help")
                 {
-                    
+
                 }
             };
     }

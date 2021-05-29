@@ -24,7 +24,14 @@ namespace Kaigara.MainWindow
                 .DependsOnModule<ShellModule>()
                 .RegisterViewModels<MainWindowModule>();
 
-            builder.RegisterType<MainMenuViewModel>().AsSelf().SingleInstance();
+           
+            builder.Register<MainMenuViewModel>(c=> 
+            {
+                var menu = new MainMenuViewModel();
+                c.Resolve<IMenuManager>().Register(menu.Definition); 
+                return menu; 
+            }).AsSelf().SingleInstance();
         }
+            
     }
 }

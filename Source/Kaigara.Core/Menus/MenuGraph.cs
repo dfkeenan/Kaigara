@@ -10,32 +10,43 @@ namespace Kaigara.Menus
 {
     class MenuGraph
     {
-        private readonly MenuNode root = new MenuNode("ROOT");
+        private readonly MenuNode root;
 
-        public IDisposable Add(MenuPath path, IMenuItem menuItem)
-            => root.Add(path, menuItem);
+        public MenuGraph(MenuManager menuManager)
+        {
+            root = new MenuNode(this, "ROOT");
+            MenuManager = menuManager;
+        }
 
-        public IMenuItem? Find(MenuPath path)
-            => root.GetNode(path).Item;
+        public MenuManager MenuManager { get; }
+
+        public IDisposable Add(MenuPath path, MenuItemDefinition menuItemDefinition)
+            => root.Add(path, menuItemDefinition);
+
+        public MenuItemDefinition? Find(MenuPath path)
+            => root.GetNode(path).Definition;
 
         private class MenuNode
         {
             private Dictionary<string, MenuNode>? children;
-            private IMenuItem? item;
+            private MenuItemDefinition? definition;
             private readonly string name;
+            private readonly MenuGraph graph;
 
-            public MenuNode(string name)
+            public MenuNode(MenuGraph graph, string name)
             {
+                this.graph = graph ?? throw new ArgumentNullException(nameof(graph));
                 this.name = name ?? throw new ArgumentNullException(nameof(name));
             }
 
-            public IMenuItem? Item => item;
+            public MenuItemDefinition? Definition => definition;
 
-            public IDisposable Add(MenuPath path, IMenuItem menuItem)
+            public IDisposable Add(MenuPath path, MenuItemDefinition definition)
             {
                 var node = GetNode(path);
-                node.item = menuItem;
-                return Disposable.Create(() => node.item = null);
+                node.SetDefinition(definition);
+
+                return Disposable.Create(() => node.definition = null);
             }
 
             public MenuNode GetNode(MenuPath path)
@@ -44,11 +55,41 @@ namespace Kaigara.Menus
                 
                 foreach (var name in path.PathSegments)
                 {
-                    node.children ??= new Dictionary<string, MenuNode>();
-                    node = node.children.GetOrAdd(name, n => new MenuNode(n));
+                    node = node.GetOrAddNode(name);
                 }
 
                 return node;
+            }
+
+            private MenuNode GetOrAddNode(string name)
+            {
+                children ??= new Dictionary<string, MenuNode>();
+                return children.GetOrAdd(name, n => new MenuNode(graph, n));
+            }
+
+            private void SetDefinition(MenuItemDefinition definition)
+            {
+                if (this.definition is null)
+                {
+                    this.definition = definition;
+                    if (children is not null)
+                    {
+                        foreach (var item in children.Values.Where(n => n.definition is not null))
+                        {
+                            definition.Add(item.definition!);
+                        } 
+                    }
+
+                    if(definition is IRegisteredCommandMenuItemDefinition c)
+                    {
+                        c.BindCommand(graph.MenuManager.ComponentContext);
+                    }
+                }
+
+                foreach (var item in definition.Items)
+                {
+                    GetOrAddNode(item.Name).SetDefinition(item);
+                }
             }
         }
     }

@@ -1,35 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using Kaigara.ViewModels;
 
 namespace Kaigara.Menus
 {
-    public abstract class MenuViewModel
+    public class MenuViewModel: IDisposable
     {
-        private ObservableCollection<IMenuItem>? items;
-        private readonly IMenuManager menuManager;
+        private readonly MenuDefinition definition;
+        private ObservableCollection<MenuItemViewModel> items;
 
-        protected MenuViewModel(IMenuManager menuManager)
+        public MenuViewModel()
         {
-            this.menuManager = menuManager ?? throw new System.ArgumentNullException(nameof(menuManager));
+            this.definition = CreateDefinition();
+            items = definition.Items.ToObservableViewModelCollection(d => new MenuItemViewModel(d));
         }
 
-        public IEnumerable<IMenuItem> Items
+        public MenuViewModel(MenuDefinition definition)
         {
-            get
-            {
-                if(items is null)
-                {
-                    items = new ObservableCollection<IMenuItem>();
-                    foreach (var item in Build())
-                    {
-                        items.Add(item);
-                    }
-                }
+            this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
+            items = definition.Items.ToObservableViewModelCollection(d => new MenuItemViewModel(d));
+        }
 
-                return items;
+        public IEnumerable<MenuItemViewModel> Items => items;
+
+        public MenuDefinition Definition => definition;
+
+        protected virtual MenuDefinition CreateDefinition()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            foreach (var item in items)
+            {
+                item.Dispose();
             }
         }
-
-        protected abstract IEnumerable<IMenuItem> Build();
     }
 }

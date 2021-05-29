@@ -2,64 +2,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia.Input;
 using ReactiveUI;
+using Kaigara.ViewModels;
 
 namespace Kaigara.Menus
 {
-    public class MenuItemViewModel : ReactiveObject, IMenuItem, IEnumerable<IMenuItem>
+    public class MenuItemViewModel : ReactiveObject, IDisposable
     {
-        private ObservableCollection<IMenuItem>? items;
+        private ObservableCollection<MenuItemViewModel> items;
+        private IDisposable changeSubscription;
+        private MenuItemDefinition definition;
 
-        public MenuItemViewModel(string name, string label)
+        public MenuItemViewModel(MenuItemDefinition definition)
         {
-            Name = name;
-            Label = label;
-        }
+            this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
+            items = definition.Items.ToObservableViewModelCollection(d => new MenuItemViewModel(d));
 
-        public string Name { get; }
-
-        public string Label { get; }
-
-        public ObservableCollection<IMenuItem>? Items
-        {
-            get => items;
-            private set => this.RaiseAndSetIfChanged(ref items, value);
-        }
-
-        public virtual ICommand? Command => null;
-        public virtual KeyGesture? InputGesture => null;
-
-        public void Add(IMenuItem menuItem)
-        {
-            items ??= new ObservableCollection<IMenuItem>();
-            items.Add(menuItem);
-        }
-
-        public bool Remove(IMenuItem menuItem)
-        {
-            if(items is { })
+            changeSubscription = definition.Changed.Subscribe(n => 
             {
-                return items.Remove(menuItem);
+                this.RaisePropertyChanged(n.PropertyName);
+            });
+        }
+
+        public MenuItemDefinition Definition => definition;
+
+        public string Name => definition.Name;
+        public string? Label => definition.Label;
+        public virtual ICommand? Command => definition.Command;
+        public virtual KeyGesture? InputGesture => definition.InputGesture;
+        public virtual object? CommandParameter => null;
+        public IEnumerable<MenuItemViewModel> Items => items;
+
+        public void Dispose()
+        {
+            changeSubscription.Dispose();
+
+            foreach (var item in items)
+            {
+                item.Dispose();
             }
-
-            return false;
         }
-
-        IEnumerator<IMenuItem> IEnumerable<IMenuItem>.GetEnumerator()
-        {
-            return (items ?? Enumerable.Empty<IMenuItem>()).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return (items ?? Enumerable.Empty<IMenuItem>()).GetEnumerator();
-        }
-
-        ICollection<IMenuItem>? IMenuItem.Items => Items ??= new ObservableCollection<IMenuItem>();
     }
 }

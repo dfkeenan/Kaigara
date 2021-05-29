@@ -9,6 +9,8 @@ using Autofac.Core;
 using Dock.Model.Controls;
 using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Collections.Generic;
+using Kaigara.Commands;
+using Kaigara.Menus;
 using Kaigara.ViewModels;
 
 namespace Kaigara
@@ -94,6 +96,77 @@ namespace Kaigara
                                .Where(t => namespacePredicate(t))
                                .AsSelf()
                                .InstancePerDependency();
+            return builder;
+        }
+
+        public static ContainerBuilder RegisterMenus<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+            where TModule : IModule
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            var moduleType = typeof(TModule);
+
+            return builder.RegisterMenus(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+
+        public static ContainerBuilder RegisterMenus(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+            builder.RegisterAssemblyTypes(assembly)
+                               .AssignableTo<MenuViewModel>()
+                               .Where(t => namespacePredicate(t))
+                               .AsSelf()
+                               .InstancePerDependency();
+            return builder;
+        }
+
+        public static ContainerBuilder RegisterCommands<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+           where TModule : IModule
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            var moduleType = typeof(TModule);
+
+            return builder.RegisterCommands(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+
+        public static ContainerBuilder RegisterCommands(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+            builder.RegisterAssemblyTypes(assembly)
+                               .AssignableTo<RegisteredCommand>()
+                               .Where(t => namespacePredicate(t))
+                               .AsSelf()
+                               .As<RegisteredCommand>()
+                               .SingleInstance();
             return builder;
         }
 
@@ -198,6 +271,8 @@ namespace Kaigara
             builder.RegisterViewModels(assembly, @namespace, namespaceRule);
             builder.RegisterDocuments(assembly, @namespace, namespaceRule);
             builder.RegisterTools(assembly, @namespace, namespaceRule);
+            builder.RegisterMenus(assembly, @namespace, namespaceRule);
+            builder.RegisterCommands(assembly, @namespace, namespaceRule);
 
             return builder;
         }
