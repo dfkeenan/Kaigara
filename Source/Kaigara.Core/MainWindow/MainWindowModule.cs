@@ -25,7 +25,7 @@ namespace Kaigara.MainWindow
                 .RegisterViewModels<MainWindowModule>();
 
            
-            builder.Register<MainMenuViewModel>(c=> 
+            builder.Register(c=> 
             {
                 var menu = new MainMenuViewModel();
                 c.Resolve<IMenuManager>().Register(menu.Definition); 

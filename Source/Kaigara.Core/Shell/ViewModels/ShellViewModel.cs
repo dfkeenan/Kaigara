@@ -37,27 +37,22 @@ namespace Kaigara.Shell.ViewModels
         private ObservableAsPropertyHelper<IDocument?> activeDocument;
 
         public IDocument? ActiveDocument => activeDocument.Value;
+        public IObservable<IDocument?> DocumentActivated { get; }
 
         private readonly ObservableCollection<IDocument> documents;
 
         public ReadOnlyObservableCollection<IDocument> Documents { get; }
 
-        private readonly ISubject<IDocument?> documentActivated;
-
-        public IObservable<IDocument?> DocumentActivated => documentActivated;
-
         private ObservableAsPropertyHelper<ITool?> activeTool;
 
         public ITool? ActiveTool => activeTool.Value;
 
+        public IObservable<ITool?> ToolActivated { get; }
 
         private readonly ObservableCollection<ITool> tools;
 
         public ReadOnlyObservableCollection<ITool> Tools { get; }
 
-        private readonly ISubject<ITool?> toolActivated;
-
-        public IObservable<ITool?> ToolActivated => toolActivated;
 
         public ShellViewModel(IFactory factory, ILifetimeScope lifetimeScope)
         {
@@ -68,36 +63,50 @@ namespace Kaigara.Shell.ViewModels
 
             documents = new ObservableCollection<IDocument>();
             Documents = new ReadOnlyObservableCollection<IDocument>(documents);
-            documentActivated = new BehaviorSubject<IDocument?>(null);
-            activeDocument = documentActivated.ToProperty(this, o => o.ActiveDocument);
 
             tools = new ObservableCollection<ITool>();
             Tools = new ReadOnlyObservableCollection<ITool>(tools);
-            toolActivated = new BehaviorSubject<ITool?>(null);
-            activeTool = toolActivated.ToProperty(this, o => o.ActiveTool);
 
 
             var fo = new ReactiveDockFactory(factory);
+            DocumentActivated = fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable!)
+                                .Merge(fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable!))
+                                .DistinctUntilChanged()
+                                .OfType<IDocument?>();
 
-            fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            activeDocument = DocumentActivated.ToProperty(this, nameof(ActiveDocument));
+
+            ToolActivated = fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable!)
+                              .Merge(fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable!))
+                              .DistinctUntilChanged()
+                              .OfType<ITool?>();
+
+            activeTool = ToolActivated.ToProperty(this, nameof(ActiveTool));
+
+            DocumentActivated.Subscribe(d =>
             {
                 Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
             });
+            
+            //fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            //{
+            //    Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+            //});
 
-            fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
-            {
-                Debug.WriteLine($"Focus {d?.Id ?? "NULL"}");
-            });
+            //fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            //{
+            //    Debug.WriteLine($"Focus {d?.Id ?? "NULL"}");
+            //});
 
-            fo.DockableClosed.Select(e => e.EventArgs.Dockable).Subscribe(d =>
-            {
-                Debug.WriteLine($"Closed {d?.Id ?? "NULL"}");
-            });
+            //fo.DockableClosed.Select(e => e.EventArgs.Dockable).Subscribe(d =>
+            //{
+            //    Debug.WriteLine($"Closed {d?.Id ?? "NULL"}");
+            //});
 
-            fo.WindowRemoved.Select(e => e.EventArgs.Window).Subscribe(d =>
-            {
-                Debug.WriteLine($"Window Removed {d?.Id ?? "NULL"}");
-            });
+            //fo.WindowRemoved.Select(e => e.EventArgs.Window).Subscribe(d =>
+            //{
+            //    Debug.WriteLine($"Window Removed {d?.Id ?? "NULL"}");
+            //});
         }
 
         public void OpenDocument(IDocument document)

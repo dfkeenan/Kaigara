@@ -1,10 +1,14 @@
 using System;
+using System.Reactive.Linq;
 using Autofac;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using ExampleApplication.Commands;
 using ExampleApplication.Documents.ViewModels;
 using Kaigara.Hosting;
+using Kaigara.MainWindow.ViewModels;
+using Kaigara.Menus;
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
 
@@ -26,9 +30,24 @@ namespace ExampleApplication
                 .RegisterAllAppModels()
                 .Startup((IShell shell, IConfiguration configuration, IContainer container) =>
                 {
+                    var menuManager = container.Resolve<IMenuManager>();
+
+                    MenuItemDefinition exampleDefinition = new MenuItemGroupDefinition("Example", "_Example")
+                    {
+                        new MenuItemDefinition("Thing1").BindCommand<ExampleCommand>(),
+                        new MenuItemDefinition("Thing2", "Thing _2"),
+                        new MenuItemDefinition("Thing3", "Thing _3"),
+                    }.BindVisibility(s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
+
+                    menuManager.Register(new MenuPath("MainMenu/File"), exampleDefinition);
+
+                    menuManager.ConfigureMenuItemDefinition(new MenuPath("MainMenu/Edit"), definition =>
+                    {
+                        definition.BindVisibility(s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
+                    });
+
                     shell.OpenDocument<ExampleDocumentViewModel>();
-                    shell.OpenDocument<ExampleDocumentViewModel>();
-                    shell.OpenDocument<ExampleDocumentViewModel>();
+                    shell.OpenDocument<OtherDocumentViewModel>();
                 })
                 .Start(size: new Size(1920,1080));
 

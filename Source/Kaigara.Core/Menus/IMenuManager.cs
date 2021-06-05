@@ -6,7 +6,7 @@ namespace Kaigara.Menus
     {
         MenuViewModel BuildMenu(string name);
         IDisposable BuildMenu(MenuDefinition definition, out MenuViewModel menu);
-        MenuItemDefinition? FindMenuItemDefinition(MenuPath path);
+        IDisposable ConfigureMenuItemDefinition(MenuPath path, Action<MenuItemDefinition> options);
         IDisposable Register(MenuPath path, MenuItemDefinition definition);
         IDisposable Register(MenuDefinition definition);
     }

@@ -23,13 +23,33 @@ namespace Kaigara.Menus
 
         internal IComponentContext ComponentContext => context;
 
-        public MenuItemDefinition? FindMenuItemDefinition(MenuPath path)
+        public IDisposable ConfigureMenuItemDefinition(MenuPath path, Action<MenuItemDefinition> options)
         {
-            return menuItemDefinitionRegistrations.Find(path);
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            return menuItemDefinitionRegistrations.AddConfiguration(path, options);
         }
 
         public IDisposable Register(MenuPath path, MenuItemDefinition definition)
         {
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            if (definition is null)
+            {
+                throw new ArgumentNullException(nameof(definition));
+            }
+
             return menuItemDefinitionRegistrations.Add(path, definition);
         }
 
@@ -48,12 +68,12 @@ namespace Kaigara.Menus
             menus.Add(definition.Name, definition);
             var path = new MenuPath(definition.Name);
 
-            var itemDisposables = definition.Items.Select(d => Register(path, d)).ToList();
+            var itemDisposables = new CompositeDisposable( definition.Items.Select(d => Register(path, d)).ToList());
             
             return Disposable.Create(()=>
             {
                 menus.Remove(definition.Name);
-                itemDisposables.ForEach(item => item.Dispose());
+                itemDisposables.Dispose();
             });
         }
 

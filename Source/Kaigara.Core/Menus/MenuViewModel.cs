@@ -14,13 +14,13 @@ namespace Kaigara.Menus
         public MenuViewModel()
         {
             this.definition = CreateDefinition();
-            items = definition.Items.ToObservableViewModelCollection(d => new MenuItemViewModel(d));
+            items = definition.Items.ToObservableViewModelCollection(d => d.Build());
         }
 
         public MenuViewModel(MenuDefinition definition)
         {
             this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-            items = definition.Items.ToObservableViewModelCollection(d => new MenuItemViewModel(d));
+            items = definition.Items.ToObservableViewModelCollection(d => d.Build());
         }
 
         public IEnumerable<MenuItemViewModel> Items => items;

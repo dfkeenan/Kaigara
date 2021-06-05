@@ -22,7 +22,7 @@ namespace Kaigara.Menus
         public MenuItemViewModel(MenuItemDefinition definition)
         {
             this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-            items = definition.Items.ToObservableViewModelCollection(d => new MenuItemViewModel(d));
+            items = definition.Items.ToObservableViewModelCollection(d => d.Build());
 
             changeSubscription = definition.Changed.Subscribe(n => 
             {
@@ -34,6 +34,9 @@ namespace Kaigara.Menus
 
         public string Name => definition.Name;
         public string? Label => definition.Label;
+
+        public virtual bool IsVisible => definition.IsVisible;
+
         public virtual ICommand? Command => definition.Command;
         public virtual KeyGesture? InputGesture => definition.InputGesture;
         public virtual object? CommandParameter => null;
@@ -47,6 +50,14 @@ namespace Kaigara.Menus
             {
                 item.Dispose();
             }
+        }
+    }
+
+    public class MenuItemGroupViewModel : MenuItemViewModel
+    {
+        public MenuItemGroupViewModel(MenuItemGroupDefinition definition) 
+            : base(definition)
+        {
         }
     }
 }

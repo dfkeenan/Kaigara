@@ -26,8 +26,19 @@ namespace Kaigara.Menus
         public MenuItemDefinition? Find(MenuPath path)
             => root.GetNode(path).Definition;
 
+        public IDisposable AddConfiguration(MenuPath path, Action<MenuItemDefinition> options)
+        {
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            return root.GetNode(path).AddConfiguration(options);
+        }
+
         private class MenuNode
         {
+            private List<Action<MenuItemDefinition>> options;
             private Dictionary<string, MenuNode>? children;
             private MenuItemDefinition? definition;
             private readonly string name;
@@ -44,9 +55,13 @@ namespace Kaigara.Menus
             public IDisposable Add(MenuPath path, MenuItemDefinition definition)
             {
                 var node = GetNode(path);
-                node.SetDefinition(definition);
+                node.Add(definition);                
 
-                return Disposable.Create(() => node.definition = null);
+                return Disposable.Create(() =>
+                {
+                    node.definition?.Dispose();
+                    node.definition = null;
+                });
             }
 
             public MenuNode GetNode(MenuPath path)
@@ -59,6 +74,24 @@ namespace Kaigara.Menus
                 }
 
                 return node;
+            }
+
+            public IDisposable AddConfiguration(Action<MenuItemDefinition> options)
+            {
+                this.options ??= new List<Action<MenuItemDefinition>>();
+
+                this.options.Add(options);
+
+                return Disposable.Create(() =>
+                {
+                    this.options.Remove(options);
+                });
+            }
+
+            private void Add(MenuItemDefinition definition)
+            {
+                var node = GetOrAddNode(definition.Name);
+                node.SetDefinition(definition);
             }
 
             private MenuNode GetOrAddNode(string name)
@@ -80,10 +113,9 @@ namespace Kaigara.Menus
                         } 
                     }
 
-                    if(definition is IRegisteredCommandMenuItemDefinition c)
-                    {
-                        c.BindCommand(graph.MenuManager.ComponentContext);
-                    }
+                    options?.ForEach(o => o(definition));
+
+                    definition.UpdateBindings(graph.MenuManager.ComponentContext);
                 }
 
                 foreach (var item in definition.Items)
