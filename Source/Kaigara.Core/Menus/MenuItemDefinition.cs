@@ -101,11 +101,12 @@ namespace Kaigara.Menus
             return this;
         }
 
-        public MenuItemDefinition BindVisibility(Func<Shell.IShell, IObservable<bool>> selector)
+        public MenuItemDefinition VisibleWhen<TSource>(Func<TSource, IObservable<bool>> selector)
+             where TSource : notnull
         {
             Bindings.Add(context =>
             {
-                var shell = context.Resolve<Shell.IShell>();
+                var shell = context.Resolve<TSource>();
                 selector(shell).BindTo(this, o => o.IsVisible).DisposeWith(disposables);
                 this.RaisePropertyChanged(nameof(isVisible));
             });

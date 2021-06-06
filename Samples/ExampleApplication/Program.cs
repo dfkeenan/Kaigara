@@ -37,13 +37,13 @@ namespace ExampleApplication
                         new MenuItemDefinition("Thing1").BindCommand<ExampleCommand>(),
                         new MenuItemDefinition("Thing2", "Thing _2"),
                         new MenuItemDefinition("Thing3", "Thing _3"),
-                    }.BindVisibility(s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
+                    }.VisibleWhen<IShell>( s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
 
                     menuManager.Register(new MenuPath("MainMenu/File"), exampleDefinition);
 
                     menuManager.ConfigureMenuItemDefinition(new MenuPath("MainMenu/Edit"), definition =>
                     {
-                        definition.BindVisibility(s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
+                        definition.VisibleWhen<IShell>(s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
                     });
 
                     shell.OpenDocument<ExampleDocumentViewModel>();
