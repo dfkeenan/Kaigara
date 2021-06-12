@@ -26,4 +26,26 @@ namespace Kaigara.Commands
 
         protected abstract Task OnExecuteAsync();
     }
+
+    public abstract class RegisteredAsyncCommand<TParam> : RegisteredCommandBase
+    {
+        public RegisteredAsyncCommand()
+           : base()
+        {
+
+        }
+
+        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture)
+            : base(name, label, keyGesture)
+        {
+
+        }
+
+        protected override ICommand CreateCommand()
+        {
+            return ReactiveCommand.CreateFromTask<TParam>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
+        }
+
+        protected abstract Task OnExecuteAsync(TParam param);
+    }
 }

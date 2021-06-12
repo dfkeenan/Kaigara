@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Menus
 {
@@ -15,7 +16,7 @@ namespace Kaigara.Menus
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             items = new ObservableCollection<MenuItemDefinition>();
-            Items = new ReadOnlyObservableCollection<MenuItemDefinition>(items);
+            Items = items.AsReadOnlyObservableCollection();
         }
 
         public string Name { get; }

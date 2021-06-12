@@ -12,6 +12,7 @@ using Kaigara.ViewModels;
 using ReactiveUI;
 using System.Reactive.Linq;
 using System.Diagnostics;
+using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Shell.ViewModels
 {
@@ -62,10 +63,10 @@ namespace Kaigara.Shell.ViewModels
             factory.InitLayout(layout);
 
             documents = new ObservableCollection<IDocument>();
-            Documents = new ReadOnlyObservableCollection<IDocument>(documents);
+            Documents = documents.AsReadOnlyObservableCollection();
 
             tools = new ObservableCollection<ITool>();
-            Tools = new ReadOnlyObservableCollection<ITool>(tools);
+            Tools = tools.AsReadOnlyObservableCollection();
 
 
             var fo = new ReactiveDockFactory(factory);

@@ -11,6 +11,7 @@ using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
+using ReactiveUI;
 
 namespace ExampleApplication
 {
@@ -43,7 +44,7 @@ namespace ExampleApplication
 
                     menuManager.ConfigureMenuItemDefinition(new MenuPath("MainMenu/Edit"), definition =>
                     {
-                        definition.VisibleWhen<IShell>(s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
+                        definition.VisibleWhen<IShell>(s => s.DocumentActivated.SelectMany(d => d is ExampleDocumentViewModel e ? e.WhenAnyValue(e => e.IsChecked ) : Observable.Return(false)));
                     });
 
                     shell.OpenDocument<ExampleDocumentViewModel>();

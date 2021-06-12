@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Dock.Model.Core;
+using Kaigara.Commands;
 using Kaigara.Shell.ViewModels;
 
 namespace Kaigara.Shell
@@ -14,6 +15,7 @@ namespace Kaigara.Shell
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+            builder.DependsOnModule<CommandModule>();
 
             builder.RegisterType<ShellViewModel>()
                    .As<IShell>()

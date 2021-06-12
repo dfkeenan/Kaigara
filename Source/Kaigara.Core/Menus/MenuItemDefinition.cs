@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Autofac;
 using Avalonia.Input;
+using Kaigara.Collections.ObjectModel;
 using Kaigara.Commands;
 using ReactiveUI;
 
@@ -28,7 +29,7 @@ namespace Kaigara.Menus
             Name = name ?? throw new ArgumentNullException(nameof(name));
             this.label = label;
             items = new ObservableCollection<MenuItemDefinition>();
-            Items = new ReadOnlyObservableCollection<MenuItemDefinition>(items);
+            Items = items.AsReadOnlyObservableCollection();
             disposables = new CompositeDisposable();
             isVisible = true;
         }

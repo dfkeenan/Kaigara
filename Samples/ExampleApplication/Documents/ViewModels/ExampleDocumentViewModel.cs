@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Dock.Model.ReactiveUI.Controls;
 using ExampleApplication.Commands;
 using Kaigara.Menus;
+using ReactiveUI;
 
 namespace ExampleApplication.Documents.ViewModels
 {
@@ -17,5 +18,14 @@ namespace ExampleApplication.Documents.ViewModels
             Id = Guid.NewGuid().ToString();
             Title = "Example Document";
         }
+
+        private bool ischecked;
+
+        public bool IsChecked
+        {
+            get { return ischecked; }
+            set { this.RaiseAndSetIfChanged(ref ischecked, value); }
+        }
+
     }
 }
