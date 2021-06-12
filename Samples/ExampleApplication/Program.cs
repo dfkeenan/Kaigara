@@ -4,6 +4,7 @@ using Autofac;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.ReactiveUI;
 using ExampleApplication.Commands;
 using ExampleApplication.Documents.ViewModels;
 using Kaigara.Hosting;
@@ -56,6 +57,7 @@ namespace ExampleApplication
         public static AppBuilder BuildAvaloniaApp()
             => AppBuilder.Configure<App>()
                 .UsePlatformDetect()
+                .UseReactiveUI()
                 .LogToTrace();
     }
 }

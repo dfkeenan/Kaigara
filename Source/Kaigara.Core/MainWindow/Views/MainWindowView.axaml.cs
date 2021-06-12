@@ -1,8 +1,13 @@
+using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
+using Kaigara.Collections.ObjectModel;
+using Kaigara.Commands;
 using Kaigara.MainWindow.ViewModels;
+using ReactiveUI;
 
 namespace Kaigara.MainWindow.Views
 {
@@ -11,6 +16,10 @@ namespace Kaigara.MainWindow.Views
         public MainWindowView()
         {
             InitializeComponent();
+            this.WhenActivated(d =>
+            {
+                ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
+            });
         }
 
         private void InitializeComponent()

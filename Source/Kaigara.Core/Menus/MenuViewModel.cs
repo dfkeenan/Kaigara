@@ -9,18 +9,18 @@ namespace Kaigara.Menus
     public class MenuViewModel: IDisposable
     {
         private readonly MenuDefinition definition;
-        private ObservableCollection<MenuItemViewModel> items;
+        private ReadOnlyObservableCollection<MenuItemViewModel> items;
 
         public MenuViewModel()
         {
             this.definition = CreateDefinition();
-            items = definition.Items.ToObservableCollectionOf(d => d.Build());
+            items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
         }
 
         public MenuViewModel(MenuDefinition definition)
         {
             this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-            items = definition.Items.ToObservableCollectionOf(d => d.Build());
+            items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
         }
 
         public IEnumerable<MenuItemViewModel> Items => items;

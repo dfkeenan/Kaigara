@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Avalonia.Controls;
+using Avalonia.Data;
 using Dock.Model.Core;
 using Kaigara.Commands;
+using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
+using ReactiveUI;
 
 namespace Kaigara.Shell
 {
@@ -15,7 +20,6 @@ namespace Kaigara.Shell
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.DependsOnModule<CommandModule>();
 
             builder.RegisterType<ShellViewModel>()
                    .As<IShell>()
@@ -24,6 +28,28 @@ namespace Kaigara.Shell
             builder.RegisterType<ShellDockFactory>()
                    .As<IFactory>()
                    .SingleInstance();
+
+            builder.Register(c =>
+            {
+                ICommandManager commandManager = c.Resolve<ICommandManager>();
+
+                ReactiveHostWindow window = new ReactiveHostWindow()
+                {
+                    [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
+                };
+
+                window.WhenActivated(d =>
+                {
+                    commandManager
+                    .SyncKeyBindings(window.KeyBindings)
+                    .DisposeWith(d);
+                });
+
+                return window;
+
+            })
+            .As<IHostWindow>()
+            .InstancePerDependency();
         }
     }
 }

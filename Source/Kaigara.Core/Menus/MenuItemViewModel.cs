@@ -15,14 +15,14 @@ namespace Kaigara.Menus
 {
     public class MenuItemViewModel : ReactiveObject, IDisposable
     {
-        private ObservableCollection<MenuItemViewModel> items;
+        private ReadOnlyObservableCollection<MenuItemViewModel> items;
         private IDisposable changeSubscription;
         private MenuItemDefinition definition;
 
         public MenuItemViewModel(MenuItemDefinition definition)
         {
             this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-            items = definition.Items.ToObservableCollectionOf(d => d.Build());
+            items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
 
             changeSubscription = definition.Changed.Subscribe(n => 
             {

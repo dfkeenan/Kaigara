@@ -1,8 +1,8 @@
 ﻿using Avalonia;
-using Avalonia.VisualTree;
-using Avalonia.Controls;
 using ReactiveUI;
 using Kaigara.Avalonia.Controls;
+using System.Reactive.Linq;
+using System;
 
 namespace Kaigara.Avalonia.ReactiveUI
 {
@@ -21,7 +21,11 @@ namespace Kaigara.Avalonia.ReactiveUI
         /// </summary>
         public ReactiveChromeWindow()
         {
-            DataContextChanged += (sender, args) => ViewModel = DataContext as TViewModel;
+            // This WhenActivated block calls ViewModel's WhenActivated
+            // block if the ViewModel implements IActivatableViewModel.
+            this.WhenActivated(disposables => { });
+            this.GetObservable(DataContextProperty).Subscribe(OnDataContextChanged);
+            this.GetObservable(ViewModelProperty).Subscribe(OnViewModelChanged);
         }
 
         /// <summary>
@@ -37,6 +41,30 @@ namespace Kaigara.Avalonia.ReactiveUI
         {
             get => ViewModel;
             set => ViewModel = (TViewModel?)value;
+        }
+
+        private void OnDataContextChanged(object? value)
+        {
+            if (value is TViewModel viewModel)
+            {
+                ViewModel = viewModel;
+            }
+            else
+            {
+                ViewModel = null;
+            }
+        }
+
+        private void OnViewModelChanged(TViewModel? value)
+        {
+            if (value == null)
+            {
+                ClearValue(DataContextProperty);
+            }
+            else if (DataContext != value)
+            {
+                DataContext = value;
+            }
         }
     }
 }

@@ -129,6 +129,13 @@ namespace Kaigara
             builder.RegisterAssemblyTypes(assembly)
                                .AssignableTo<MenuViewModel>()
                                .Where(t => namespacePredicate(t))
+                               .OnActivating(e =>
+                               {
+                                   if(e.Instance is MenuViewModel m)
+                                   {
+                                       e.Context.Resolve<IMenuManager>().Register(m.Definition);
+                                   }
+                               })
                                .AsSelf()
                                .InstancePerDependency();
             return builder;
@@ -162,10 +169,10 @@ namespace Kaigara
             var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
 
             builder.RegisterAssemblyTypes(assembly)
-                               .AssignableTo<RegisteredCommand>()
+                               .AssignableTo<RegisteredCommandBase>()
                                .Where(t => namespacePredicate(t))
                                .AsSelf()
-                               .As<RegisteredCommand>()
+                               .As<RegisteredCommandBase>()
                                .SingleInstance();
             return builder;
         }

@@ -8,6 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Dock.Avalonia.Controls;
 using Dock.Model.Core;
+using Kaigara.Commands;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Shell;
@@ -22,15 +23,17 @@ namespace Kaigara.MainWindow
             builder
                 .DependsOnModule<MenuModule>()
                 .DependsOnModule<ShellModule>()
-                .RegisterViewModels<MainWindowModule>();
+                .DependsOnModule<CommandModule>()
+                .RegisterViewModels<MainWindowModule>()
+                .RegisterMenus<MainWindowModule>();
 
            
-            builder.Register(c=> 
-            {
-                var menu = new MainMenuViewModel();
-                c.Resolve<IMenuManager>().Register(menu.Definition); 
-                return menu; 
-            }).AsSelf().SingleInstance();
+            //builder.Register(c=> 
+            //{
+            //    var menu = new MainMenuViewModel();
+            //    c.Resolve<IMenuManager>().Register(menu.Definition); 
+            //    return menu; 
+            //}).AsSelf().SingleInstance();
         }
             
     }

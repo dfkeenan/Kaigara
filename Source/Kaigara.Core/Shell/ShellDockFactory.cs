@@ -10,18 +10,26 @@ using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.ReactiveUI;
 using Dock.Model.ReactiveUI.Controls;
+using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
+using ReactiveUI;
 
 namespace Kaigara.Shell
 {
     public class ShellDockFactory : Factory
     {
+        private readonly Func<IHostWindow> hostWindowFactory;
         private IRootDock? rootDock;
         private IDocumentDock? mainDocumentsDock;
 
-        public ShellDockFactory()
+        public ShellDockFactory(Func<IHostWindow> hostWindowFactory)
         {
-            
+            if (hostWindowFactory is null)
+            {
+                throw new ArgumentNullException(nameof(hostWindowFactory));
+            }
+
+            this.hostWindowFactory = hostWindowFactory;
         }
 
         public override IRootDock CreateLayout()
@@ -79,10 +87,7 @@ namespace Kaigara.Shell
 
             this.HostWindowLocator = new Dictionary<string, Func<IHostWindow>>
             {
-                [nameof(IDockWindow)] = () => new HostWindow()
-                {
-                    [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
-                }
+                [nameof(IDockWindow)] = hostWindowFactory
             };
 
             this.DockableLocator = new Dictionary<string, Func<IDockable?>>
