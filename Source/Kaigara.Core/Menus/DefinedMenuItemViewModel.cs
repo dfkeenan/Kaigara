@@ -13,18 +13,18 @@ using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Menus
 {
-    public class MenuItemViewModel : ReactiveObject, IDisposable
+    public class DefinedMenuItemViewModel : ReactiveObject, IDisposable, IMenuItemViewModel
     {
-        private ReadOnlyObservableCollection<MenuItemViewModel> items;
+        private ReadOnlyObservableCollection<IMenuItemViewModel> items;
         private IDisposable changeSubscription;
         private MenuItemDefinition definition;
 
-        public MenuItemViewModel(MenuItemDefinition definition)
+        public DefinedMenuItemViewModel(MenuItemDefinition definition)
         {
             this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
             items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
 
-            changeSubscription = definition.Changed.Subscribe(n => 
+            changeSubscription = definition.Changed.Subscribe(n =>
             {
                 this.RaisePropertyChanged(n.PropertyName);
             });
@@ -40,7 +40,7 @@ namespace Kaigara.Menus
         public virtual ICommand? Command => definition.Command;
         public virtual KeyGesture? InputGesture => definition.InputGesture;
         public virtual object? CommandParameter => null;
-        public IEnumerable<MenuItemViewModel> Items => items;
+        public IEnumerable<IMenuItemViewModel> Items => items;
 
         public void Dispose()
         {
@@ -53,9 +53,9 @@ namespace Kaigara.Menus
         }
     }
 
-    public class MenuItemGroupViewModel : MenuItemViewModel
+    public class DefinedMenuItemGroupViewModel : DefinedMenuItemViewModel
     {
-        public MenuItemGroupViewModel(MenuItemGroupDefinition definition) 
+        public DefinedMenuItemGroupViewModel(MenuItemGroupDefinition definition) 
             : base(definition)
         {
         }

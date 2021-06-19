@@ -7,7 +7,7 @@
         {
         }
 
-        internal override MenuItemViewModel Build()
-            => new MenuItemGroupViewModel(this);
+        internal override IMenuItemViewModel Build()
+            => new DefinedMenuItemGroupViewModel(this);
     }
 }

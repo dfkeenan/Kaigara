@@ -120,8 +120,8 @@ namespace Kaigara.Menus
             bindings?.ForEach(a => a(context));
         }
 
-        internal virtual MenuItemViewModel Build()
-            => new MenuItemViewModel(this);
+        internal virtual IMenuItemViewModel Build()
+            => new DefinedMenuItemViewModel(this);
 
         public void Dispose()
         {

@@ -9,7 +9,7 @@ namespace Kaigara.Menus
     public class MenuViewModel: IDisposable
     {
         private readonly MenuDefinition definition;
-        private ReadOnlyObservableCollection<MenuItemViewModel> items;
+        private ReadOnlyObservableCollection<IMenuItemViewModel> items;
 
         public MenuViewModel()
         {
@@ -23,7 +23,7 @@ namespace Kaigara.Menus
             items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
         }
 
-        public IEnumerable<MenuItemViewModel> Items => items;
+        public IEnumerable<IMenuItemViewModel> Items => items;
 
         public MenuDefinition Definition => definition;
 
