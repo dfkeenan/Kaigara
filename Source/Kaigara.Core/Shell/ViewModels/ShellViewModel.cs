@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -34,25 +33,9 @@ namespace Kaigara.Shell.ViewModels
             get => layout;
             private set => this.RaiseAndSetIfChanged(ref layout, value);
         }
-
-        private ObservableAsPropertyHelper<IDocument?> activeDocument;
-
-        public IDocument? ActiveDocument => activeDocument.Value;
-        public IObservable<IDocument?> DocumentActivated { get; }
-
-        private readonly ObservableCollection<IDocument> documents;
-
-        public ReadOnlyObservableCollection<IDocument> Documents { get; }
-
-        private ObservableAsPropertyHelper<ITool?> activeTool;
-
-        public ITool? ActiveTool => activeTool.Value;
-
-        public IObservable<ITool?> ToolActivated { get; }
-
-        private readonly ObservableCollection<ITool> tools;
-
-        public ReadOnlyObservableCollection<ITool> Tools { get; }
+                
+        public DockableCollection<IDocument> Documents { get; }
+        public DockableCollection<ITool> Tools { get; }
 
 
         public ShellViewModel(IFactory factory, ILifetimeScope lifetimeScope)
@@ -62,33 +45,16 @@ namespace Kaigara.Shell.ViewModels
             layout = factory.CreateLayout()!;
             factory.InitLayout(layout);
 
-            documents = new ObservableCollection<IDocument>();
-            Documents = documents.AsReadOnlyObservableCollection();
+            Documents = new DockableCollection<IDocument>(factory, layout, lifetimeScope.Resolve, GetDocumentsDock);
+            Tools = new DockableCollection<ITool>(factory, layout, lifetimeScope.Resolve, GetToolsDock);
 
-            tools = new ObservableCollection<ITool>();
-            Tools = tools.AsReadOnlyObservableCollection();
+         
 
-
-            var fo = new ReactiveDockFactory(factory);
-            DocumentActivated = fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable!)
-                                .Merge(fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable!))
-                                .DistinctUntilChanged()
-                                .OfType<IDocument?>();
-
-            activeDocument = DocumentActivated.ToProperty(this, nameof(ActiveDocument));
-
-            ToolActivated = fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable!)
-                              .Merge(fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable!))
-                              .DistinctUntilChanged()
-                              .OfType<ITool?>();
-
-            activeTool = ToolActivated.ToProperty(this, nameof(ActiveTool));
-
-            DocumentActivated.Subscribe(d =>
+            Documents.Active.Subscribe(d =>
             {
                 Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
             });
-            
+
             //fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
             //{
             //    Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
@@ -110,103 +76,12 @@ namespace Kaigara.Shell.ViewModels
             //});
         }
 
-        public void OpenDocument(IDocument document)
+        private IDocumentDock GetDocumentsDock(IDocument document)
         {
-            if (document is null)
-            {
-                throw new ArgumentNullException(nameof(document));
-            }
-
-            if (!documents.Contains(document))
-            {
-                documents.Add(document);
-
-                var dockable = GetDocumentsDockable();
-                if (dockable is { } && layout is { })
-                {
-                    factory?.AddDockable(dockable, document);
-                    factory?.SetActiveDockable(document);
-                    factory?.SetFocusedDockable(Layout, document);
-                }
-                return;
-            }
-
-            if (document.Owner is null)
-            {
-                var dockable = GetDocumentsDockable();
-                if (dockable is { } && layout is { })
-                {
-                    factory?.AddDockable(dockable, document);
-                }
-            }
-
-            if (layout is { })
-            {
-                factory?.SetActiveDockable(document);
-                factory?.SetFocusedDockable(Layout, document);
-            }
+            return factory.GetDockable<IDocumentDock>("Documents")!;
         }
 
-        public TDocument OpenDocument<TDocument>()
-            where TDocument : IDocument
-        {
-            TDocument document = lifetimeScope.Resolve<TDocument>();
-            OpenDocument(document);
-
-            return document;
-        }
-
-        private IDocumentDock? GetDocumentsDockable()
-        {
-            return factory?.GetDockable<IDocumentDock>("Documents");
-        }
-
-        public void OpenTool(ITool tool, bool focus = false)
-        {
-            if (tool is null)
-            {
-                throw new ArgumentNullException(nameof(tool));
-            }
-
-            if (!tools.Contains(tool))
-            {
-                tools.Add(tool);
-
-                var dockable = GetToolsDockable(tool);
-                if (dockable is { } && layout is { })
-                {
-                    factory?.AddDockable(dockable, tool);
-                    factory?.SetActiveDockable(tool);
-                    factory?.SetFocusedDockable(Layout, tool);
-                }
-                return;
-            }
-
-            if (tool.Owner is null)
-            {
-                var dockable = GetToolsDockable(tool);
-                if (dockable is { } && layout is { })
-                {
-                    factory?.AddDockable(dockable, tool);
-                }
-            }
-
-            if (layout is { })
-            {
-                factory?.SetActiveDockable(tool);
-                factory?.SetFocusedDockable(Layout, tool);
-            }
-        }
-
-        public TTool OpenTool<TTool>(bool focus = false)
-            where TTool : ITool
-        {
-            TTool tool = lifetimeScope.Resolve<TTool>();
-            OpenTool(tool, focus);
-            return tool;
-        }
-
-        private IToolDock GetToolsDockable(ITool tool)
+        private IToolDock GetToolsDock(ITool tool)
         {
             throw new NotImplementedException();
         }

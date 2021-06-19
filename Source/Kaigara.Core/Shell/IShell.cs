@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dock.Model.Controls;
 using Dock.Model.Core;
+using Kaigara.Shell.ViewModels;
 
 namespace Kaigara.Shell
 {
@@ -13,18 +14,7 @@ namespace Kaigara.Shell
     {
         IFactory Factory { get; }
         IRootDock Layout { get; }
-
-        IDocument? ActiveDocument { get; }
-        ReadOnlyObservableCollection<IDocument> Documents { get; }
-        IObservable<IDocument?> DocumentActivated { get; }
-
-        ITool? ActiveTool { get; }
-        ReadOnlyObservableCollection<ITool> Tools { get; }
-        IObservable<ITool?> ToolActivated { get; }
-
-        void OpenDocument(IDocument document);
-        TDocument OpenDocument<TDocument>() where TDocument : IDocument;
-        void OpenTool(ITool tool, bool focus = false);
-        TTool OpenTool<TTool>(bool focus = false) where TTool : ITool;
+        DockableCollection<IDocument> Documents { get; }
+        DockableCollection<ITool> Tools { get; }
     }
 }

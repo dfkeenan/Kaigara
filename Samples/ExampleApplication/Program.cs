@@ -10,6 +10,7 @@ using ExampleApplication.Documents.ViewModels;
 using Kaigara.Hosting;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
+using Kaigara.Reactive;
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
 using ReactiveUI;
@@ -39,17 +40,17 @@ namespace ExampleApplication
                         new MenuItemDefinition("Thing1").BindCommand<ExampleCommand>(),
                         new MenuItemDefinition("Thing2", "Thing _2"),
                         new MenuItemDefinition("Thing3", "Thing _3"),
-                    }.VisibleWhen<IShell>( s => s.DocumentActivated.Select(d => d is ExampleDocumentViewModel));
+                    }.VisibleWhen<IShell>( s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
                     menuManager.Register(new MenuPath("MainMenu/File"), exampleDefinition);
 
                     menuManager.ConfigureMenuItemDefinition(new MenuPath("MainMenu/Edit"), definition =>
                     {
-                        definition.VisibleWhen<IShell>(s => s.DocumentActivated.SelectMany(d => d is ExampleDocumentViewModel e ? e.WhenAnyValue(e => e.IsChecked ) : Observable.Return(false)));
+                        definition.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>(e => e.WhenAnyValue(e => e.IsChecked ) ));
                     });
 
-                    shell.OpenDocument<ExampleDocumentViewModel>();
-                    shell.OpenDocument<OtherDocumentViewModel>();
+                    shell.Documents.Open<ExampleDocumentViewModel>();
+                    shell.Documents.Open<OtherDocumentViewModel>();
                 })
                 .Start(size: new Size(1920,1080));
 
