@@ -12,6 +12,8 @@ using ReactiveUI;
 using System.Reactive.Linq;
 using System.Diagnostics;
 using Kaigara.Collections.ObjectModel;
+using System.Reflection;
+using Dock.Model.ReactiveUI.Controls;
 
 namespace Kaigara.Shell.ViewModels
 {
@@ -34,8 +36,8 @@ namespace Kaigara.Shell.ViewModels
             private set => this.RaiseAndSetIfChanged(ref layout, value);
         }
                 
-        public DockableCollection<IDocument> Documents { get; }
-        public DockableCollection<ITool> Tools { get; }
+        public DockableCollection<Document> Documents { get; }
+        public DockableCollection<Tool> Tools { get; }
 
 
         public ShellViewModel(IFactory factory, ILifetimeScope lifetimeScope)
@@ -45,14 +47,14 @@ namespace Kaigara.Shell.ViewModels
             layout = factory.CreateLayout()!;
             factory.InitLayout(layout);
 
-            Documents = new DockableCollection<IDocument>(factory, layout, lifetimeScope.Resolve, GetDocumentsDock);
-            Tools = new DockableCollection<ITool>(factory, layout, lifetimeScope.Resolve, GetToolsDock);
+            Documents = new DockableCollection<Document>(factory, layout, lifetimeScope.Resolve, GetDocumentsDock);
+            Tools = new DockableCollection<Tool>(factory, layout, lifetimeScope.Resolve, GetToolsDock);
 
          
 
             Documents.Active.Subscribe(d =>
             {
-                Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+                Debug.WriteLine($"Active {d?.Id ?? "NULL"} {d?.Title ?? "NULL"}");
             });
 
             //fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
@@ -76,14 +78,16 @@ namespace Kaigara.Shell.ViewModels
             //});
         }
 
-        private IDocumentDock GetDocumentsDock(IDocument document)
+        private IDocumentDock GetDocumentsDock(Document document)
         {
-            return factory.GetDockable<IDocumentDock>("Documents")!;
+            return factory.GetDockable<IDocumentDock>(ShellDockIds.Documents)!;
         }
 
-        private IToolDock GetToolsDock(ITool tool)
+        private IToolDock GetToolsDock(Tool tool)
         {
-            throw new NotImplementedException();
+            var dockId = tool.GetType().GetCustomAttribute<ToolAttribute>()?.DefaultDockId ?? ShellDockIds.DefaultToolDock;
+
+            return factory.GetDockable<IToolDock>(dockId)!;
         }
     }
 }

@@ -18,9 +18,18 @@ namespace Kaigara.Shell
 {
     public class ShellDockFactory : Factory
     {
+       
+
         private readonly Func<IHostWindow> hostWindowFactory;
         private IRootDock? rootDock;
+        private ProportionalDock? mainLayout;
+        private ProportionalDock? mainLayoutVertical;
         private IDocumentDock? mainDocumentsDock;
+        private IToolDock? leftToolDock;
+        private IToolDock? rightToolDock;
+        private IToolDock? bottomToolDock;
+
+        private Dictionary<string, IToolDock> toolDockLocator = new Dictionary<string, IToolDock>();
 
         public ShellDockFactory(Func<IHostWindow> hostWindowFactory)
         {
@@ -36,21 +45,16 @@ namespace Kaigara.Shell
         {
             var mainDocumentsDock = new DocumentDock
             {
-                Id = "DocumentsPane",
-                Title = "DocumentsPane",
-                Proportion = double.NaN,
+                Id = ShellDockIds.Documents,
+                Title = "Documents",
                 IsCollapsable = false,
-                VisibleDockables = CreateList<IDockable>
-                                    (
-
-                                    )
+                VisibleDockables = CreateList<IDockable>()
             };
 
             var mainLayout = new ProportionalDock
             {
                 Id = "MainLayout",
                 Title = "MainLayout",
-                Proportion = double.NaN,
                 Orientation = Orientation.Horizontal,
                 ActiveDockable = null,
                 VisibleDockables = base.CreateList<IDockable>
@@ -59,15 +63,30 @@ namespace Kaigara.Shell
                 )
             };
 
+            var mainLayoutVertical = new ProportionalDock
+            {
+                Id = "MainLayoutVertical",
+                Title = "MainLayoutVertical",
+                Orientation = Orientation.Vertical,
+                ActiveDockable = null,
+                VisibleDockables = base.CreateList<IDockable>
+                (
+                    mainLayout
+                )
+            };
+
             var rootDock = CreateRootDock();
 
-            rootDock.Id = "Root";
-            rootDock.Title = "Root";
-            rootDock.ActiveDockable = mainLayout;
-            rootDock.DefaultDockable = mainLayout;
-            rootDock.VisibleDockables = CreateList<IDockable>(mainLayout);
+            rootDock.Id = ShellDockIds.RootDock;
+            rootDock.Title = ShellDockIds.RootDock;
+            rootDock.ActiveDockable = mainLayoutVertical;
+            rootDock.DefaultDockable = mainLayoutVertical;
+            rootDock.IsFocusableRoot = true;
+            rootDock.VisibleDockables = CreateList<IDockable>(mainLayoutVertical);
 
             this.rootDock = rootDock;
+            this.mainLayout = mainLayout;
+            this.mainLayoutVertical = mainLayoutVertical; 
             this.mainDocumentsDock = mainDocumentsDock;
 
             return rootDock;
@@ -80,23 +99,124 @@ namespace Kaigara.Shell
 
         public override void InitLayout(IDockable layout)
         {
-            this.ContextLocator = new Dictionary<string, Func<object>>
+            ContextLocator = new Dictionary<string, Func<object>>
             {
                 
             };
 
-            this.HostWindowLocator = new Dictionary<string, Func<IHostWindow>>
+            HostWindowLocator = new Dictionary<string, Func<IHostWindow>>
             {
                 [nameof(IDockWindow)] = hostWindowFactory
             };
 
-            this.DockableLocator = new Dictionary<string, Func<IDockable?>>
+            DockableLocator = new Dictionary<string, Func<IDockable?>>
             {
-                ["Root"] = () => rootDock,
-                ["Documents"] = ()=> mainDocumentsDock
+                [ShellDockIds.RootDock] = () => rootDock,
+                [ShellDockIds.Documents] = ()=> mainDocumentsDock,
+
+                [ShellDockIds.LeftToolDock] = ()=> GetLeftToolDock(),
+                [ShellDockIds.RightToolDock] = ()=> GetRightToolDock(),
+                [ShellDockIds.DefaultToolDock] = ()=> GetRightToolDock(),
+                [ShellDockIds.BottomToolDock] = ()=> GetBottomToolDock(),
             };
 
             base.InitLayout(layout);
+        }
+
+        private IToolDock GetLeftToolDock()
+        {
+            if (leftToolDock is { }) return leftToolDock;
+
+            var toolDock = new ToolDock()
+            {
+                Id = ShellDockIds.LeftToolDock,
+                ActiveDockable = null,
+                VisibleDockables = CreateList<IDockable>(),
+                Alignment = Alignment.Left,
+                IsCollapsable = true,
+                
+            };
+
+            var leftDock = new ProportionalDock
+            {
+                Proportion = 0.25,
+                IsCollapsable = true,
+                Orientation = Orientation.Vertical,
+                ActiveDockable = null,
+                VisibleDockables = CreateList<IDockable>
+               (
+                    toolDock
+               )
+            };
+
+            InsertDockable(mainLayout!, leftDock,0);
+            InsertDockable(mainLayout!, new SplitterDockable(), 1);
+
+            leftToolDock = toolDock;
+            return toolDock;
+        }
+
+        private IToolDock GetRightToolDock()
+        {
+            if (rightToolDock is { }) return rightToolDock;
+
+            var toolDock = new ToolDock()
+            {
+                Id = ShellDockIds.RightToolDock,
+                ActiveDockable = null,
+                VisibleDockables = CreateList<IDockable>(),
+                Alignment = Alignment.Right,
+                IsCollapsable = true,
+            };
+
+            var rightDock = new ProportionalDock
+            {
+                Proportion = 0.25,
+                Orientation = Orientation.Vertical,
+                ActiveDockable = null,
+                VisibleDockables = CreateList<IDockable>
+               (
+                    toolDock
+               )
+            };
+
+            AddDockable(mainLayout!, new SplitterDockable());
+            AddDockable(mainLayout!, rightDock);
+            rightToolDock = toolDock;
+            return toolDock;
+        }
+
+        private IToolDock GetBottomToolDock()
+        {
+            if (bottomToolDock is { }) return bottomToolDock;
+
+            var toolDock = new ToolDock()
+            {
+                Id = ShellDockIds.BottomToolDock,
+                ActiveDockable = null,
+                VisibleDockables = CreateList<IDockable>(),
+                Alignment = Alignment.Bottom,
+                IsCollapsable = true,
+            };
+
+            var bottomDock = new ProportionalDock
+            {
+                Proportion = 0.25,
+                Orientation = Orientation.Horizontal,
+                ActiveDockable = null,
+                Owner = mainLayoutVertical,
+                Factory = this,
+                VisibleDockables = CreateList<IDockable>
+               (
+                    toolDock
+               )
+            };
+
+            AddDockable(mainLayoutVertical!, new SplitterDockable());
+            AddDockable(mainLayoutVertical!, bottomDock);
+
+            bottomToolDock = toolDock;
+            return toolDock;
         }
     }
 }
