@@ -38,7 +38,7 @@ namespace Kaigara.Shell.ViewModels
                 
         public DockableCollection<Document> Documents { get; }
         public DockableCollection<Tool> Tools { get; }
-
+        public ReadOnlyDockableCollection<IDockable> Dockables { get; }
 
         public ShellViewModel(IFactory factory, ILifetimeScope lifetimeScope)
         {
@@ -49,7 +49,7 @@ namespace Kaigara.Shell.ViewModels
 
             Documents = new DockableCollection<Document>(factory, layout, lifetimeScope.Resolve, GetDocumentsDock);
             Tools = new DockableCollection<Tool>(factory, layout, lifetimeScope.Resolve, GetToolsDock);
-
+            Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout);
          
 
             Documents.Active.Subscribe(d =>

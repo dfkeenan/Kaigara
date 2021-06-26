@@ -17,5 +17,6 @@ namespace Kaigara.Shell
         IRootDock Layout { get; }
         DockableCollection<Document> Documents { get; }
         DockableCollection<Tool> Tools { get; }
+        ReadOnlyDockableCollection<IDockable> Dockables { get; }
     }
 }

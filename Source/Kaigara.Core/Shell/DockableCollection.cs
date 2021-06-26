@@ -11,15 +11,11 @@ using System.Reactive.Subjects;
 
 namespace Kaigara.Shell
 {
-    public class DockableCollection<T> : ReadOnlyObservableCollection<T>, IDisposable
-        where T : class, IDockable
+    public class DockableCollection<T> : DockableCollectionBase<T>
+        where T : IDockable
     {
-        private readonly IFactory factory;
-        private readonly IRootDock rootDock;
         private readonly Func<Type, object> dockableFactory;
         private readonly Func<T, IDock> dockLocator;
-        private readonly ObservableCollection<T> list;
-        private CompositeDisposable disposables;
 
         public DockableCollection(IFactory factory, IRootDock rootDock, Func<Type, object> dockableFactory, Func<T, IDock> dockLocator)
             : this(factory, rootDock, dockableFactory, dockLocator, new ObservableCollection<T>())
@@ -28,42 +24,10 @@ namespace Kaigara.Shell
         }
 
         protected DockableCollection(IFactory factory, IRootDock rootDock, Func<Type, object> dockableFactory, Func<T, IDock> dockLocator, ObservableCollection<T> list)
-            : base(list)
+            : base(factory,rootDock, list)
         {
-            
-            this.factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            this.rootDock = rootDock ?? throw new ArgumentNullException(nameof(rootDock));
             this.dockableFactory = dockableFactory ?? throw new ArgumentNullException(nameof(dockableFactory));
             this.dockLocator = dockLocator ?? throw new ArgumentNullException(nameof(dockLocator));
-            this.list = list ?? throw new ArgumentNullException(nameof(list));
-            disposables = new CompositeDisposable();
-
-            var fo = new ReactiveDockFactory(factory);
-            var activated = fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable!)
-                              .Merge(fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable!))
-                              .OfType<T>()
-                              .DistinctUntilChanged();
-
-            var active = new ReadOnlyBehavourSubject<T?>(default(T));
-            activated.Subscribe(active).DisposeWith(disposables);
-            Active = active;
-
-
-            fo.DockableClosed.Select(e => e.EventArgs.Dockable!).OfType<T>().Subscribe(e =>
-            {
-
-                if(list.Remove(e) && !list.Any() && active.Value is not null)
-                {
-                    ((IObserver<T?>)active).OnNext(null);
-                }
-            }).DisposeWith(disposables);
-        }
-
-        public IReadOnlyBehavourSubject<T?> Active { get; }
-
-        public void Dispose()
-        {
-            disposables.Dispose();
         }
 
         public void Open(T dockable, bool focus = true)
@@ -73,18 +37,18 @@ namespace Kaigara.Shell
                 throw new ArgumentNullException(nameof(dockable));
             }
 
-            if (!list.Contains(dockable))
+            if (!List.Contains(dockable))
             {
-                list.Add(dockable);
+                List.Add(dockable);
 
                 IDock? dock = dockLocator(dockable);
                 if (dock is { })
                 {
-                    factory.AddDockable(dock, dockable);
+                    Factory.AddDockable(dock, dockable);
                     if (focus)
                     {
-                        factory.SetActiveDockable(dockable);
-                        factory.SetFocusedDockable(dock, dockable); 
+                        Factory.SetActiveDockable(dockable);
+                        Factory.SetFocusedDockable(dock, dockable); 
                     }
                 }
             }
@@ -93,17 +57,17 @@ namespace Kaigara.Shell
                 IDock? dock = dockLocator(dockable);
                 if (dock is { })
                 {
-                    factory.AddDockable(dock, dockable);
+                    Factory.AddDockable(dock, dockable);
                     if (focus)
                     { 
-                        factory.SetActiveDockable(dockable);
-                        factory.SetFocusedDockable(dock, dockable); 
+                        Factory.SetActiveDockable(dockable);
+                        Factory.SetFocusedDockable(dock, dockable); 
                     }
                 }
             }
 
-            factory.SetActiveDockable(dockable);
-            factory.SetFocusedDockable(rootDock, dockable);
+            Factory.SetActiveDockable(dockable);
+            Factory.SetFocusedDockable(RootDock, dockable);
         }
 
         public TDockable Open<TDockable>(bool focus = false)
@@ -112,6 +76,21 @@ namespace Kaigara.Shell
 
             Open((T)(object)dockable, focus);
             return dockable;
+        }
+    }
+
+    public class ReadOnlyDockableCollection<T> : DockableCollectionBase<T>
+        where T : IDockable
+    {
+        public ReadOnlyDockableCollection(IFactory factory, IRootDock rootDock)
+            : this(factory, rootDock, new ObservableCollection<T>())
+        {
+
+        }
+
+        public ReadOnlyDockableCollection(IFactory factory, IRootDock rootDock, ObservableCollection<T> list) 
+            : base(factory, rootDock, list)
+        {
         }
     }
 }

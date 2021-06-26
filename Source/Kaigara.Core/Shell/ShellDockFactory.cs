@@ -123,36 +123,39 @@ namespace Kaigara.Shell
             base.InitLayout(layout);
         }
 
+        public override void OnDockableRemoved(IDockable? dockable)
+        {
+            base.OnDockableRemoved(dockable);
+
+            RemoveCached(dockable, ref bottomToolDock, ShellDockIds.BottomToolDock);
+            RemoveCached(dockable, ref leftToolDock, ShellDockIds.LeftToolDock);
+            RemoveCached(dockable, ref rightToolDock, ShellDockIds.RightToolDock);
+
+            static void RemoveCached(IDockable? dockable, ref IToolDock? dock, string id)
+            {
+                if (dockable == dock)
+                {
+                    dock = null;
+
+                    if (dockable?.Id == id)
+                    {
+                        dockable.Id = Guid.NewGuid().ToString();
+                    }
+                }
+            }
+        }
+
         private IToolDock GetLeftToolDock()
         {
+
             if (leftToolDock is { }) return leftToolDock;
 
-            var toolDock = new ToolDock()
-            {
-                Id = ShellDockIds.LeftToolDock,
-                ActiveDockable = null,
-                VisibleDockables = CreateList<IDockable>(),
-                Alignment = Alignment.Left,
-                IsCollapsable = true,
-                
-            };
+            var (toolDock, dock) = GetToolDock(Alignment.Left, Orientation.Vertical);
 
-            var leftDock = new ProportionalDock
-            {
-                Proportion = 0.25,
-                IsCollapsable = true,
-                Orientation = Orientation.Vertical,
-                ActiveDockable = null,
-                VisibleDockables = CreateList<IDockable>
-               (
-                    toolDock
-               )
-            };
-
-            InsertDockable(mainLayout!, leftDock,0);
+            InsertDockable(mainLayout!, dock, 0);
             InsertDockable(mainLayout!, new SplitterDockable(), 1);
-
             leftToolDock = toolDock;
+
             return toolDock;
         }
 
@@ -160,29 +163,12 @@ namespace Kaigara.Shell
         {
             if (rightToolDock is { }) return rightToolDock;
 
-            var toolDock = new ToolDock()
-            {
-                Id = ShellDockIds.RightToolDock,
-                ActiveDockable = null,
-                VisibleDockables = CreateList<IDockable>(),
-                Alignment = Alignment.Right,
-                IsCollapsable = true,
-            };
-
-            var rightDock = new ProportionalDock
-            {
-                Proportion = 0.25,
-                Orientation = Orientation.Vertical,
-                ActiveDockable = null,
-                VisibleDockables = CreateList<IDockable>
-               (
-                    toolDock
-               )
-            };
+            var (toolDock, dock) = GetToolDock(Alignment.Right, Orientation.Vertical);
 
             AddDockable(mainLayout!, new SplitterDockable());
-            AddDockable(mainLayout!, rightDock);
+            AddDockable(mainLayout!, dock);
             rightToolDock = toolDock;
+
             return toolDock;
         }
 
@@ -190,33 +176,39 @@ namespace Kaigara.Shell
         {
             if (bottomToolDock is { }) return bottomToolDock;
 
+            var (toolDock, dock) = GetToolDock(Alignment.Bottom, Orientation.Horizontal);
+
+            AddDockable(mainLayoutVertical!, new SplitterDockable());
+            AddDockable(mainLayoutVertical!, dock);
+            bottomToolDock = toolDock;
+            
+            return toolDock;
+        }
+
+        private (ToolDock toolDock, ProportionalDock dock) GetToolDock(Alignment alignment, Orientation orientation)
+        {
             var toolDock = new ToolDock()
             {
-                Id = ShellDockIds.BottomToolDock,
+                Id = ShellDockIds.LeftToolDock,
                 ActiveDockable = null,
-                VisibleDockables = CreateList<IDockable>(),
-                Alignment = Alignment.Bottom,
+                VisibleDockables = base.CreateList<IDockable>(),
+                Alignment = alignment,
                 IsCollapsable = true,
-            };
 
-            var bottomDock = new ProportionalDock
+            };
+            var dock = new ProportionalDock
             {
                 Proportion = 0.25,
-                Orientation = Orientation.Horizontal,
+                IsCollapsable = true,
+                Orientation = orientation,
                 ActiveDockable = null,
-                Owner = mainLayoutVertical,
-                Factory = this,
-                VisibleDockables = CreateList<IDockable>
+                VisibleDockables = base.CreateList<IDockable>
                (
                     toolDock
                )
             };
 
-            AddDockable(mainLayoutVertical!, new SplitterDockable());
-            AddDockable(mainLayoutVertical!, bottomDock);
-
-            bottomToolDock = toolDock;
-            return toolDock;
+            return (toolDock, dock);
         }
     }
 }

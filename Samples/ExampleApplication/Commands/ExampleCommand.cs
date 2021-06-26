@@ -25,7 +25,7 @@ namespace ExampleApplication.Commands
             Debug.WriteLine($"Hello {Label} - {Name}, {InputGesture}");
             shell.Tools.Open<IRightToolViewModel>();
             shell.Tools.Open<LeftToolViewModel>();
-            shell.Tools.Open<BottomToolViewModel>();
+            shell.Tools.Open(new BottomToolViewModel());
         }
     }
 }
