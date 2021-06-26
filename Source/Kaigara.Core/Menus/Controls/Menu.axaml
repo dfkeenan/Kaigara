@@ -1,0 +1,17 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+  <Style Selector="MenuItem">
+    <Setter Property="Header" Value="{Binding Label}"/>
+    <Setter Property="Items" Value="{Binding Items}"/>
+    <Setter Property="Command" Value="{Binding Command}"/>
+    <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+    <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
+    <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
+  </Style>
+</Styles>

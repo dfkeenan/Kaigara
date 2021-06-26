@@ -107,8 +107,8 @@ namespace Kaigara.Menus
         {
             Bindings.Add(context =>
             {
-                var shell = context.Resolve<TSource>();
-                selector(shell).BindTo(this, o => o.IsVisible).DisposeWith(disposables);
+                var source = context.Resolve<TSource>();
+                selector(source).BindTo(this, o => o.IsVisible).DisposeWith(disposables);
                 this.RaisePropertyChanged(nameof(isVisible));
             });
 

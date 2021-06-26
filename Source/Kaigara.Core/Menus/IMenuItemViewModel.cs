@@ -15,4 +15,9 @@ namespace Kaigara.Menus
 
         void Dispose();
     }
+
+    public interface IMenuItemGroupViewModel
+    {
+
+    }
 }

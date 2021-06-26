@@ -7,5 +7,5 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-  <StyleInclude Source="avares://Kaigara.Core/Menus/DefaultTheme.axaml"/>
+  <StyleInclude Source="avares://Kaigara.Core/Menus/Controls/Menu.axaml"/>
 </Styles>

@@ -24,7 +24,7 @@
     </DataTemplate>
   </kc:ChromeWindow.TitleBarTemplate>-->
   <DockPanel>
-    <kcm:DynamicMenu Menu="{Binding MainMenu}" DockPanel.Dock="Top" />
+    <Menu Items="{Binding MainMenu.Items}" DockPanel.Dock="Top" />
     <ContentControl Content="{Binding Shell}"/>
   </DockPanel>
 </kc:ChromeWindow>

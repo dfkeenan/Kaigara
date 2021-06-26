@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AvaloniaXaml Remove="MainWindow\Views\MainWindowView.axaml" />
+    <AvaloniaXaml Remove="Menus\Controls\Menu.axaml" />
+    <AvaloniaXaml Remove="Themes\DefaultTheme.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="MainWindow\Views\MainWindowView.axaml" />
+    <AvaloniaResource Include="Menus\Controls\Menu.axaml" />
+    <AvaloniaResource Include="Themes\DefaultTheme.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="Autofac.Configuration" Version="6.0.0" />
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.1" />

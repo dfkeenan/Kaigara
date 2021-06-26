@@ -46,11 +46,13 @@ namespace ExampleApplication
 
                     menuManager.ConfigureMenuItemDefinition(new MenuPath("MainMenu/Edit"), definition =>
                     {
-                        definition.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>(e => e.WhenAnyValue(e => e.IsChecked ) ));
+                        definition.VisibleWhen<IShell>(s => s.Dockables.Active.Is<ExampleDocumentViewModel>(e => e.WhenAnyValue(e => e.IsChecked ) ));
                     });
 
                     shell.Documents.Open<ExampleDocumentViewModel>();
                     shell.Documents.Open<OtherDocumentViewModel>();
+
+
                 })
                 .Start(size: new Size(1920,1080));
 
