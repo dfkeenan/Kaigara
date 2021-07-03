@@ -18,16 +18,18 @@ namespace Kaigara.Menus
     public class MenuItemDefinition : ReactiveObject, IEnumerable<MenuItemDefinition>, IDisposable
     {
         private string? label;
+        private string? iconName;
         private bool isVisible;
         private readonly ObservableCollection<MenuItemDefinition> items;
         private RegisteredCommandBase? registeredCommand;
         private List<Action<IComponentContext>>? bindings;
         private CompositeDisposable disposables;
 
-        public MenuItemDefinition(string name, string? label = null)
+        public MenuItemDefinition(string name, string? label = null, string? iconName = null)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             this.label = label;
+            this.iconName = iconName;
             items = new ObservableCollection<MenuItemDefinition>();
             Items = items.AsReadOnlyObservableCollection();
             disposables = new CompositeDisposable();
@@ -37,6 +39,9 @@ namespace Kaigara.Menus
         public string Name { get; }
 
         public virtual string? Label => label ?? registeredCommand?.Label;
+
+        public virtual string? IconName => iconName ?? registeredCommand?.IconName;
+
         public virtual bool IsVisible 
         { 
             get => isVisible;

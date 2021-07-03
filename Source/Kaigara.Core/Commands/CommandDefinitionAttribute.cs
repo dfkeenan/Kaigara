@@ -15,7 +15,7 @@ namespace Kaigara.Commands
         }
 
         public string Label { get; private set; }
-
+        public string? IconName { get; set; }
         public string? Name { get; set; }
         public string? DefaultInputGesture { get; set; }
     }

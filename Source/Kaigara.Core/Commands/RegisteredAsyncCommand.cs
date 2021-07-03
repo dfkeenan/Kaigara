@@ -14,8 +14,8 @@ namespace Kaigara.Commands
 
         }
 
-        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture)
-            : base(name, label, keyGesture)
+        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
+            : base(name, label, keyGesture, iconName)
         {
         }
 
@@ -35,8 +35,8 @@ namespace Kaigara.Commands
 
         }
 
-        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture)
-            : base(name, label, keyGesture)
+        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
+            : base(name, label, keyGesture, iconName)
         {
 
         }

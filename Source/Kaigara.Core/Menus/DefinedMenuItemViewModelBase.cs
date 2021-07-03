@@ -21,6 +21,8 @@ namespace Kaigara.Menus
         public string Name => definition.Name;
         public string? Label => definition.Label;
 
+        public string? IconName => definition.IconName;
+
         public virtual bool IsVisible => definition.IsVisible;
 
         public virtual ICommand? Command => definition.Command;

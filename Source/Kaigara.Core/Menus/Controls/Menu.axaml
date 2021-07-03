@@ -1,11 +1,12 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="https://github.com/dfkeenan/Kaigara">
     <Design.PreviewWith>
         <Border Padding="20">
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
-
+  
   <Style Selector="MenuItem">
     <Setter Property="Header" Value="{Binding Label}"/>
     <Setter Property="Items" Value="{Binding Items}"/>
@@ -13,5 +14,14 @@
     <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
     <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
+    <Setter Property="Icon" Value="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}"/>
+  </Style>
+
+  <Style Selector="MenuItem /template/ ContentPresenter#icon">
+    <Setter Property="ContentTemplate">
+      <DataTemplate>
+        <Image Source="{Binding}" />
+      </DataTemplate>
+    </Setter>
   </Style>
 </Styles>

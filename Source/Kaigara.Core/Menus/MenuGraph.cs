@@ -38,7 +38,7 @@ namespace Kaigara.Menus
 
         private class MenuNode
         {
-            private List<Action<MenuItemDefinition>> options;
+            private List<Action<MenuItemDefinition>>? options;
             private Dictionary<string, MenuNode>? children;
             private MenuItemDefinition? definition;
             private readonly string name;
