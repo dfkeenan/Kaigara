@@ -12,7 +12,7 @@ namespace Kaigara.Menus
         bool IsVisible { get; }
         IEnumerable<IMenuItemViewModel> Items { get; }
         string? Label { get; }
-
+        string? IconName { get; }
         void Dispose();
     }
 
