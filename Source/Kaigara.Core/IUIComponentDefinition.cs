@@ -1,18 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Autofac;
 
 namespace Kaigara
 {
-    public interface IUIComponentDefinition<TChild> : IDisposable
-        where TChild : IUIComponentDefinition<TChild>
+    public interface IUIComponentDefinition<TChild>
+        where TChild : IUIComponentDefinition
+    {
+        ReadOnlyObservableCollection<TChild> Items { get; }
+
+        public void Add(TChild definition);
+
+        public bool Remove(TChild definition);
+    }
+
+    public interface IUIComponentDefinition : IDisposable
     {
         string Name { get; }
-        ReadOnlyObservableCollection<TChild> Items { get; }
+
+        IEnumerable<IUIComponentDefinition> Items { get; }
+
+        void OnParentDefined(IUIComponentDefinition parent);
         void UpdateBindings(IComponentContext context);
-
-        public void Add(TChild menuItemDefinition);
-
-        public bool Remove(TChild menuItemDefinition);
     }
 }

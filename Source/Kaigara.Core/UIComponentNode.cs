@@ -7,42 +7,51 @@ using Kaigara.Collections.Generic;
 
 namespace Kaigara
 {
-    internal class UIComponentNode<TDefinition, TLocation>
-        where TDefinition : class, IUIComponentDefinition<TDefinition>
-        where TLocation : UIComponentLocation
+    internal class UIComponentNode
     {
-        private List<Action<TDefinition>>? options;
-        private Dictionary<string, UIComponentNode<TDefinition, TLocation>>? children;
-        private TDefinition? definition;
+        private List<Action<IUIComponentDefinition>>? options;
+        private Dictionary<string, UIComponentNode>? children;
+        private IUIComponentDefinition? definition;
         private readonly string name;
-        private readonly UIComponentGraph<TDefinition, TLocation> graph;
+        private readonly UIComponentGraph graph;
 
 
-        public UIComponentNode(UIComponentGraph<TDefinition, TLocation> graph, string name)
+        public UIComponentNode(UIComponentGraph graph, string name)
         {
             this.graph = graph ?? throw new ArgumentNullException(nameof(graph));
             this.name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public TDefinition? Definition => definition;
+        public IUIComponentDefinition? Definition => definition;
 
-        public IDisposable Add(UIComponentLocation path, TDefinition definition)
+        public IDisposable Add(UIComponentLocation location, IUIComponentDefinition definition)
         {
-            var node = GetNode(path);
-            node.Add(definition);
+            var node = GetNode(location);
+            node.AddDefinition(definition);
 
             return Disposable.Create(() =>
             {
                 node.definition?.Dispose();
-                node.definition = null;
+                node.definition = default;
             });
         }
 
-        public UIComponentNode<TDefinition, TLocation> GetNode(UIComponentLocation path)
+        public IDisposable Add(IUIComponentDefinition definition)
+        {
+            var node = AddDefinition(definition);
+
+            return Disposable.Create(() =>
+            {
+                node.definition?.Dispose();
+                node.definition = default;
+            });
+        }
+
+        public UIComponentNode GetNode(UIComponentLocation location)
         {
             var node = this;
 
-            foreach (var name in path.PathSegments)
+            foreach (var name in location.PathSegments)
             {
                 node = node.GetOrAddNode(name);
             }
@@ -50,9 +59,9 @@ namespace Kaigara
             return node;
         }
 
-        public IDisposable AddConfiguration(Action<TDefinition> options)
+        public IDisposable AddConfiguration(Action<IUIComponentDefinition> options)
         {
-            this.options ??= new List<Action<TDefinition>>();
+            this.options ??= new List<Action<IUIComponentDefinition>>();
 
             this.options.Add(options);
 
@@ -62,19 +71,20 @@ namespace Kaigara
             });
         }
 
-        private void Add(TDefinition definition)
+        private UIComponentNode AddDefinition(IUIComponentDefinition definition)
         {
             var node = GetOrAddNode(definition.Name);
             node.SetDefinition(definition);
+            return node;
         }
 
-        private UIComponentNode<TDefinition, TLocation> GetOrAddNode(string name)
+        private UIComponentNode GetOrAddNode(string name)
         {
-            children ??= new Dictionary<string, UIComponentNode<TDefinition, TLocation>>();
-            return children.GetOrAdd(name, n => new UIComponentNode<TDefinition, TLocation>(graph, n));
+            children ??= new Dictionary<string, UIComponentNode>();
+            return children.GetOrAdd(name, n => new UIComponentNode(graph, n));
         }
 
-        private void SetDefinition(TDefinition definition)
+        private void SetDefinition(IUIComponentDefinition definition)
         {
             if (this.definition is null)
             {
@@ -83,7 +93,7 @@ namespace Kaigara
                 {
                     foreach (var item in children.Values.Where(n => n.definition is not null))
                     {
-                        definition.Add(item.definition!);
+                        item.definition!.OnParentDefined(definition);
                     }
                 }
 

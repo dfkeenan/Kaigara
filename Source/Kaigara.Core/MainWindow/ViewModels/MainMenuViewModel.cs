@@ -7,7 +7,7 @@ using Kaigara.Menus;
 
 namespace Kaigara.MainWindow.ViewModels
 {
-    public  class MainMenuViewModel : MenuViewModel
+    public class MainMenuViewModel : MenuViewModel
     {
         protected override MenuDefinition CreateDefinition()
             => new MenuDefinition("MainMenu")

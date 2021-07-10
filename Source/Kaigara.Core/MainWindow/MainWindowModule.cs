@@ -12,6 +12,7 @@ using Kaigara.Commands;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Shell;
+using Kaigara.ToolBars;
 
 namespace Kaigara.MainWindow
 {
@@ -22,10 +23,12 @@ namespace Kaigara.MainWindow
             base.Load(builder);
             builder
                 .DependsOnModule<MenuModule>()
+                .DependsOnModule<ToolBarModule>()
                 .DependsOnModule<ShellModule>()
                 .DependsOnModule<CommandModule>()
                 .RegisterViewModels<MainWindowModule>()
-                .RegisterMenus<MainWindowModule>();
+                .RegisterMenus<MainWindowModule>()
+                .RegisterToolBars<MainWindowModule>();
 
            
             //builder.Register(c=> 

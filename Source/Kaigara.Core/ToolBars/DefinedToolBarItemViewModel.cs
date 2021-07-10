@@ -1,32 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Avalonia.Input;
 using ReactiveUI;
 
-namespace Kaigara.Menus
+namespace Kaigara.ToolBars
 {
-    internal class DefinedMenuItemViewModelBase: ReactiveObject, IDisposable, IMenuItemViewModel
+    internal class DefinedToolBarItemViewModel : ReactiveObject, IToolBarItemViewModel
     {
-        public DefinedMenuItemViewModelBase(MenuItemDefinition definition)
+        private IDisposable changeSubscription;
+
+        public DefinedToolBarItemViewModel(ToolBarItemDefinition definition)
         {
-            this.Definition = definition ?? throw new ArgumentNullException(nameof(definition));
+            Definition = definition ?? throw new System.ArgumentNullException(nameof(definition));
+
+            changeSubscription = definition.Changed.Subscribe(n =>
+            {
+                this.RaisePropertyChanged(n.PropertyName);
+            });
         }
 
-        public MenuItemDefinition Definition { get; }
-
+        public ToolBarItemDefinition Definition { get; }
         public string Name => Definition.Name;
         public string? Label => Definition.Label;
-
         public string? IconName => Definition.IconName;
-
         public virtual bool IsVisible => Definition.IsVisible;
-
         public virtual ICommand? Command => Definition.Command;
         public virtual KeyGesture? InputGesture => Definition.InputGesture;
         public virtual object? CommandParameter => null;
-        public virtual IEnumerable<IMenuItemViewModel> Items => Enumerable.Empty<IMenuItemViewModel>();
 
         public void Dispose()
         {
@@ -35,7 +35,7 @@ namespace Kaigara.Menus
 
         protected virtual void Dispose(bool disposing)
         {
-            
+            changeSubscription.Dispose();
         }
     }
 }

@@ -20,8 +20,9 @@
       </StackPanel>
     </DataTemplate>
   </kc:ChromeWindow.TitleBarTemplate>-->
-  <DockPanel>
-    <Menu Items="{Binding MainMenu.Items}" DockPanel.Dock="Top" Margin="0,0,0,10" />
+  <DockPanel LastChildFill="True">
+    <Menu Items="{Binding MainMenu.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
+    <k:ToolBarTray Items="{Binding ToolBarTray.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
     <ContentControl Content="{Binding Shell}"/>
   </DockPanel>
 </k:ChromeWindow>

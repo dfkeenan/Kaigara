@@ -1,0 +1,45 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="https://github.com/dfkeenan/Kaigara"
+        >
+  <Design.PreviewWith>
+    <Grid Width="500" Height="100" RowDefinitions="1*" ColumnDefinitions="1*" Background="Magenta">
+      <k:ToolBarTray  Grid.Row="0" Grid.Column="0" >
+        <k:ToolBar >
+          <Button>Hello</Button>
+          <Button>Hello</Button>
+          <Separator />
+          <Button>Hello</Button>
+        </k:ToolBar>
+        <k:ToolBar>
+          <Button>Hello</Button>
+          <Button>Hello</Button>
+          <Button>Hello</Button>
+        </k:ToolBar>
+      </k:ToolBarTray>
+    </Grid>
+  </Design.PreviewWith>
+
+  <Style Selector="k|ToolBarTray">
+    <!-- Set Defaults -->
+    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}"/>
+    <Setter Property="ItemsPanel" >
+      <ItemsPanelTemplate>
+        <WrapPanel Orientation="Horizontal"/>
+      </ItemsPanelTemplate>
+    </Setter>
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              Padding="{TemplateBinding Padding}">
+          <ItemsPresenter Name="PART_ItemsPresenter"
+                          Items="{TemplateBinding Items}"
+                          ItemsPanel="{TemplateBinding ItemsPanel}"
+                          ItemTemplate="{TemplateBinding ItemTemplate}"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

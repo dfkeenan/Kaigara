@@ -12,18 +12,16 @@ namespace Kaigara.Menus
     public class MenuManager : IMenuManager
     {
         private readonly Dictionary<string, MenuDefinition> menus = new Dictionary<string, MenuDefinition>();
-        private readonly UIComponentGraph<MenuItemDefinition,MenuItemLocation> menuItemDefinitionRegistrations;
+        private readonly UIComponentGraph definitionRegistrations;
         private readonly IComponentContext context;
 
         public MenuManager(IComponentContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            menuItemDefinitionRegistrations = new UIComponentGraph<MenuItemDefinition, MenuItemLocation>(context);
+            definitionRegistrations = new UIComponentGraph(context);
         }
 
-        internal IComponentContext ComponentContext => context;
-
-        public IDisposable ConfigureMenuItemDefinition(MenuItemLocation location, Action<MenuItemDefinition> options)
+        public IDisposable ConfigureDefinition(MenuItemLocation location, Action<MenuItemDefinition> options)
         {
             if (location is null)
             {
@@ -35,7 +33,7 @@ namespace Kaigara.Menus
                 throw new ArgumentNullException(nameof(options));
             }
 
-            return menuItemDefinitionRegistrations.AddConfiguration(location, options);
+            return definitionRegistrations.AddConfiguration(location, options);
         }
 
         public IDisposable Register(MenuItemLocation location, MenuItemDefinition definition)
@@ -50,7 +48,7 @@ namespace Kaigara.Menus
                 throw new ArgumentNullException(nameof(definition));
             }
 
-            return menuItemDefinitionRegistrations.Add(location, definition);
+            return definitionRegistrations.Add(location, definition);
         }
 
         public IDisposable Register(MenuDefinition definition)
@@ -66,12 +64,14 @@ namespace Kaigara.Menus
             }
 
             menus.Add(definition.Name, definition);
-            var path = new MenuItemLocation(definition.Name);
+            var location = new MenuItemLocation(definition.Name);
+            var registration = definitionRegistrations.Add(definition);
 
-            var itemDisposables = new CompositeDisposable( definition.Items.Select(d => Register(path, d)).ToList());
+            var itemDisposables = new CompositeDisposable( definition.Items.Select(d => Register(location, d)).ToList());
             
             return Disposable.Create(()=>
             {
+                registration.Dispose();
                 menus.Remove(definition.Name);
                 itemDisposables.Dispose();
             });

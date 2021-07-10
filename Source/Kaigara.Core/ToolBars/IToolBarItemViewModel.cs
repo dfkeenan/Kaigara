@@ -3,21 +3,15 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Avalonia.Input;
 
-namespace Kaigara.Menus
+namespace Kaigara.ToolBars
 {
-    public interface IMenuItemViewModel : IDisposable
+    public interface IToolBarItemViewModel : IDisposable
     {
         ICommand? Command { get; }
         object? CommandParameter { get; }
         KeyGesture? InputGesture { get; }
         bool IsVisible { get; }
-        IEnumerable<IMenuItemViewModel> Items { get; }
         string? Label { get; }
         string? IconName { get; }
-    }
-
-    public interface IMenuItemGroupViewModel
-    {
-
     }
 }

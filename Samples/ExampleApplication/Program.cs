@@ -12,6 +12,7 @@ using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Reactive;
 using Kaigara.Shell;
+using Kaigara.ToolBars;
 using Microsoft.Extensions.Configuration;
 using ReactiveUI;
 
@@ -35,19 +36,28 @@ namespace ExampleApplication
                 {
                     var menuManager = container.Resolve<IMenuManager>();
 
-                    MenuItemDefinition exampleDefinition = new MenuItemGroupDefinition("Example", "_Example")
+                    MenuItemDefinition exampleDefinition = new MenuItemDefinition("Example", "_Example")
                     {
                         new MenuItemDefinition("Thing1").BindCommand<ExampleCommand>(),
                         new MenuItemDefinition("Thing2", "Thing _2"),
                         new MenuItemDefinition("Thing3", "Thing _3"),
                     }.VisibleWhen<IShell>( s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
-                    menuManager.Register(new MenuItemLocation("MainMenu/File"), exampleDefinition);
+                    menuManager.Register(new MenuItemLocation("MainMenu"), exampleDefinition);
 
-                    menuManager.ConfigureMenuItemDefinition(new MenuItemLocation("MainMenu/Edit"), definition =>
+                    menuManager.ConfigureDefinition(new MenuItemLocation("MainMenu/Edit"), definition =>
                     {
                         definition.VisibleWhen<IShell>(s => s.Dockables.Active.Is<ExampleDocumentViewModel>(e => e.WhenAnyValue(e => e.IsChecked ) ));
                     });
+
+                    var toolBarManager = container.Resolve<IToolBarManager>();
+
+                    var exampleToolBar = new ToolBarDefinition("Example")
+                    {
+                        new ToolBarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
+                    }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
+
+                    toolBarManager.Register(new ToolBarLocation("MainToolBarTray"), exampleToolBar);
 
                     shell.Documents.Open<ExampleDocumentViewModel>();
                     shell.Documents.Open<OtherDocumentViewModel>();

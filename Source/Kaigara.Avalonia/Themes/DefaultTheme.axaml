@@ -6,4 +6,7 @@
   
   <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ChromeWindowButtons.axaml"  />
   <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ChromeWindow.axaml"  />
+  
+  <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ToolBar.axaml"  />
+  <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ToolBarTray.axaml"  />
 </Styles>

@@ -29,8 +29,9 @@ namespace Kaigara.Menus
 
         public override IEnumerable<IMenuItemViewModel> Items => items;
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
             changeSubscription.Dispose();
 
             foreach (var item in items)

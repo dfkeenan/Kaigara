@@ -8,4 +8,5 @@
 
     <!-- Add Styles Here -->
   <StyleInclude Source="avares://Kaigara.Core/Menus/Controls/Menu.axaml"/>
+  <StyleInclude Source="avares://Kaigara.Core/ToolBars/Controls/ToolBar.axaml"/>
 </Styles>

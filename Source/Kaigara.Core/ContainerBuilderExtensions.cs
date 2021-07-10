@@ -11,6 +11,7 @@ using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;
 using Kaigara.Menus;
+using Kaigara.ToolBars;
 using Kaigara.ViewModels;
 
 namespace Kaigara
@@ -134,6 +135,48 @@ namespace Kaigara
                                    if(e.Instance is MenuViewModel m)
                                    {
                                        e.Context.Resolve<IMenuManager>().Register(m.Definition);
+                                   }
+                               })
+                               .AsSelf()
+                               .InstancePerDependency();
+            return builder;
+        }
+
+        public static ContainerBuilder RegisterToolBars<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+           where TModule : IModule
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            var moduleType = typeof(TModule);
+
+            return builder.RegisterToolBars(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        }
+
+        public static ContainerBuilder RegisterToolBars(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            if (@namespace is null)
+            {
+                throw new ArgumentNullException(nameof(@namespace));
+            }
+
+            var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+            builder.RegisterAssemblyTypes(assembly)
+                               .AssignableTo<ToolBarTrayViewModel>()
+                               .Where(t => namespacePredicate(t))
+                               .OnActivating(e =>
+                               {
+                                   if (e.Instance is ToolBarTrayViewModel m)
+                                   {
+                                       e.Context.Resolve<IToolBarManager>().Register(m.Definition);
                                    }
                                })
                                .AsSelf()
@@ -279,6 +322,7 @@ namespace Kaigara
             builder.RegisterDocuments(assembly, @namespace, namespaceRule);
             builder.RegisterTools(assembly, @namespace, namespaceRule);
             builder.RegisterMenus(assembly, @namespace, namespaceRule);
+            builder.RegisterToolBars(assembly, @namespace, namespaceRule);
             builder.RegisterCommands(assembly, @namespace, namespaceRule);
 
             return builder;

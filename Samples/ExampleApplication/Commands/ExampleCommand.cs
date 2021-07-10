@@ -11,7 +11,8 @@ using Kaigara.Shell;
 
 namespace ExampleApplication.Commands
 {
-    [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E")]
+    //[CommandDefinition("Example Command",  IconName = "ExampleIcon")]
+    [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "ExampleIcon")]
     public class ExampleCommand : RegisteredCommand
     {
         private readonly IShell shell;

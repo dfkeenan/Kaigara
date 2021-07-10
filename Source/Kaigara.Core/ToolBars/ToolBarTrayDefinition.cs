@@ -2,39 +2,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autofac;
 using Kaigara.Collections.ObjectModel;
 
-namespace Kaigara.Menus
+namespace Kaigara.ToolBars
 {
-    public class MenuDefinition : IEnumerable<MenuItemDefinition>, IUIComponentDefinition<MenuItemDefinition>, IUIComponentDefinition
+    public class ToolBarTrayDefinition : IEnumerable<ToolBarDefinition>, IUIComponentDefinition<ToolBarDefinition>, IUIComponentDefinition
     {
-        private readonly ObservableCollection<MenuItemDefinition> items;
-        public MenuDefinition(string name)
+        private readonly ObservableCollection<ToolBarDefinition> items;
+
+        public ToolBarTrayDefinition(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
-            items = new ObservableCollection<MenuItemDefinition>();
+            items = new ObservableCollection<ToolBarDefinition>();
             Items = items.AsReadOnlyObservableCollection();
         }
 
         public string Name { get; }
 
-        public ReadOnlyObservableCollection<MenuItemDefinition> Items { get; }
+        public ReadOnlyObservableCollection<ToolBarDefinition> Items { get; }
 
-        public void Add(MenuItemDefinition definition)
+        public void Add(ToolBarDefinition definition)
         {
             items.Add(definition);
         }
 
-        public bool Remove(MenuItemDefinition definition)
+        public bool Remove(ToolBarDefinition definition)
         {
             return items.Remove(definition);
         }
 
-        IEnumerator<MenuItemDefinition> IEnumerable<MenuItemDefinition>.GetEnumerator()
+        IEnumerator<ToolBarDefinition> IEnumerable<ToolBarDefinition>.GetEnumerator()
         {
             return Items.GetEnumerator();
         }

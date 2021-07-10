@@ -3,33 +3,42 @@ using Autofac;
 
 namespace Kaigara
 {
-    internal class UIComponentGraph<TDefinition,TLocation>
-        where TDefinition : class, IUIComponentDefinition<TDefinition>
-        where TLocation : UIComponentLocation
+    internal class UIComponentGraph
     {
-        private readonly UIComponentNode<TDefinition, TLocation> root;
+        private readonly UIComponentNode root;
 
         public UIComponentGraph(IComponentContext context)
         {
-            root = new UIComponentNode<TDefinition, TLocation>(this, "ROOT");
+            root = new UIComponentNode(this, "ROOT");
             ComponentContext = context;
         }
 
-        internal IComponentContext ComponentContext { get; }
-        public IDisposable Add(TLocation location, TDefinition definition)
+        public IComponentContext ComponentContext { get; }
+        public IDisposable Add<TDefinition>(UIComponentLocation location, TDefinition definition)
+            where TDefinition : IUIComponentDefinition
             => root.Add(location, definition);
 
-        public TDefinition? Find(TLocation location)
+        public IDisposable Add<TDefinition>(TDefinition definition)
+            where TDefinition : IUIComponentDefinition
+            => root.Add(definition);
+
+        public IUIComponentDefinition? Find(UIComponentLocation location)
             => root.GetNode(location).Definition;
 
-        public IDisposable AddConfiguration(TLocation location, Action<TDefinition> options)
+        public IDisposable AddConfiguration<TDefinition>(UIComponentLocation location, Action<TDefinition> options)
+            where TDefinition : IUIComponentDefinition
         {
+            if (location is null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
             if (options is null)
             {
                 throw new ArgumentNullException(nameof(options));
             }
 
-            return root.GetNode(location).AddConfiguration(options);
+            return root.GetNode(location).AddConfiguration(o => options((TDefinition)o));
         }
     }
 }
