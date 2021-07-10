@@ -42,9 +42,9 @@ namespace ExampleApplication
                         new MenuItemDefinition("Thing3", "Thing _3"),
                     }.VisibleWhen<IShell>( s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
-                    menuManager.Register(new MenuPath("MainMenu/File"), exampleDefinition);
+                    menuManager.Register(new MenuItemLocation("MainMenu/File"), exampleDefinition);
 
-                    menuManager.ConfigureMenuItemDefinition(new MenuPath("MainMenu/Edit"), definition =>
+                    menuManager.ConfigureMenuItemDefinition(new MenuItemLocation("MainMenu/Edit"), definition =>
                     {
                         definition.VisibleWhen<IShell>(s => s.Dockables.Active.Is<ExampleDocumentViewModel>(e => e.WhenAnyValue(e => e.IsChecked ) ));
                     });

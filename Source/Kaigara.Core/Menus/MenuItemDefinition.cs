@@ -15,7 +15,7 @@ using ReactiveUI;
 
 namespace Kaigara.Menus
 {
-    public class MenuItemDefinition : ReactiveObject, IEnumerable<MenuItemDefinition>, IDisposable
+    public class MenuItemDefinition : ReactiveObject, IUIComponentDefinition<MenuItemDefinition>, IEnumerable<MenuItemDefinition>, IDisposable
     {
         private string? label;
         private string? iconName;

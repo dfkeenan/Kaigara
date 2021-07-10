@@ -12,22 +12,22 @@ namespace Kaigara.Menus
     public class MenuManager : IMenuManager
     {
         private readonly Dictionary<string, MenuDefinition> menus = new Dictionary<string, MenuDefinition>();
-        private readonly MenuGraph menuItemDefinitionRegistrations;
+        private readonly UIComponentGraph<MenuItemDefinition,MenuItemLocation> menuItemDefinitionRegistrations;
         private readonly IComponentContext context;
 
         public MenuManager(IComponentContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            menuItemDefinitionRegistrations = new MenuGraph(this);
+            menuItemDefinitionRegistrations = new UIComponentGraph<MenuItemDefinition, MenuItemLocation>(context);
         }
 
         internal IComponentContext ComponentContext => context;
 
-        public IDisposable ConfigureMenuItemDefinition(MenuPath path, Action<MenuItemDefinition> options)
+        public IDisposable ConfigureMenuItemDefinition(MenuItemLocation location, Action<MenuItemDefinition> options)
         {
-            if (path is null)
+            if (location is null)
             {
-                throw new ArgumentNullException(nameof(path));
+                throw new ArgumentNullException(nameof(location));
             }
 
             if (options is null)
@@ -35,14 +35,14 @@ namespace Kaigara.Menus
                 throw new ArgumentNullException(nameof(options));
             }
 
-            return menuItemDefinitionRegistrations.AddConfiguration(path, options);
+            return menuItemDefinitionRegistrations.AddConfiguration(location, options);
         }
 
-        public IDisposable Register(MenuPath path, MenuItemDefinition definition)
+        public IDisposable Register(MenuItemLocation location, MenuItemDefinition definition)
         {
-            if (path is null)
+            if (location is null)
             {
-                throw new ArgumentNullException(nameof(path));
+                throw new ArgumentNullException(nameof(location));
             }
 
             if (definition is null)
@@ -50,7 +50,7 @@ namespace Kaigara.Menus
                 throw new ArgumentNullException(nameof(definition));
             }
 
-            return menuItemDefinitionRegistrations.Add(path, definition);
+            return menuItemDefinitionRegistrations.Add(location, definition);
         }
 
         public IDisposable Register(MenuDefinition definition)
@@ -66,7 +66,7 @@ namespace Kaigara.Menus
             }
 
             menus.Add(definition.Name, definition);
-            var path = new MenuPath(definition.Name);
+            var path = new MenuItemLocation(definition.Name);
 
             var itemDisposables = new CompositeDisposable( definition.Items.Select(d => Register(path, d)).ToList());
             

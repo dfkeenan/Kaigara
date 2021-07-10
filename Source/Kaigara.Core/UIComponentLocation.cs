@@ -1,29 +1,31 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Kaigara.Menus
+namespace Kaigara
 {
-    public class MenuPath
+    public class UIComponentLocation
     {
         private static readonly char[] pathSeparators = new char[] { '\\', '/' };
         private readonly string originalPath;
         private readonly IReadOnlyList<string> pathSegments;
 
-        public MenuPath(string path)
+        public UIComponentLocation(string path)
         {
             originalPath = path ?? throw new ArgumentNullException(nameof(path));
             pathSegments = path.Split(pathSeparators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         }
 
-        public MenuPath(IEnumerable<string> path)
+        public UIComponentLocation(IEnumerable<string> path)
         {
             if (path is null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
 
-            if(!path.Any())
+            if (!path.Any())
             {
                 throw new ArgumentOutOfRangeException(nameof(path), "Must have at least 1 item");
             }
@@ -35,15 +37,5 @@ namespace Kaigara.Menus
         public IReadOnlyList<string> PathSegments => pathSegments;
 
         public override string ToString() => originalPath;
-
-        public MenuPath GetSubMenuPath(string name)
-        {
-            if (name is null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            return new MenuPath(pathSegments.Append(name));
-        }
     }
 }
