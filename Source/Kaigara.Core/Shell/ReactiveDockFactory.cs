@@ -27,6 +27,8 @@ namespace Kaigara.Shell
             DockableSwapped = Observable.FromEventPattern<DockableSwappedEventArgs>(e => factory.DockableSwapped += e, e => factory.DockableSwapped -= e);
             DockablePinned = Observable.FromEventPattern<DockablePinnedEventArgs>(e => factory.DockablePinned += e, e => factory.DockablePinned -= e);
             DockableUnpinned = Observable.FromEventPattern<DockableUnpinnedEventArgs>(e => factory.DockableUnpinned += e, e => factory.DockableUnpinned -= e);
+            WindowOpened = Observable.FromEventPattern<WindowOpenedEventArgs>(e => factory.WindowOpened += e, e => factory.WindowOpened -= e);
+            WindowClosed = Observable.FromEventPattern<WindowClosedEventArgs>(e => factory.WindowClosed += e, e => factory.WindowClosed -= e);
             WindowAdded = Observable.FromEventPattern<WindowAddedEventArgs>(e => factory.WindowAdded += e, e => factory.WindowAdded -= e);
             WindowRemoved = Observable.FromEventPattern<WindowRemovedEventArgs>(e => factory.WindowRemoved += e, e => factory.WindowRemoved -= e);
         }
@@ -42,6 +44,8 @@ namespace Kaigara.Shell
         public IObservable<EventPattern<DockableSwappedEventArgs>> DockableSwapped { get; }
         public IObservable<EventPattern<DockablePinnedEventArgs>> DockablePinned { get; }
         public IObservable<EventPattern<DockableUnpinnedEventArgs>> DockableUnpinned { get; }
+        public IObservable<EventPattern<WindowOpenedEventArgs>> WindowOpened { get; }
+        public IObservable<EventPattern<WindowClosedEventArgs>> WindowClosed { get; }
         public IObservable<EventPattern<WindowAddedEventArgs>> WindowAdded { get; }
         public IObservable<EventPattern<WindowRemovedEventArgs>> WindowRemoved { get; }
     }
