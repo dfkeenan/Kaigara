@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Kaigara.Commands;
 
 namespace Kaigara.ToolBars
 {
@@ -13,10 +16,48 @@ namespace Kaigara.ToolBars
         private readonly Dictionary<string, ToolBarTrayDefinition> trays = new Dictionary<string, ToolBarTrayDefinition>();
         private readonly IComponentContext context;
         private readonly UIComponentGraph definitionRegistrations;
-        public ToolBarManager(IComponentContext context)
+        public ToolBarManager(IComponentContext context, ICommandManager commandManager)
         {
+            if (commandManager is null)
+            {
+                throw new ArgumentNullException(nameof(commandManager));
+            }
+
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             definitionRegistrations = new UIComponentGraph(context);
+
+            foreach (var command in commandManager.Commands)
+            {
+                RegisterCommand(command);
+            }
+
+            if (commandManager.Commands is INotifyCollectionChanged changed)
+            {
+                changed.CollectionChanged += OnCommandsCollectionChanged;
+            }
+        }
+
+        private void OnCommandsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (var command in e.NewItems!.Cast<RegisteredCommandBase>())
+                {
+                    RegisterCommand(command);
+                }
+            }
+        }
+
+        private void RegisterCommand(RegisteredCommandBase command)
+        {
+            var definitionAttribute = command.GetType().GetCustomAttribute<ToolBarItemDefinitionAttribute>();
+
+            if (definitionAttribute is { })
+            {
+                var definition = new ToolBarItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName);
+                definition.RegisteredCommand = command;
+                Register(definitionAttribute.Location, definition);
+            }
         }
 
         public IDisposable ConfigureDefinition(ToolBarLocation location, Action<ToolBarDefinition> options)

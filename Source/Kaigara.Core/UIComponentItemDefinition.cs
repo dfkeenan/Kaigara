@@ -52,6 +52,18 @@ namespace Kaigara
             }
         }
 
+        public RegisteredCommandBase? RegisteredCommand
+        {
+            get => registeredCommand;
+            set
+            {
+                registeredCommand = value;
+                this.RaisePropertyChanged(nameof(Label));
+                this.RaisePropertyChanged(nameof(Command));
+                this.RaisePropertyChanged(nameof(InputGesture));
+            }
+        }
+
         public virtual T BindCommand<TCommand>()
            where TCommand : RegisteredCommandBase
         {
@@ -68,10 +80,7 @@ namespace Kaigara
 
             Bindings.Add(context =>
             {
-                registeredCommand ??= (RegisteredCommandBase)context.Resolve(type);
-                this.RaisePropertyChanged(nameof(Label));
-                this.RaisePropertyChanged(nameof(Command));
-                this.RaisePropertyChanged(nameof(InputGesture));
+                RegisteredCommand ??= (RegisteredCommandBase)context.Resolve(type);
             });
 
             return (T)this;

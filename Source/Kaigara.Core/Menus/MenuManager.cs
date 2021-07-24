@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
@@ -15,10 +17,48 @@ namespace Kaigara.Menus
         private readonly UIComponentGraph definitionRegistrations;
         private readonly IComponentContext context;
 
-        public MenuManager(IComponentContext context)
+        public MenuManager(IComponentContext context, ICommandManager commandManager)
         {
+            if (commandManager is null)
+            {
+                throw new ArgumentNullException(nameof(commandManager));
+            }
+
             this.context = context ?? throw new ArgumentNullException(nameof(context));
             definitionRegistrations = new UIComponentGraph(context);
+
+            foreach (var command in commandManager.Commands)
+            {
+                RegisterCommand(command);
+            }
+
+            if(commandManager.Commands is INotifyCollectionChanged changed)
+            {
+                changed.CollectionChanged += OnCommandsCollectionChanged;
+            }
+        }
+
+        private void OnCommandsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (var command in e.NewItems!.Cast<RegisteredCommandBase>())
+                {
+                    RegisterCommand(command);
+                }
+            }
+        }
+
+        private void RegisterCommand(RegisteredCommandBase command)
+        {
+            var definitionAttribute = command.GetType().GetCustomAttribute<MenuItemDefinitionAttribute>();
+
+            if(definitionAttribute is { })
+            {
+                var definition = new MenuItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName);
+                definition.RegisteredCommand = command;
+                Register(definitionAttribute.Location, definition);
+            }
         }
 
         public IDisposable ConfigureDefinition(MenuItemLocation location, Action<MenuItemDefinition> options)

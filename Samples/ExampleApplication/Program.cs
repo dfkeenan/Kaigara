@@ -38,7 +38,6 @@ namespace ExampleApplication
 
                     MenuItemDefinition exampleDefinition = new MenuItemDefinition("Example", "_Example")
                     {
-                        new MenuItemDefinition("Thing1").BindCommand<ExampleCommand>(),
                         new MenuItemDefinition("Thing2", "Thing _2"),
                         new MenuItemDefinition("Thing3", "Thing _3"),
                     }.VisibleWhen<IShell>( s => s.Documents.Active.Is<ExampleDocumentViewModel>());
@@ -54,7 +53,7 @@ namespace ExampleApplication
 
                     var exampleToolBar = new ToolBarDefinition("Example")
                     {
-                        new ToolBarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
+                        //new ToolBarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
                     }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
                     toolBarManager.Register(new ToolBarLocation("MainToolBarTray"), exampleToolBar);

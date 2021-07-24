@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using Avalonia.Input;
 using ExampleApplication.Tools.ViewModels;
 using Kaigara.Commands;
+using Kaigara.Menus;
 using Kaigara.Shell;
+using Kaigara.ToolBars;
 
 namespace ExampleApplication.Commands
 {
-    //[CommandDefinition("Example Command",  IconName = "ExampleIcon")]
+    [MenuItemDefinition("Example1","MainMenu/Example")]
+    [ToolBarItemDefinition("Example1", "MainToolBarTray", "Example")]
     [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "ExampleIcon")]
     public class ExampleCommand : RegisteredCommand
     {
