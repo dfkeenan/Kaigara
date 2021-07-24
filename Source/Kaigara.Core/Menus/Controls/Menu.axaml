@@ -7,7 +7,7 @@
         </Border>
     </Design.PreviewWith>
   
-  <Style Selector="MenuItem">
+  <Style Selector=".DynamicMenu MenuItem">
     <Setter Property="Header" Value="{Binding Label}"/>
     <Setter Property="Items" Value="{Binding Items}"/>
     <Setter Property="Command" Value="{Binding Command}"/>
@@ -17,7 +17,7 @@
     <Setter Property="Icon" Value="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}"/>
   </Style>
 
-  <Style Selector="MenuItem /template/ ContentPresenter#icon">
+  <Style Selector=".DynamicMenu MenuItem /template/ ContentPresenter#icon">
     <Setter Property="ContentTemplate">
       <DataTemplate>
         <Image Source="{Binding}" />
