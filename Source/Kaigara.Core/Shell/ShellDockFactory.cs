@@ -153,7 +153,7 @@ namespace Kaigara.Shell
             var (toolDock, dock) = GetToolDock(Alignment.Left, Orientation.Vertical);
 
             InsertDockable(mainLayout!, dock, 0);
-            InsertDockable(mainLayout!, new SplitterDockable(), 1);
+            InsertDockable(mainLayout!, new ProportionalDockSplitter(), 1);
             leftToolDock = toolDock;
 
             return toolDock;
@@ -165,7 +165,7 @@ namespace Kaigara.Shell
 
             var (toolDock, dock) = GetToolDock(Alignment.Right, Orientation.Vertical);
 
-            AddDockable(mainLayout!, new SplitterDockable());
+            AddDockable(mainLayout!, new ProportionalDockSplitter());
             AddDockable(mainLayout!, dock);
             rightToolDock = toolDock;
 
@@ -178,7 +178,7 @@ namespace Kaigara.Shell
 
             var (toolDock, dock) = GetToolDock(Alignment.Bottom, Orientation.Horizontal);
 
-            AddDockable(mainLayoutVertical!, new SplitterDockable());
+            AddDockable(mainLayoutVertical!, new ProportionalDockSplitter());
             AddDockable(mainLayoutVertical!, dock);
             bottomToolDock = toolDock;
             
