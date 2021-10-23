@@ -14,6 +14,8 @@ using System.Diagnostics;
 using Kaigara.Collections.ObjectModel;
 using System.Reflection;
 using Dock.Model.ReactiveUI.Controls;
+using System.Collections.Specialized;
+using Dock.Model.Core.Events;
 
 namespace Kaigara.Shell.ViewModels
 {
@@ -49,13 +51,26 @@ namespace Kaigara.Shell.ViewModels
 
             Documents = new DockableCollection<Document>(factory, layout, lifetimeScope.Resolve, GetDocumentsDock);
             Tools = new DockableCollection<Tool>(factory, layout, lifetimeScope.Resolve, GetToolsDock);
-            Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout);
-         
+            
+            
+            var dockables = new ObservableCollection<IDockable>();
+            Documents.SyncItemsTo(dockables);
+            Tools.SyncItemsTo(dockables);
+            Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout, dockables);
 
-            Documents.Active.Subscribe(d =>
+            (Dockables as INotifyCollectionChanged).CollectionChanged += (s, e) =>
             {
-                Debug.WriteLine($"Active {d?.Id ?? "NULL"} {d?.Title ?? "NULL"}");
-            });
+                Debug.WriteLine("***************************");
+                Debug.WriteLine($"Dockables {Dockables.Count}");
+                Debug.WriteLine($"Tools {Tools.Count}");
+                Debug.WriteLine($"Documents {Documents.Count}");
+            };
+
+            factory.WindowClosed += OnDockWindowClosed;
+
+            factory.WindowClosing += OnDockWindowClosing;
+
+
 
             //fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
             //{
@@ -77,6 +92,34 @@ namespace Kaigara.Shell.ViewModels
             //    Debug.WriteLine($"Window Removed {d?.Id ?? "NULL"}");
             //});
         }
+        private void OnDockWindowClosing(object? sender, WindowClosingEventArgs e)
+        {
+            var dockables = GetDocumentsAndTools(e.Window!.Layout!).ToList();
+            //TODO: Prevent closing of unsaved documents.
+            foreach (var item in dockables)
+            {
+
+            }
+
+            //e.Cancel = true;
+        }
+
+        private void OnDockWindowClosed(object? sender, WindowClosedEventArgs e)
+        {
+            var dockables = GetDocumentsAndTools(e.Window!.Layout!).ToList();
+
+            foreach (var item in dockables)
+            {
+                if(item is Tool tool)
+                {
+                    Tools.Remove(tool);
+                }
+                else if (item is Document document)
+                {
+                    Documents.Remove(document);
+                }
+            }
+        }
 
         private IDocumentDock GetDocumentsDock(Document document)
         {
@@ -88,6 +131,44 @@ namespace Kaigara.Shell.ViewModels
             var dockId = tool.GetType().GetCustomAttribute<ToolAttribute>()?.DefaultDockId ?? ShellDockIds.DefaultToolDock;
 
             return factory.GetDockable<IToolDock>(dockId)!;
+        }
+
+
+
+        static IEnumerable<IDockable> GetDocumentsAndTools(IDockable dockable)
+        {
+
+            if (dockable is IDocument || dockable is ITool)
+            {
+                yield return dockable;
+            }
+            else if (dockable is IDock dock)
+            {
+                var dockables = Enumerable.Empty<IDockable>();
+
+                if (dock.VisibleDockables is { })
+                {
+                    dockables = dockables.Concat(dock.VisibleDockables);
+                }
+
+                if (dock.PinnedDockables is { })
+                {
+                    dockables = dockables.Concat(dock.PinnedDockables);
+                }
+
+                if (dock.HiddenDockables is { })
+                {
+                    dockables = dockables.Concat(dock.HiddenDockables);
+                }
+
+                foreach (var item in dockables)
+                {
+                    foreach (var child in GetDocumentsAndTools(item))
+                    {
+                        yield return child;
+                    }
+                }
+            }
         }
     }
 }

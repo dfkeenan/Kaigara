@@ -29,15 +29,6 @@ namespace Kaigara.Shell
             var active = new ReadOnlyBehavourSubject<T?>(default(T));
             activated.Subscribe(active).DisposeWith(Disposables);
             Active = active;
-
-
-            this.ReactiveFactory.DockableClosed.Select(e => e.EventArgs.Dockable!).OfType<T>().Subscribe(e =>
-            {
-                if (list.Remove(e) && !list.Any() && active.Value is not null)
-                {
-                    ((IObserver<T?>)active).OnNext(default);
-                }
-            }).DisposeWith(Disposables);
         }
 
         public IReadOnlyBehavourSubject<T?> Active { get; }

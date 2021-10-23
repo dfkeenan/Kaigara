@@ -28,6 +28,11 @@ namespace Kaigara.Shell
         {
             this.dockableFactory = dockableFactory ?? throw new ArgumentNullException(nameof(dockableFactory));
             this.dockLocator = dockLocator ?? throw new ArgumentNullException(nameof(dockLocator));
+
+            ReactiveFactory.DockableClosed.Select(e => (e.EventArgs.Dockable!)).OfType<T>().Subscribe(dockable =>
+            {
+                Remove(dockable);
+            }).DisposeWith(Disposables);
         }
 
         public void Open(T dockable, bool focus = true)
@@ -76,6 +81,14 @@ namespace Kaigara.Shell
 
             Open((T)(object)dockable, focus);
             return dockable;
+        }
+
+        internal void Remove(T dockable)
+        {
+            if (List.Remove(dockable) && !List.Any() && Active.Value is not null)
+            {
+                ((IObserver<T?>)Active).OnNext(default);
+            }
         }
     }
 

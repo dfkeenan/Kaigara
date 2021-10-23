@@ -126,5 +126,81 @@ namespace Kaigara.Collections.ObjectModel
                 destination.Insert(newIndex, removedItem);
             }
         }
+
+        public static IDisposable SyncItemsTo<T>(this INotifyCollectionChanged source, ICollection<T> destination)
+        {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (destination is null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
+            if (!(source is IEnumerable<T> sourceEnumerable))
+            {
+                throw new ArgumentException($"Must be of type {typeof(IEnumerable<T>).FullName}", nameof(source));
+            }
+
+            foreach (var item in sourceEnumerable)
+            {
+                destination.Add(item);
+            }
+
+
+            source.CollectionChanged += OnSourceCollectionChanged;
+
+            return Disposable.Create(() => 
+            { 
+                source.CollectionChanged -= OnSourceCollectionChanged;
+                foreach (var item in sourceEnumerable)
+                {
+                    destination.Remove(item);
+                }
+            });
+
+
+            void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        foreach (var item in e.NewItems!)
+                        {
+                            destination.Add((T)item);
+                        }
+                        break;
+
+                    case NotifyCollectionChangedAction.Move:
+                        break;
+
+                    case NotifyCollectionChangedAction.Remove:
+                        foreach (var item in e.OldItems!)
+                        {
+                            destination.Remove((T)item);
+                        }
+                        break;
+
+                    case NotifyCollectionChangedAction.Replace:
+                        // remove
+                        foreach (var item in e.OldItems!)
+                        {
+                            destination.Remove((T)item);
+                        }
+
+                        // add
+                        goto case NotifyCollectionChangedAction.Add;
+
+                    case NotifyCollectionChangedAction.Reset:
+                        //TODO: What
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }
