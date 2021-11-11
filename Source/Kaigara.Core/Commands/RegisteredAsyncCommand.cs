@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia.Input;
 using Avalonia.Threading;
 using ReactiveUI;

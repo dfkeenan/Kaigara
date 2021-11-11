@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kaigara.Commands;
+﻿using Kaigara.Commands;
 using Kaigara.Menus;
 using Kaigara.Shell;
 using Kaigara.ToolBars;
 using Kaigara.ViewModels;
-using ReactiveUI;
 
 namespace Kaigara.MainWindow.ViewModels
 {

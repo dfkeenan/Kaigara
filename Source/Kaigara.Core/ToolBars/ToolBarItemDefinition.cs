@@ -1,18 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reactive.Disposables;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Autofac;
-using Avalonia.Input;
-using Kaigara.Collections.ObjectModel;
-using Kaigara.Commands;
-using ReactiveUI;
-
-namespace Kaigara.ToolBars
+﻿namespace Kaigara.ToolBars
 {
     public class ToolBarItemDefinition : UIComponentItemDefinition<ToolBarItemDefinition>, IUIComponentDefinition
     {

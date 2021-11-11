@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kaigara.Commands
+﻿namespace Kaigara.Commands
 {
     [AttributeUsage(AttributeTargets.Class,AllowMultiple = false, Inherited = false)]
     public class CommandDefinitionAttribute : Attribute

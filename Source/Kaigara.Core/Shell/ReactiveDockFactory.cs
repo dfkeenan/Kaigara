@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dock.Model.Controls;
+﻿using System.Reactive.Linq;
 using Dock.Model.Core;
 using Dock.Model.Core.Events;
-using ReactiveUI;
 using System.Reactive;
 
 namespace Kaigara.Shell

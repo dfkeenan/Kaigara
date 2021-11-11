@@ -1,14 +1,8 @@
-using System;
-using System.Reactive.Linq;
 using Autofac;
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.ReactiveUI;
-using ExampleApplication.Commands;
 using ExampleApplication.Documents.ViewModels;
 using Kaigara.Hosting;
-using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Reactive;
 using Kaigara.Shell;

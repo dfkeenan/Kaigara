@@ -2,7 +2,6 @@
 using ReactiveUI;
 using Kaigara.Avalonia.Controls;
 using System.Reactive.Linq;
-using System;
 
 namespace Kaigara.Avalonia.ReactiveUI
 {

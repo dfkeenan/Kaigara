@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Kaigara.ToolBars
+﻿namespace Kaigara.ToolBars
 {
     public interface IToolBarViewModel : IDisposable
     {

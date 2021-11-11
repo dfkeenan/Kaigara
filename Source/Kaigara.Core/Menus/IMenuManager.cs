@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kaigara.Menus
+﻿namespace Kaigara.Menus
 {
     public interface IMenuManager
     {

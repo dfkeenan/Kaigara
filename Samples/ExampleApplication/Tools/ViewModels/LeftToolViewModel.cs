@@ -1,5 +1,4 @@
-﻿using System;
-using Dock.Model.ReactiveUI.Controls;
+﻿using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Shell;
 
 namespace ExampleApplication.Tools.ViewModels

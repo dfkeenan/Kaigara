@@ -1,10 +1,6 @@
 using System.Reactive.Disposables;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
-using Kaigara.Collections.ObjectModel;
 using Kaigara.Commands;
 using Kaigara.MainWindow.ViewModels;
 using ReactiveUI;

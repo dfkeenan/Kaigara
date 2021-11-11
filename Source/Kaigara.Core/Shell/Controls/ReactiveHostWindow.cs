@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dock.Avalonia.Controls;
+﻿using Dock.Avalonia.Controls;
 using ReactiveUI;
 
 namespace Kaigara.Shell.Controls

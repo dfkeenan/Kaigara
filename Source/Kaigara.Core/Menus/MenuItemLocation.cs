@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-using System.Linq;
-
-namespace Kaigara.Menus
+﻿namespace Kaigara.Menus
 {
     public class MenuItemLocation : UIComponentLocation
     {

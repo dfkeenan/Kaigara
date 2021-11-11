@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Dock.Model.Controls;
-using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;
 using Kaigara.Menus;

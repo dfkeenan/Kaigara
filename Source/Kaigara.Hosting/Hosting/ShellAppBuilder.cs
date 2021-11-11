@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia;
 using Autofac;
 using Autofac.Core;
-using Avalonia.Platform;
 using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
 using Kaigara.ViewModels;
-using System.Reflection;
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
 

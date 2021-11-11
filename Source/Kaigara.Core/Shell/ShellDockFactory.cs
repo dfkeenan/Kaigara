@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Controls;
-using Avalonia.Data;
-using Dock.Avalonia.Controls;
-using Dock.Model.Controls;
+﻿using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.ReactiveUI;
 using Dock.Model.ReactiveUI.Controls;
-using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
-using ReactiveUI;
 
 namespace Kaigara.Shell
 {
