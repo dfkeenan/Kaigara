@@ -8,43 +8,42 @@ using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
 using ReactiveUI;
 
-namespace Kaigara.Shell
+namespace Kaigara.Shell;
+
+public sealed class ShellModule : Module
 {
-    public sealed class ShellModule : Module
+    protected override void Load(ContainerBuilder builder)
     {
-        protected override void Load(ContainerBuilder builder)
+        base.Load(builder);
+
+        builder.RegisterType<ShellViewModel>()
+               .As<IShell>()
+               .SingleInstance();
+
+        builder.RegisterType<ShellDockFactory>()
+               .As<IFactory>()
+               .SingleInstance();
+
+        builder.Register(c =>
         {
-            base.Load(builder);
+            ICommandManager commandManager = c.Resolve<ICommandManager>();
 
-            builder.RegisterType<ShellViewModel>()
-                   .As<IShell>()
-                   .SingleInstance();
-
-            builder.RegisterType<ShellDockFactory>()
-                   .As<IFactory>()
-                   .SingleInstance();
-
-            builder.Register(c =>
+            ReactiveHostWindow window = new ReactiveHostWindow()
             {
-                ICommandManager commandManager = c.Resolve<ICommandManager>();
+                [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
+            };
 
-                ReactiveHostWindow window = new ReactiveHostWindow()
-                {
-                    [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
-                };
+            window.WhenActivated(d =>
+            {
+                commandManager
+                .SyncKeyBindings(window.KeyBindings)
+                .DisposeWith(d);
+            });
 
-                window.WhenActivated(d =>
-                {
-                    commandManager
-                    .SyncKeyBindings(window.KeyBindings)
-                    .DisposeWith(d);
-                });
+            return window;
 
-                return window;
-
-            })
-            .As<IHostWindow>()
-            .InstancePerDependency();
-        }
+        })
+        .As<IHostWindow>()
+        .InstancePerDependency();
     }
 }

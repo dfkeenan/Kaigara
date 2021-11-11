@@ -2,23 +2,22 @@
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
 
-namespace Kaigara.Hosting
+namespace Kaigara.Hosting;
+
+public delegate void StartupDelegate(IShell shell, IConfiguration configuration, IContainer container);
+
+internal sealed class DelegatedStartup : Startup
 {
-    public delegate void StartupDelegate(IShell shell, IConfiguration configuration, IContainer container);
-
-    internal sealed class DelegatedStartup : Startup
+    private readonly StartupDelegate startup;
+    public DelegatedStartup(IShell shell, IConfiguration configuration, IContainer container, StartupDelegate startup)
+        : base(shell, configuration, container)
     {
-        private readonly StartupDelegate startup;
-        public DelegatedStartup(IShell shell, IConfiguration configuration, IContainer container, StartupDelegate startup) 
-            : base(shell, configuration, container)
-        {
-            this.startup = startup ?? throw new ArgumentNullException(nameof(startup));
-        }
+        this.startup = startup ?? throw new ArgumentNullException(nameof(startup));
+    }
 
 
-        public override void Start()
-        {
-            startup.Invoke(Shell, Configuration, Container);
-        }
+    public override void Start()
+    {
+        startup.Invoke(Shell, Configuration, Container);
     }
 }

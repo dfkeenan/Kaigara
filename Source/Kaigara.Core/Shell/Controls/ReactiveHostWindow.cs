@@ -1,9 +1,8 @@
 ﻿using Dock.Avalonia.Controls;
 using ReactiveUI;
 
-namespace Kaigara.Shell.Controls
+namespace Kaigara.Shell.Controls;
+
+internal class ReactiveHostWindow : HostWindow, IActivatableView
 {
-    internal class ReactiveHostWindow : HostWindow, IActivatableView
-    {
-    }
 }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Kaigara.Commands
+namespace Kaigara.Commands;
+
+public interface ICommandManager
 {
-    public interface ICommandManager
-    {
-        ReadOnlyObservableCollection<RegisteredCommandBase> Commands { get; }
-    }
+    ReadOnlyObservableCollection<RegisteredCommandBase> Commands { get; }
 }

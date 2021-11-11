@@ -3,60 +3,59 @@ using System.Collections.ObjectModel;
 using Autofac;
 using Kaigara.Collections.ObjectModel;
 
-namespace Kaigara.ToolBars
+namespace Kaigara.ToolBars;
+
+public class ToolBarTrayDefinition : IEnumerable<ToolBarDefinition>, IUIComponentDefinition<ToolBarDefinition>, IUIComponentDefinition
 {
-    public class ToolBarTrayDefinition : IEnumerable<ToolBarDefinition>, IUIComponentDefinition<ToolBarDefinition>, IUIComponentDefinition
+    private readonly ObservableCollection<ToolBarDefinition> items;
+
+    public ToolBarTrayDefinition(string name)
     {
-        private readonly ObservableCollection<ToolBarDefinition> items;
+        Name = name ?? throw new ArgumentNullException(nameof(name));
+        items = new ObservableCollection<ToolBarDefinition>();
+        Items = items.AsReadOnlyObservableCollection();
+    }
 
-        public ToolBarTrayDefinition(string name)
-        {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            items = new ObservableCollection<ToolBarDefinition>();
-            Items = items.AsReadOnlyObservableCollection();
-        }
+    public string Name { get; }
 
-        public string Name { get; }
+    public ReadOnlyObservableCollection<ToolBarDefinition> Items { get; }
 
-        public ReadOnlyObservableCollection<ToolBarDefinition> Items { get; }
+    public void Add(ToolBarDefinition definition)
+    {
+        items.Add(definition);
+    }
 
-        public void Add(ToolBarDefinition definition)
-        {
-            items.Add(definition);
-        }
+    public bool Remove(ToolBarDefinition definition)
+    {
+        return items.Remove(definition);
+    }
 
-        public bool Remove(ToolBarDefinition definition)
-        {
-            return items.Remove(definition);
-        }
+    IEnumerator<ToolBarDefinition> IEnumerable<ToolBarDefinition>.GetEnumerator()
+    {
+        return Items.GetEnumerator();
+    }
 
-        IEnumerator<ToolBarDefinition> IEnumerable<ToolBarDefinition>.GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return Items.GetEnumerator();
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
+    IEnumerable<IUIComponentDefinition> IUIComponentDefinition.Items => items;
 
-        IEnumerable<IUIComponentDefinition> IUIComponentDefinition.Items => items;
+    void IUIComponentDefinition.OnParentDefined(IUIComponentDefinition parent) { }
 
-        void IUIComponentDefinition.OnParentDefined(IUIComponentDefinition parent) { }
+    void IUIComponentDefinition.UpdateBindings(IComponentContext context)
+    {
 
-        void IUIComponentDefinition.UpdateBindings(IComponentContext context)
-        {
+    }
 
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+    }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+    protected virtual void Dispose(bool disposing)
+    {
 
-        protected virtual void Dispose(bool disposing)
-        {
-
-        }
     }
 }

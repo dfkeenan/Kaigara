@@ -2,21 +2,20 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 
-namespace Kaigara.Avalonia.Controls
+namespace Kaigara.Avalonia.Controls;
+
+public class ToolBar : ItemsControl
 {
-    public class ToolBar : ItemsControl
+    private static readonly FuncTemplate<IPanel> DefaultPanel =
+        new FuncTemplate<IPanel>(() => new StackPanel { Orientation = Orientation.Horizontal });
+
+    static ToolBar()
     {
-        private static readonly FuncTemplate<IPanel> DefaultPanel =
-            new FuncTemplate<IPanel>(() => new StackPanel { Orientation = Orientation.Horizontal });
+        ItemsPanelProperty.OverrideDefaultValue<ToolBar>(DefaultPanel);
+    }
 
-        static ToolBar()
-        {
-            ItemsPanelProperty.OverrideDefaultValue<ToolBar>(DefaultPanel);
-        }
+    public ToolBar()
+    {
 
-        public ToolBar()
-        {
-            
-        }
     }
 }

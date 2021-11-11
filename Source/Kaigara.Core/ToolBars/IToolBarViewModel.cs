@@ -1,11 +1,10 @@
-﻿namespace Kaigara.ToolBars
+﻿namespace Kaigara.ToolBars;
+
+public interface IToolBarViewModel : IDisposable
 {
-    public interface IToolBarViewModel : IDisposable
-    {
-        string Name { get; }
+    string Name { get; }
 
-        bool IsVisible { get; }
+    bool IsVisible { get; }
 
-        IEnumerable<IToolBarItemViewModel> Items { get; }
-    }
+    IEnumerable<IToolBarItemViewModel> Items { get; }
 }

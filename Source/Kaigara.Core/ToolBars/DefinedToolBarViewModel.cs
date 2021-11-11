@@ -2,41 +2,40 @@
 using Kaigara.Collections.ObjectModel;
 using ReactiveUI;
 
-namespace Kaigara.ToolBars
+namespace Kaigara.ToolBars;
+
+internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
 {
-    internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
+    private ReadOnlyObservableCollection<IToolBarItemViewModel> items;
+    private IDisposable changeSubscription;
+
+    public DefinedToolBarViewModel(ToolBarDefinition definition)
     {
-        private ReadOnlyObservableCollection<IToolBarItemViewModel> items;
-        private IDisposable changeSubscription;
+        Definition = definition ?? throw new ArgumentNullException(nameof(definition));
 
-        public DefinedToolBarViewModel(ToolBarDefinition definition)
+        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+
+        changeSubscription = definition.Changed.Subscribe(n =>
         {
-            Definition = definition ?? throw new ArgumentNullException(nameof(definition));
+            this.RaisePropertyChanged(n.PropertyName);
+        });
+    }
 
-            items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+    public ToolBarDefinition Definition { get; }
 
-            changeSubscription = definition.Changed.Subscribe(n =>
-            {
-                this.RaisePropertyChanged(n.PropertyName);
-            });
-        }
+    public string Name => Definition.Name;
 
-        public ToolBarDefinition Definition { get; }
+    public bool IsVisible => Definition.IsVisible;
 
-        public string Name => Definition.Name;
+    public IEnumerable<IToolBarItemViewModel> Items => items;
 
-        public bool IsVisible => Definition.IsVisible;
+    public void Dispose()
+    {
+        Dispose(true);
+    }
 
-        public IEnumerable<IToolBarItemViewModel> Items => items;
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            changeSubscription.Dispose();
-        }
+    protected virtual void Dispose(bool disposing)
+    {
+        changeSubscription.Dispose();
     }
 }

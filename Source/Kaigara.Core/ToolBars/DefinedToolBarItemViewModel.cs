@@ -2,39 +2,38 @@
 using Avalonia.Input;
 using ReactiveUI;
 
-namespace Kaigara.ToolBars
+namespace Kaigara.ToolBars;
+
+internal class DefinedToolBarItemViewModel : ReactiveObject, IToolBarItemViewModel
 {
-    internal class DefinedToolBarItemViewModel : ReactiveObject, IToolBarItemViewModel
+    private IDisposable changeSubscription;
+
+    public DefinedToolBarItemViewModel(ToolBarItemDefinition definition)
     {
-        private IDisposable changeSubscription;
+        Definition = definition ?? throw new System.ArgumentNullException(nameof(definition));
 
-        public DefinedToolBarItemViewModel(ToolBarItemDefinition definition)
+        changeSubscription = definition.Changed.Subscribe(n =>
         {
-            Definition = definition ?? throw new System.ArgumentNullException(nameof(definition));
+            this.RaisePropertyChanged(n.PropertyName);
+        });
+    }
 
-            changeSubscription = definition.Changed.Subscribe(n =>
-            {
-                this.RaisePropertyChanged(n.PropertyName);
-            });
-        }
+    public ToolBarItemDefinition Definition { get; }
+    public string Name => Definition.Name;
+    public string? Label => Definition.Label;
+    public string? IconName => Definition.IconName;
+    public virtual bool IsVisible => Definition.IsVisible;
+    public virtual ICommand? Command => Definition.Command;
+    public virtual KeyGesture? InputGesture => Definition.InputGesture;
+    public virtual object? CommandParameter => null;
 
-        public ToolBarItemDefinition Definition { get; }
-        public string Name => Definition.Name;
-        public string? Label => Definition.Label;
-        public string? IconName => Definition.IconName;
-        public virtual bool IsVisible => Definition.IsVisible;
-        public virtual ICommand? Command => Definition.Command;
-        public virtual KeyGesture? InputGesture => Definition.InputGesture;
-        public virtual object? CommandParameter => null;
+    public void Dispose()
+    {
+        Dispose(true);
+    }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            changeSubscription.Dispose();
-        }
+    protected virtual void Dispose(bool disposing)
+    {
+        changeSubscription.Dispose();
     }
 }

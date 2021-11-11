@@ -1,18 +1,17 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace ExampleApplication.Tools.Views
-{
-    public partial class LeftToolView : UserControl
-    {
-        public LeftToolView()
-        {
-            InitializeComponent();
-        }
+namespace ExampleApplication.Tools.Views;
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+public partial class LeftToolView : UserControl
+{
+    public LeftToolView()
+    {
+        InitializeComponent();
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

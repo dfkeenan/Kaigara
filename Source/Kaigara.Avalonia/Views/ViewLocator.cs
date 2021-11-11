@@ -1,50 +1,49 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
-namespace Kaigara.Avalonia.Views
+namespace Kaigara.Avalonia.Views;
+
+public class ViewLocator : IDataTemplate
 {
-    public class ViewLocator : IDataTemplate
+    private readonly Dictionary<string, Type> viewTypeCache = new Dictionary<string, Type>();
+    public bool SupportsRecycling => false;
+
+    public IControl Build(object data)
     {
-        private readonly Dictionary<string, Type> viewTypeCache = new Dictionary<string, Type>();
-        public bool SupportsRecycling => false;
+        var name = data.GetType().FullName!.Replace("ViewModel", "View");
+        Type? type = GetType(name);
 
-        public IControl Build(object data)
+        if (type != null)
         {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            Type? type = GetType(name);
-
-            if (type != null)
-            {
-                return (Control)Activator.CreateInstance(type)!;
-            }
-            else
-            {
-                return new TextBlock { Text = "Not Found: " + name };
-            }
+            return (Control)Activator.CreateInstance(type)!;
         }
-
-        private Type? GetType(string name)
+        else
         {
-            if(viewTypeCache.TryGetValue(name, out var type))
-            {
-                return type;
-            }
+            return new TextBlock { Text = "Not Found: " + name };
+        }
+    }
 
-            type = Type.GetType(name) ?? AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .FirstOrDefault(t => t.FullName == name);
-
-            if (type is { })
-            {
-                viewTypeCache[name] = type;
-            }
-
+    private Type? GetType(string name)
+    {
+        if (viewTypeCache.TryGetValue(name, out var type))
+        {
             return type;
         }
 
-        public bool Match(object data)
+        type = Type.GetType(name) ?? AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(a => a.GetTypes())
+            .FirstOrDefault(t => t.FullName == name);
+
+        if (type is { })
         {
-            return data is { } && data.GetType().Name.EndsWith("ViewModel");
+            viewTypeCache[name] = type;
         }
+
+        return type;
+    }
+
+    public bool Match(object data)
+    {
+        return data is { } && data.GetType().Name.EndsWith("ViewModel");
     }
 }

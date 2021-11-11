@@ -1,25 +1,24 @@
 ﻿using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Shell;
 
-namespace ExampleApplication.Tools.ViewModels
+namespace ExampleApplication.Tools.ViewModels;
+
+public interface IRightToolViewModel
 {
-    public interface IRightToolViewModel
+    void DoSomething();
+}
+
+[Tool(ShellDockIds.RightToolDock)]
+public class RightToolViewModel : Tool, IRightToolViewModel
+{
+    public RightToolViewModel()
     {
-        void DoSomething();
+        Id = Guid.NewGuid().ToString();
+        Title = "Right Tool";
     }
 
-    [Tool(ShellDockIds.RightToolDock)]
-    public class RightToolViewModel : Tool, IRightToolViewModel
+    public void DoSomething()
     {
-        public RightToolViewModel()
-        {
-            Id = Guid.NewGuid().ToString();
-            Title = "Right Tool";
-        }
 
-        public void DoSomething()
-        {
-
-        }
     }
 }

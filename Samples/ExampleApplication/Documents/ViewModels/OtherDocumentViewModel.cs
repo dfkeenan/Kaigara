@@ -1,13 +1,12 @@
 ﻿using Dock.Model.ReactiveUI.Controls;
 
-namespace ExampleApplication.Documents.ViewModels
+namespace ExampleApplication.Documents.ViewModels;
+
+public class OtherDocumentViewModel : Document
 {
-    public class OtherDocumentViewModel : Document
+    public OtherDocumentViewModel()
     {
-        public OtherDocumentViewModel()
-        {
-            Id = Guid.NewGuid().ToString();
-            Title = "Other Document";
-        }
+        Id = Guid.NewGuid().ToString();
+        Title = "Other Document";
     }
 }

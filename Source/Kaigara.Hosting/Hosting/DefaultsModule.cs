@@ -1,15 +1,14 @@
 ﻿using Autofac;
 using Kaigara.MainWindow;
 
-namespace Kaigara.Hosting
+namespace Kaigara.Hosting;
+
+public sealed class DefaultsModule : Module
 {
-    public sealed class DefaultsModule : Module
+    protected override void Load(ContainerBuilder builder)
     {
-        protected override void Load(ContainerBuilder builder)
-        {
-            base.Load(builder);
-            builder
-                .DependsOnModule<MainWindowModule>();
-        }
+        base.Load(builder);
+        builder
+            .DependsOnModule<MainWindowModule>();
     }
 }

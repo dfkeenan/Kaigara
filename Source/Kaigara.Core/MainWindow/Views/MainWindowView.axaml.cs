@@ -5,22 +5,21 @@ using Kaigara.Commands;
 using Kaigara.MainWindow.ViewModels;
 using ReactiveUI;
 
-namespace Kaigara.MainWindow.Views
-{
-    public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
-    {
-        public MainWindowView()
-        {
-            InitializeComponent();
-            this.WhenActivated(d =>
-            {
-                ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
-            });
-        }
+namespace Kaigara.MainWindow.Views;
 
-        private void InitializeComponent()
+public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
+{
+    public MainWindowView()
+    {
+        InitializeComponent();
+        this.WhenActivated(d =>
         {
-            AvaloniaXamlLoader.Load(this);
-        }
+            ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
+        });
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

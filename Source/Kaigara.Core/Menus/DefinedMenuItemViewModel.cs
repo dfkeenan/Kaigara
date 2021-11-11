@@ -2,36 +2,34 @@
 using ReactiveUI;
 using Kaigara.Collections.ObjectModel;
 
-namespace Kaigara.Menus
+namespace Kaigara.Menus;
+
+internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
 {
+    private ReadOnlyObservableCollection<IMenuItemViewModel> items;
+    private IDisposable changeSubscription;
 
-    internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
+    public DefinedMenuItemViewModel(MenuItemDefinition definition)
+        : base(definition)
     {
-        private ReadOnlyObservableCollection<IMenuItemViewModel> items;
-        private IDisposable changeSubscription;
+        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
 
-        public DefinedMenuItemViewModel(MenuItemDefinition definition)
-            :base(definition)
+        changeSubscription = definition.Changed.Subscribe(n =>
         {
-            items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+            this.RaisePropertyChanged(n.PropertyName);
+        });
+    }
 
-            changeSubscription = definition.Changed.Subscribe(n =>
-            {
-                this.RaisePropertyChanged(n.PropertyName);
-            });
-        }
+    public override IEnumerable<IMenuItemViewModel> Items => items;
 
-        public override IEnumerable<IMenuItemViewModel> Items => items;
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        changeSubscription.Dispose();
 
-        protected override void Dispose(bool disposing)
+        foreach (var item in items)
         {
-            base.Dispose(disposing);
-            changeSubscription.Dispose();
-
-            foreach (var item in items)
-            {
-                item.Dispose();
-            }
+            item.Dispose();
         }
     }
 }

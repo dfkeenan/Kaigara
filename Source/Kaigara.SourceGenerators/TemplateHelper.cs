@@ -3,31 +3,30 @@ using System.IO;
 using System.Linq;
 using Scriban;
 
-namespace Kaigara.SourceGenerators
+namespace Kaigara.SourceGenerators;
+
+class TemplateHelper
 {
-    class TemplateHelper
+    private static readonly string[] resourceNames;
+
+    static TemplateHelper()
     {
-        private static readonly string[] resourceNames;
+        resourceNames = typeof(TemplateHelper).Assembly.GetManifestResourceNames();
+    }
 
-        static TemplateHelper()
+    public static Template? LoadTemplate(string name)
+    {
+        var resourcePath = resourceNames.FirstOrDefault(n => n.EndsWith(name, StringComparison.OrdinalIgnoreCase));
+        if (resourcePath is null)
         {
-            resourceNames = typeof(TemplateHelper).Assembly.GetManifestResourceNames();
+            return null;
         }
 
-        public static Template? LoadTemplate(string name)
-        {
-            var resourcePath = resourceNames.FirstOrDefault(n => n.EndsWith(name, StringComparison.OrdinalIgnoreCase));
-            if (resourcePath is null)
-            {
-                return null;
-            }
+        using Stream stream = typeof(TemplateHelper).Assembly.GetManifestResourceStream(resourcePath);
+        using StreamReader reader = new StreamReader(stream);
 
-            using Stream stream = typeof(TemplateHelper).Assembly.GetManifestResourceStream(resourcePath);
-            using StreamReader reader = new StreamReader(stream);
+        var templateSource = reader.ReadToEnd();
 
-            var templateSource = reader.ReadToEnd();
-
-            return Template.Parse(templateSource);
-        }
+        return Template.Parse(templateSource);
     }
 }

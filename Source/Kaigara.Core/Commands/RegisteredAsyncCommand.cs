@@ -3,48 +3,47 @@ using Avalonia.Input;
 using Avalonia.Threading;
 using ReactiveUI;
 
-namespace Kaigara.Commands
+namespace Kaigara.Commands;
+
+public abstract class RegisteredAsyncCommand : RegisteredCommandBase
 {
-    public abstract class RegisteredAsyncCommand : RegisteredCommandBase
+    public RegisteredAsyncCommand()
+       : base()
     {
-        public RegisteredAsyncCommand()
-           : base()
-        {
 
-        }
-
-        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
-            : base(name, label, keyGesture, iconName)
-        {
-        }
-
-        protected override ICommand CreateCommand()
-        {
-            return ReactiveCommand.CreateFromTask(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
-        }
-
-        protected abstract Task OnExecuteAsync();
     }
 
-    public abstract class RegisteredAsyncCommand<TParam> : RegisteredCommandBase
+    protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
+        : base(name, label, keyGesture, iconName)
     {
-        public RegisteredAsyncCommand()
-           : base()
-        {
-
-        }
-
-        protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
-            : base(name, label, keyGesture, iconName)
-        {
-
-        }
-
-        protected override ICommand CreateCommand()
-        {
-            return ReactiveCommand.CreateFromTask<TParam>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
-        }
-
-        protected abstract Task OnExecuteAsync(TParam param);
     }
+
+    protected override ICommand CreateCommand()
+    {
+        return ReactiveCommand.CreateFromTask(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
+    }
+
+    protected abstract Task OnExecuteAsync();
+}
+
+public abstract class RegisteredAsyncCommand<TParam> : RegisteredCommandBase
+{
+    public RegisteredAsyncCommand()
+       : base()
+    {
+
+    }
+
+    protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
+        : base(name, label, keyGesture, iconName)
+    {
+
+    }
+
+    protected override ICommand CreateCommand()
+    {
+        return ReactiveCommand.CreateFromTask<TParam>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
+    }
+
+    protected abstract Task OnExecuteAsync(TParam param);
 }

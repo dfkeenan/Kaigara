@@ -1,8 +1,7 @@
 ﻿using ReactiveUI;
 
-namespace Kaigara.ViewModels
+namespace Kaigara.ViewModels;
+
+public abstract class ViewModel : ReactiveObject
 {
-    public abstract class ViewModel : ReactiveObject
-    {
-    }
 }

@@ -1,12 +1,12 @@
 ﻿using Kaigara.Menus;
 
-namespace Kaigara.MainWindow.ViewModels
+namespace Kaigara.MainWindow.ViewModels;
+
+public class MainMenuViewModel : MenuViewModel
 {
-    public class MainMenuViewModel : MenuViewModel
-    {
-        protected override MenuDefinition CreateDefinition()
-            => new MenuDefinition("MainMenu")
-            {
+    protected override MenuDefinition CreateDefinition()
+        => new MenuDefinition("MainMenu")
+        {
                 new MenuItemDefinition("File", "_File")
                 {
                     new MenuItemDefinition("Exit", "E_xit")
@@ -23,6 +23,5 @@ namespace Kaigara.MainWindow.ViewModels
                 {
 
                 }
-            };
-    }
+        };
 }
