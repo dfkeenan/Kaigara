@@ -21,8 +21,8 @@ public record ApplicationInfo
 
     public static ApplicationInfo FromAssembly(Assembly assembly)
     {
-        string productName = assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product ?? assembly.GetName().Name!;
-        string version =
+        var productName = assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product ?? assembly.GetName().Name!;
+        var version =
                assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version
             ?? assembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version
             ?? "1.0.0";
@@ -34,7 +34,7 @@ public record ApplicationInfo
             iconUri = new Uri($"resm:{assembly.GetName().Name}.Application.ico");
         }
 #if DEBUG
-        string appDataPath = Path.GetDirectoryName(assembly.Location)!;
+        var appDataPath = Path.GetDirectoryName(assembly.Location)!;
 #else
             string appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), productName);
 #endif
