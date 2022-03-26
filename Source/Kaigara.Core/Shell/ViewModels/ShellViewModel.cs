@@ -51,15 +51,7 @@ public class ShellViewModel : ViewModel, IShell
         var dockables = new ObservableCollection<IDockable>();
         Documents.SyncItemsTo(dockables);
         Tools.SyncItemsTo(dockables);
-        Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout, dockables);
-
-        (Dockables as INotifyCollectionChanged).CollectionChanged += (s, e) =>
-        {
-            Debug.WriteLine("***************************");
-            Debug.WriteLine($"Dockables {Dockables.Count}");
-            Debug.WriteLine($"Tools {Tools.Count}");
-            Debug.WriteLine($"Documents {Documents.Count}");
-        };
+        Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout, dockables);        
 
         factory.WindowClosed += OnDockWindowClosed;
 

@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+using System.Diagnostics;
 using Autofac;
 using Avalonia;
 using Avalonia.ReactiveUI;
@@ -28,6 +30,14 @@ class Program
             .RegisterAllAppModels()
             .Startup((IShell shell, IConfiguration configuration, IContainer container) =>
             {
+                (shell.Dockables as INotifyCollectionChanged).CollectionChanged += (s, e) =>
+                {
+                    Debug.WriteLine("***************************");
+                    Debug.WriteLine($"Dockables {shell.Dockables.Count}");
+                    Debug.WriteLine($"Tools {shell.Tools.Count}");
+                    Debug.WriteLine($"Documents {shell.Documents.Count}");
+                };
+
                 var menuManager = container.Resolve<IMenuManager>();
 
                 MenuItemDefinition exampleDefinition = new MenuItemDefinition("Example", "_Example")
@@ -55,7 +65,7 @@ class Program
                 shell.Documents.Open<ExampleDocumentViewModel>();
                 shell.Documents.Open<OtherDocumentViewModel>();
 
-
+                
             })
             .Start(size: new Size(1920, 1080));
 
