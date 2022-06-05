@@ -4,9 +4,11 @@ namespace Kaigara.MainWindow.ViewModels;
 
 public class MainToolBarTrayViewModel : ToolBarTrayViewModel
 {
-    protected override ToolBarTrayDefinition CreateDefinition()
-        => new ToolBarTrayDefinition("MainToolBarTray")
+    public MainToolBarTrayViewModel()
+        : base(new ToolBarTrayDefinition("MainToolBarTray")
         {
 
-        };
+        })
+    {
+    }
 }

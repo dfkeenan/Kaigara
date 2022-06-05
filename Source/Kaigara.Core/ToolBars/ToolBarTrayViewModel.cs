@@ -8,12 +8,6 @@ public class ToolBarTrayViewModel : IDisposable
     private readonly ToolBarTrayDefinition definition;
     private ReadOnlyObservableCollection<IToolBarViewModel> items;
 
-    public ToolBarTrayViewModel()
-    {
-        this.definition = CreateDefinition();
-        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
-    }
-
     public ToolBarTrayViewModel(ToolBarTrayDefinition definition)
     {
         this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
@@ -23,11 +17,6 @@ public class ToolBarTrayViewModel : IDisposable
     public IEnumerable<IToolBarViewModel> Items => items;
 
     public ToolBarTrayDefinition Definition => definition;
-
-    protected virtual ToolBarTrayDefinition CreateDefinition()
-    {
-        throw new NotImplementedException();
-    }
 
     public void Dispose()
     {

@@ -57,15 +57,15 @@ class Program
 
                 var exampleToolBar = new ToolBarDefinition("Example")
                 {
-                        //new ToolBarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
-                    }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
+                    //new ToolBarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
+                }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
                 toolBarManager.Register(new ToolBarLocation("MainToolBarTray"), exampleToolBar);
 
                 shell.Documents.Open<ExampleDocumentViewModel>();
                 shell.Documents.Open<OtherDocumentViewModel>();
 
-                
+
             })
             .Start(size: new Size(1920, 1080));
 

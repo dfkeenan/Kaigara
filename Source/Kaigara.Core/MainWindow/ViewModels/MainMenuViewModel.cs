@@ -4,8 +4,8 @@ namespace Kaigara.MainWindow.ViewModels;
 
 public class MainMenuViewModel : MenuViewModel
 {
-    protected override MenuDefinition CreateDefinition()
-        => new MenuDefinition("MainMenu")
+    public MainMenuViewModel()
+        : base(new MenuDefinition("MainMenu")
         {
                 new MenuItemDefinition("File", "_File")
                 {
@@ -23,5 +23,8 @@ public class MainMenuViewModel : MenuViewModel
                 {
 
                 }
-        };
+        })
+    {
+
+    }
 }
