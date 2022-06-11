@@ -20,6 +20,7 @@
     <PackageReference Include="Avalonia" Version="0.10.14" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.14" />
 	<PackageReference Include="Sprache" Version="2.3.1" />
+	<PackageReference Include="System.CodeDom" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kaigara.Extensions\Kaigara.Extensions.csproj" />
