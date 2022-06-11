@@ -1,31 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Reactive.Disposables;
 
 namespace Kaigara.Collections.ObjectModel;
 
 public static class ObservableCollectionExtensions
 {
-    public static ReadOnlyObservableCollection<TDestinationItem> ToReadOnlyObservableCollectionOf<TSourceItem, TDestinationItem>(this ObservableCollection<TSourceItem> source, Func<TSourceItem, TDestinationItem> viewModelFactory)
-    {
-        return new ReadOnlyObservableCollection<TSourceItem, TDestinationItem>(source, viewModelFactory);
-    }
-
-    public static ReadOnlyObservableCollection<TDestinationItem> ToReadOnlyObservableCollectionOf<TSourceItem, TDestinationItem>(this ReadOnlyObservableCollection<TSourceItem> source, Func<TSourceItem, TDestinationItem> viewModelFactory)
-    {
-        return new ReadOnlyObservableCollection<TSourceItem, TDestinationItem>(source, source, viewModelFactory);
-    }
-
-    public static ReadOnlyObservableCollection<T> AsReadOnlyObservableCollection<T>(this ObservableCollection<T> source)
-    {
-        if (source is null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        return new ReadOnlyObservableCollection<T>(source);
-    }
-
     public static IDisposable SyncTo<T>(this INotifyCollectionChanged source, IList<T> destination, bool force = false)
     {
         if (source is null)

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using Autofac;
-using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.ToolBars;
 
@@ -13,7 +12,7 @@ public class ToolBarTrayDefinition : IEnumerable<ToolBarDefinition>, IUIComponen
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         items = new ObservableCollection<ToolBarDefinition>();
-        Items = items.AsReadOnlyObservableCollection();
+        Items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<ToolBarDefinition>(items);
     }
 
     public string Name { get; }

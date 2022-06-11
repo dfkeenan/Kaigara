@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Menus;
 
@@ -11,7 +10,7 @@ public class MenuViewModel : IDisposable
     public MenuViewModel(MenuDefinition definition)
     {
         this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
     }
 
     public IEnumerable<IMenuItemViewModel> Items => items;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Commands;
 
@@ -16,7 +15,7 @@ public class CommandManager : ICommandManager
 
         this.commands = new ObservableCollection<RegisteredCommandBase>(commands);
 
-        Commands = this.commands.AsReadOnlyObservableCollection();
+        Commands = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<RegisteredCommandBase>(this.commands);
     }
 
     public ReadOnlyObservableCollection<RegisteredCommandBase> Commands { get; }

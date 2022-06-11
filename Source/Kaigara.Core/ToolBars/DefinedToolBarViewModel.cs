@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Kaigara.Collections.ObjectModel;
 using ReactiveUI;
 
 namespace Kaigara.ToolBars;
@@ -13,7 +12,7 @@ internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
     {
         Definition = definition ?? throw new ArgumentNullException(nameof(definition));
 
-        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<ToolBarItemDefinition, IToolBarItemViewModel>(definition.Items, (Func<ToolBarItemDefinition, IToolBarItemViewModel>)(d => d.Build()));
 
         changeSubscription = definition.Changed.Subscribe(n =>
         {

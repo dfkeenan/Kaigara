@@ -5,11 +5,9 @@ using Dock.Model.Core;
 using Kaigara.ViewModels;
 using ReactiveUI;
 using System.Reactive.Linq;
-using System.Diagnostics;
 using Kaigara.Collections.ObjectModel;
 using System.Reflection;
 using Dock.Model.ReactiveUI.Controls;
-using System.Collections.Specialized;
 using Dock.Model.Core.Events;
 
 namespace Kaigara.Shell.ViewModels;

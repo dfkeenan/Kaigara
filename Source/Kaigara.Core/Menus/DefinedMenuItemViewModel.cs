@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using ReactiveUI;
-using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Menus;
 
@@ -12,7 +11,7 @@ internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
     public DefinedMenuItemViewModel(MenuItemDefinition definition)
         : base(definition)
     {
-        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
 
         changeSubscription = definition.Changed.Subscribe(n =>
         {

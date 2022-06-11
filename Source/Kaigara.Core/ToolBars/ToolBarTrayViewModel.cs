@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.ToolBars;
 
@@ -11,7 +10,7 @@ public class ToolBarTrayViewModel : IDisposable
     public ToolBarTrayViewModel(ToolBarTrayDefinition definition)
     {
         this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-        items = definition.Items.ToReadOnlyObservableCollectionOf(d => d.Build());
+        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<ToolBarDefinition, IToolBarViewModel>(definition.Items, (Func<ToolBarDefinition, IToolBarViewModel>)(d => d.Build()));
     }
 
     public IEnumerable<IToolBarViewModel> Items => items;

@@ -24,6 +24,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Avalonia.ReactiveUI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.SourceGenerators", "Kaigara.SourceGenerators\Kaigara.SourceGenerators.csproj", "{35408D76-871A-45EF-86A1-71E6476AEF41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaigara.Extensions", "Kaigara.Extensions\Kaigara.Extensions.csproj", "{B89C2992-0E4F-4AE0-AAAD-692C901BA2AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaigara.Reactive", "Kaigara.Reactive\Kaigara.Reactive.csproj", "{BBB38BD5-7233-468D-838F-749DB510D3A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +58,14 @@ Global
 		{35408D76-871A-45EF-86A1-71E6476AEF41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35408D76-871A-45EF-86A1-71E6476AEF41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35408D76-871A-45EF-86A1-71E6476AEF41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89C2992-0E4F-4AE0-AAAD-692C901BA2AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89C2992-0E4F-4AE0-AAAD-692C901BA2AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89C2992-0E4F-4AE0-AAAD-692C901BA2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89C2992-0E4F-4AE0-AAAD-692C901BA2AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB38BD5-7233-468D-838F-749DB510D3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB38BD5-7233-468D-838F-749DB510D3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB38BD5-7233-468D-838F-749DB510D3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB38BD5-7233-468D-838F-749DB510D3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

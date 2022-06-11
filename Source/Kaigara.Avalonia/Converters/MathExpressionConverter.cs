@@ -1,34 +1,31 @@
-﻿using System;
-using System.Globalization;
-using Avalonia.Data;
+﻿using System.Globalization;
 using Avalonia.Data.Converters;
 
-namespace Kaigara.Avalonia.Converters
+namespace Kaigara.Avalonia.Converters;
+
+public class MathExpressionConverter : IValueConverter
 {
-    public class MathExpressionConverter : IValueConverter
+    public static readonly MathExpressionConverter Instance = new MathExpressionConverter();
+
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        public static readonly MathExpressionConverter Instance = new MathExpressionConverter();
+        return value;
+    }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is string input && MathExpressionParser.TryParseExpression(input, out var expression))
         {
-            return value;
-        }
+            var converterdValue = expression.Compile().Invoke();
+            parameter = ConverterParameterBindingExtension.GetParameterValue(parameter);
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is string input && MathExpressionParser.TryParseExpression(input, out var expression))
+            if (parameter is string format)
             {
-                var converterdValue = expression.Compile().Invoke();
-                parameter = ConverterParameterBindingExtension.GetParameterValue(parameter);
-
-                if (parameter is string format)
-                {
-                    return format.Contains("{0") ? string.Format(culture, format, converterdValue) : converterdValue.ToString(format, culture);
-                }
-
-                return converterdValue.ToString(culture);
+                return format.Contains("{0") ? string.Format(culture, format, converterdValue) : converterdValue.ToString(format, culture);
             }
-            return value;
+
+            return converterdValue.ToString(culture);
         }
+        return value;
     }
 }
