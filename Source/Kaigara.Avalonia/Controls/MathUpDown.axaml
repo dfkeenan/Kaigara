@@ -1,0 +1,110 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:k="https://github.com/dfkeenan/Kaigara">
+    <Style Selector="k|MathUpDown">
+		<Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}"/>
+		<Setter Property="BorderThickness" Value="{DynamicResource ThemeBorderThickness}"/>
+		<Setter Property="Padding" Value="4"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ButtonSpinner Name="PART_Spinner"
+                       Background="{TemplateBinding Background}"
+                       BorderThickness="{TemplateBinding BorderThickness}"
+                       BorderBrush="{TemplateBinding BorderBrush}"
+                       HorizontalContentAlignment="Stretch"
+                       VerticalContentAlignment="Stretch"
+                       AllowSpin="{TemplateBinding AllowSpin}"
+                       ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
+                       ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
+                    <TextBox Name="PART_TextBox"
+                   BorderThickness="0"
+                   Background="{TemplateBinding Background}"
+                   BorderBrush="{TemplateBinding BorderBrush}"
+                   Padding="{TemplateBinding Padding}"
+                   Watermark="{TemplateBinding Watermark}"
+                   DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
+                   IsReadOnly="{TemplateBinding IsReadOnly}"
+                   Text="{TemplateBinding Text, Converter={x:Static k:MathExpressionConverter.Instance}, ConverterParameter={k:ConverterParameterBinding FormatString, RelativeSource={RelativeSource TemplatedParent}} Mode=TwoWay}"
+                   AcceptsReturn="False"
+                   TextWrapping="NoWrap">
+                    </TextBox>
+                </ButtonSpinner>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="k|MathUpDown /template/ TextBox#PART_TextBox">
+        <Setter Property="Margin" Value="2"/>
+		<Setter Property="MinWidth" Value="20"/>
+    </Style>
+
+    <Style Selector="k|MathUpDown ButtonSpinner:right">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <RepeatButton Grid.Column="0" Name="PART_DecreaseButton" IsVisible="{TemplateBinding ShowButtonSpinner}"/>
+                        <ContentPresenter Name="PART_ContentPresenter" Grid.Column="1"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              Content="{TemplateBinding Content}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Padding="{TemplateBinding Padding}"/>
+                        <RepeatButton Grid.Column="2" Name="PART_IncreaseButton" IsVisible="{TemplateBinding ShowButtonSpinner}"/>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="k|MathUpDown ButtonSpinner /template/ RepeatButton#PART_IncreaseButton">
+        <Setter Property="Content">
+            <Template>
+                <Path Fill="{DynamicResource ThemeForegroundBrush}"
+              Width="8"
+              Height="4"
+              Stretch="Uniform"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M0,5 L4.5,.5 9,5 6,5 4.5,3.5 3,5 z">
+                    <Path.RenderTransform>
+                        <RotateTransform Angle="90" />
+                    </Path.RenderTransform>
+                </Path>
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector="k|MathUpDown ButtonSpinner /template/ RepeatButton#PART_DecreaseButton">
+        <Setter Property="Content">
+            <Template>
+                <Path Fill="{DynamicResource ThemeForegroundBrush}" 
+              Width="8"
+              Height="4"
+              Stretch="Uniform"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M0,0 L3,0 4.5,1.5 6,0 9,0 4.5,4.5 z">
+                    <Path.RenderTransform>
+                        <RotateTransform Angle="90" />
+                    </Path.RenderTransform>
+                </Path>
+            </Template>
+        </Setter>
+    </Style>
+
+    <Style Selector="k|MathUpDown[IsReadOnly=true] ButtonSpinner /template/ RepeatButton#PART_IncreaseButton">
+        <Setter Property="IsVisible" Value="false" />
+    </Style>
+    <Style Selector="k|MathUpDown[IsReadOnly=true] ButtonSpinner /template/ RepeatButton#PART_DecreaseButton">
+        <Setter Property="IsVisible" Value="false" />
+    </Style>
+</Styles>
