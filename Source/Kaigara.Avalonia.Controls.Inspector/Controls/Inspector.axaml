@@ -1,0 +1,17 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Kaigara.Avalonia.Controls">
+  <Design.PreviewWith>
+    <controls:Inspector />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|Inspector">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+		  <controls:InspectorItemsControl Name="PART_NodeItems" Items="{TemplateBinding Nodes}" Grid.IsSharedSizeScope="True">
+		  </controls:InspectorItemsControl>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
