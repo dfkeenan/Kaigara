@@ -9,7 +9,7 @@ public static class CommandManagerExtensions
 {
     public static IDisposable SyncKeyBindings(this ICommandManager commandManager, IList<KeyBinding> keyBindings)
     {
-        return Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<RegisteredCommandBase, KeyBinding>(commandManager.Commands, (Func<RegisteredCommandBase, KeyBinding>)(c =>
+        return Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<RegisteredCommandBase, KeyBinding>(commandManager.Commands, (Func<RegisteredCommandBase, KeyBinding>)(c =>
                new KeyBinding()
                {
                    [!KeyBinding.CommandProperty] = c.WhenAnyValue(c => c.Command).ToBinding(),

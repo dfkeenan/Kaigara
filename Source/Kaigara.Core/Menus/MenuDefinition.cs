@@ -11,7 +11,7 @@ public class MenuDefinition : IEnumerable<MenuItemDefinition>, IUIComponentDefin
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         items = new ObservableCollection<MenuItemDefinition>();
-        Items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<MenuItemDefinition>(items);
+        Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<MenuItemDefinition>(items);
     }
 
     public string Name { get; }

@@ -35,52 +35,6 @@ public class ReadOnlyObservableCollection<TSourceItem, TDestinationItem> : ReadO
 
     private void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        switch (e.Action)
-        {
-            case NotifyCollectionChangedAction.Add:
-                for (int i = 0; i < e.NewItems!.Count; i++)
-                {
-                    innerCollection.Insert(e.NewStartingIndex + i, Convert((TSourceItem)e.NewItems[i]!));
-                }
-                break;
-
-            case NotifyCollectionChangedAction.Move:
-                if (e.OldItems!.Count == 1)
-                {
-                    innerCollection.Move(e.OldStartingIndex, e.NewStartingIndex);
-                }
-                else
-                {
-                    List<TDestinationItem> items = this.Skip(e.OldStartingIndex).Take(e.OldItems.Count).ToList();
-                    for (int i = 0; i < e.OldItems.Count; i++)
-                        innerCollection.RemoveAt(e.OldStartingIndex);
-
-                    for (int i = 0; i < items.Count; i++)
-                        innerCollection.Insert(e.NewStartingIndex + i, items[i]);
-                }
-                break;
-
-            case NotifyCollectionChangedAction.Remove:
-                for (int i = 0; i < e.OldItems!.Count; i++)
-                    innerCollection.RemoveAt(e.OldStartingIndex);
-                break;
-
-            case NotifyCollectionChangedAction.Replace:
-                // remove
-                for (int i = 0; i < e.OldItems!.Count; i++)
-                    innerCollection.RemoveAt(e.OldStartingIndex);
-
-                // add
-                goto case NotifyCollectionChangedAction.Add;
-
-            case NotifyCollectionChangedAction.Reset:
-                innerCollection.Clear();
-                for (int i = 0; i < e.NewItems!.Count; i++)
-                    innerCollection.Add(Convert((TSourceItem)e.NewItems[i]!));
-                break;
-
-            default:
-                break;
-        }
+        innerCollection.MapSourceCollectionChanged(e, converter);
     }
 }

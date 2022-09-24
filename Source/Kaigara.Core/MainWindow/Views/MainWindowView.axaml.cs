@@ -1,4 +1,5 @@
 using System.Reactive.Disposables;
+using Avalonia;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
 using Kaigara.Commands;
@@ -21,5 +22,8 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+#if DEBUG
+        this.AttachDevTools();
+#endif
     }
 }

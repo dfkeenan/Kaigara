@@ -15,4 +15,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Kaigara.Extensions\Kaigara.Extensions.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Collections\ObjectModel\" />
+	</ItemGroup>
 </Project>

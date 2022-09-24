@@ -12,7 +12,7 @@ public class ToolBarTrayDefinition : IEnumerable<ToolBarDefinition>, IUIComponen
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         items = new ObservableCollection<ToolBarDefinition>();
-        Items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<ToolBarDefinition>(items);
+        Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<ToolBarDefinition>(items);
     }
 
     public string Name { get; }

@@ -11,7 +11,7 @@ public class MenuItemDefinition : UIComponentItemDefinition<MenuItemDefinition>,
         : base(name, label, iconName)
     {
         items = new ObservableCollection<MenuItemDefinition>();
-        Items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<MenuItemDefinition>(items);
+        Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<MenuItemDefinition>(items);
     }
 
     public ReadOnlyObservableCollection<MenuItemDefinition> Items { get; }

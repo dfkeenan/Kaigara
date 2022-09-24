@@ -10,7 +10,7 @@ public class MenuViewModel : IDisposable
     public MenuViewModel(MenuDefinition definition)
     {
         this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
+        items = Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
     }
 
     public IEnumerable<IMenuItemViewModel> Items => items;

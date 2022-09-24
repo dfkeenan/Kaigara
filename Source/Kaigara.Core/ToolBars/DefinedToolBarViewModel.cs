@@ -12,7 +12,7 @@ internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
     {
         Definition = definition ?? throw new ArgumentNullException(nameof(definition));
 
-        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<ToolBarItemDefinition, IToolBarItemViewModel>(definition.Items, (Func<ToolBarItemDefinition, IToolBarItemViewModel>)(d => d.Build()));
+        items = Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<ToolBarItemDefinition, IToolBarItemViewModel>(definition.Items, (Func<ToolBarItemDefinition, IToolBarItemViewModel>)(d => d.Build()));
 
         changeSubscription = definition.Changed.Subscribe(n =>
         {

@@ -10,7 +10,7 @@ public class ToolBarTrayViewModel : IDisposable
     public ToolBarTrayViewModel(ToolBarTrayDefinition definition)
     {
         this.definition = definition ?? throw new ArgumentNullException(nameof(definition));
-        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<ToolBarDefinition, IToolBarViewModel>(definition.Items, (Func<ToolBarDefinition, IToolBarViewModel>)(d => d.Build()));
+        items = Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<ToolBarDefinition, IToolBarViewModel>(definition.Items, (Func<ToolBarDefinition, IToolBarViewModel>)(d => d.Build()));
     }
 
     public IEnumerable<IToolBarViewModel> Items => items;

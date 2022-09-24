@@ -15,7 +15,7 @@ public class CommandManager : ICommandManager
 
         this.commands = new ObservableCollection<RegisteredCommandBase>(commands);
 
-        Commands = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<RegisteredCommandBase>(this.commands);
+        Commands = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<RegisteredCommandBase>(this.commands);
     }
 
     public ReadOnlyObservableCollection<RegisteredCommandBase> Commands { get; }

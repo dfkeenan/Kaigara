@@ -11,7 +11,7 @@ internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
     public DefinedMenuItemViewModel(MenuItemDefinition definition)
         : base(definition)
     {
-        items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
+        items = Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
 
         changeSubscription = definition.Changed.Subscribe(n =>
         {

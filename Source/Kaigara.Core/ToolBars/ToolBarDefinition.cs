@@ -16,7 +16,7 @@ public class ToolBarDefinition : ReactiveObject, IEnumerable<ToolBarItemDefiniti
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         items = new ObservableCollection<ToolBarItemDefinition>();
-        Items = Collections.ObjectModel.ReadOnlyObservableCollectionExtensionsHelpers.AsReadOnlyObservableCollection<ToolBarItemDefinition>(items);
+        Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<ToolBarItemDefinition>(items);
         disposables = new CompositeDisposable();
         isVisible = true;
     }
