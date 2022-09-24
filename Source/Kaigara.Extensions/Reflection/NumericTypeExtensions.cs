@@ -3,8 +3,17 @@
 public static class NumericTypeExtensions
 {
     public static bool IsNumericType(this Type type)
-        => Type.GetTypeCode(type ?? throw new ArgumentNullException(nameof(type)))
-               .IsNumericTypeCode();
+    {
+        if (type is null)
+        {
+            throw new ArgumentNullException(nameof(type));
+        }
+
+        if (type.IsEnum) return false;
+
+        return Type.GetTypeCode(type)
+                   .IsNumericTypeCode();
+    }
 
     public static bool IsNumericTypeCode(this TypeCode typeCode)
         => typeCode > TypeCode.Char && typeCode < TypeCode.Decimal;

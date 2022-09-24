@@ -25,8 +25,8 @@ public class NumericRangeAttribute : Attribute
         Decimals = decimals;
     }
 
-    public double? MinValue { get; set; }
-    public double? MaxValue { get; set; }
-    public double? Increment { get; set; }
-    public int? Decimals { get; set; }
+    public double? MinValue { get; }
+    public double? MaxValue { get; }
+    public double? Increment { get; }
+    public int? Decimals { get; }
 }

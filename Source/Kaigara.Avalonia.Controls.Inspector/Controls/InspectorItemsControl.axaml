@@ -22,8 +22,8 @@
 				  <ScrollViewer Background="{TemplateBinding Background}"
 								HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
 								VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
-								
-								AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
+								AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+								Grid.IsSharedSizeScope="True">
 					  <ItemsPresenter Name="PART_ItemsPresenter"
 									  Items="{TemplateBinding Items}"
 									  ItemsPanel="{TemplateBinding ItemsPanel}"

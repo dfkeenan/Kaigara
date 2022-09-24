@@ -8,6 +8,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
+using Kaigara.Avalonia.Controls.InspectorNodes;
+using Kaigara.Avalonia.Controls.InspectorProviders;
 using Kaigara.Reflection;
 
 namespace Kaigara.Avalonia.Controls;
@@ -22,8 +24,19 @@ public class InspectorContext
 
     public InspectorNodeProvider GetNodeProvider(MemberInfo memberInfo)
     {
-        //var queue = new PriorityQueue<InspectorNodeProvider, int>();
 
+        return FindNodeProvider(p => p.MatchNodeMemberInfo(memberInfo));        
+    }
+
+    public InspectorNode CreateObjectInspectorNode(object value)
+    {
+        var provider = FindNodeProvider(p => p is ObjectInspectorNodeProvider);
+
+        return new ObjectInspectorNode(value, this, provider!, null, value.GetType(), "");
+    }
+
+    private InspectorNodeProvider? FindNodeProvider(Func<InspectorNodeProvider, bool> predicate)
+    {
         var currentTemplateHost = inspector.NodeItemsControl as ILogical;
 
         while (currentTemplateHost != null)
@@ -32,7 +45,7 @@ public class InspectorContext
             {
                 foreach (var p in hostCandidate.DataTemplates.OfType<InspectorNodeProvider>())
                 {
-                    if (p.MatchNodeMemberInfo(memberInfo))
+                    if (predicate(p))
                     {
                         return p;//queue.Enqueue(p, p.Priority);
                     }
@@ -48,16 +61,14 @@ public class InspectorContext
         {
             foreach (var p in global.DataTemplates.OfType<InspectorNodeProvider>())
             {
-                if (p.MatchNodeMemberInfo(memberInfo))
+                if (predicate(p))
                 {
                     return p;//queue.Enqueue(p, p.Priority);
                 }
             }
         }
 
-        return null; // queue.TryDequeue(out var result, out var _) ? result : null;
-
-
+        return null;
     }
 
     public IEnumerable<MemberInfo> GetMembers(Type type)

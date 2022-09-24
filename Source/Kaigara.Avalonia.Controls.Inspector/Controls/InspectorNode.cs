@@ -10,7 +10,7 @@ namespace Kaigara.Avalonia.Controls;
 public abstract class InspectorNode : ReactiveObject
 {
 
-    protected InspectorNode(InspectorContext context, InspectorNodeProvider provider, InspectorNode parent, MemberInfo memberInfo, string displayName)
+    protected InspectorNode(InspectorContext context, InspectorNodeProvider provider, InspectorNode? parent, MemberInfo memberInfo, string? displayName)
     {
         Context = context ?? throw new ArgumentNullException(nameof(context));
         Provider = provider ?? throw new ArgumentNullException(nameof(provider));
@@ -21,9 +21,9 @@ public abstract class InspectorNode : ReactiveObject
 
     public InspectorContext Context { get; }
     public InspectorNodeProvider Provider { get; }
-    public InspectorNode Parent { get; }
+    public InspectorNode? Parent { get; }
     public MemberInfo MemberInfo { get; }
-    public string DisplayName { get; }
+    public string? DisplayName { get; }
 
     public virtual IEnumerable<InspectorNode> GetChildren() => Enumerable.Empty<InspectorNode>();
 

@@ -16,6 +16,6 @@ public class ObjectInspectorNodeProvider : InspectorNodeProvider
         if (parent is MemberInspectorNode node && node.GetValue() is object obj)
             return new ObjectInspectorNode(obj, inspectorContext, this, parent, (Type)member, "");
 
-        return null;
+        throw new ArgumentException("Invalid parent InspectorNode",nameof(parent));
     }
 }

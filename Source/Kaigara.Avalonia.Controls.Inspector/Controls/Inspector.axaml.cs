@@ -8,12 +8,15 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
+using Avalonia.Styling;
 using Avalonia.Utilities;
+using Kaigara.Avalonia.Controls.InspectorNodes;
+using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Avalonia.Controls;
 
 [TemplatePart("PART_NodeItems", typeof(InspectorItemsControl))]
-public class Inspector : TemplatedControl
+public class Inspector : TemplatedControl, IWeakEventSubscriber<NotifyCollectionChangedEventArgs>
 {
     private IEnumerable _items = new AvaloniaList<object>();
 
@@ -92,6 +95,14 @@ public class Inspector : TemplatedControl
         base.OnApplyTemplate(e);
 
         NodeItemsControl = e.NameScope.Find<InspectorItemsControl>("PART_NodeItems");
+
+        if (NodeItemsControl is not null && Items is not null)
+        {
+            foreach (var item in Items)
+            {
+                nodes.Add(CreateNode(item));
+            }
+        }
     }
 
     protected virtual void ItemsChanged(AvaloniaPropertyChangedEventArgs e)
@@ -99,20 +110,35 @@ public class Inspector : TemplatedControl
         var oldValue = e.OldValue as IEnumerable;
         var newValue = e.NewValue as IEnumerable;
 
-        if (oldValue is INotifyCollectionChanged incc)
+        if (oldValue is INotifyCollectionChanged oldIncc)
         {
-            
+            WeakEvents.CollectionChanged.Unsubscribe(oldIncc, this);
+            nodes.Clear();
         }
 
-        //UpdateItemCount();
-        //RemoveControlItemsFromLogicalChildren(oldValue);
-        //AddControlItemsToLogicalChildren(newValue);
+        if (newValue is INotifyCollectionChanged newIncc)
+        {
+            if (NodeItemsControl is not null)
+            {
+                foreach (var item in newValue)
+                {
+                    nodes.Add(CreateNode(item));
+                } 
+            }
+            WeakEvents.CollectionChanged.Subscribe(newIncc, this);
+        }
+    }
 
-        //if (Presenter != null)
-        //{
-        //    Presenter.Items = newValue;
-        //}
+    void IWeakEventSubscriber<NotifyCollectionChangedEventArgs>.OnEvent(object? sender, WeakEvent ev, NotifyCollectionChangedEventArgs e)
+    {        
+        if (NodeItemsControl is not null)
+        {
+            nodes.MapSourceCollectionChanged(e, (Func<object, InspectorNode>)(i => CreateNode(i)));
+        }
+    }
 
-        //SubscribeToItems(newValue);
+    private InspectorNode CreateNode(object item)
+    {
+        return InspectorContext.CreateObjectInspectorNode(item);
     }
 }

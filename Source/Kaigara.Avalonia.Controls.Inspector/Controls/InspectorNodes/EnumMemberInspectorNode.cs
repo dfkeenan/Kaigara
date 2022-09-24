@@ -7,6 +7,7 @@ using System.Reflection;
 using ReactiveUI;
 using Kaigara.Extentions;
 using Kaigara.Reflection;
+using Avalonia.Controls.Selection;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
@@ -15,7 +16,7 @@ public class EnumMemberInspectorNode<T> : MemberInspectorNode<T>
     where T : struct, Enum
 {
 
-    public EnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[] index = null)
+    public EnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {      
         EnumValues = EnumExtentions.GetValues<T>().ToList().AsReadOnly();
@@ -31,58 +32,66 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
 {
     private bool syncingFlags = false;
 
-    public FlagsEnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[] index = null)
+    public FlagsEnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {
         var value = Value;
-        SelectedFlags = new ObservableCollection<T>(EnumValues.Where(v => value.HasFlag(v)));
-        SelectedFlags.CollectionChanged += SelectedFlags_CollectionChanged;
+        Selection = new SelectionModel<T>(EnumValues);
+        Selection.SingleSelect = false;
+        Selection.SelectionChanged += Selection_SelectionChanged;
+
+        for (int i = 0; i < EnumValues.Count; i++)
+        {
+            if (value.HasFlag(EnumValues[i])) Selection.Select(i);
+        }
 
         SelectAll = ReactiveCommand.Create(() =>
         {
-            SelectedFlags.Clear();
-            EnumValues.ToList().ForEach(SelectedFlags.Add);
+            Selection.SelectAll();
         }, Observable.Never<bool>().StartWith(!IsReadOnly));
 
         SelectNone = ReactiveCommand.Create(() =>
         {
-            SelectedFlags.Clear();
+            Selection.Clear();
         }, Observable.Never<bool>().StartWith(!IsReadOnly));
         SelectInverse = ReactiveCommand.Create(() =>
         {
-            var inverse = EnumValues.Where(v => !SelectedFlags.Contains(v)).ToList();
-            SelectedFlags.Clear();
-            inverse.ForEach(SelectedFlags.Add);
+            var value = Value;
+
+            for (int i = 0; i < EnumValues.Count; i++)
+            {
+                if (value.HasFlag(EnumValues[i])) 
+                    Selection.Deselect(i);
+                else
+                    Selection.Select(i);
+            }
         }, Observable.Never<bool>().StartWith(!IsReadOnly));
     }
 
-    private void SelectedFlags_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private void Selection_SelectionChanged(object? sender, SelectionModelSelectionChangedEventArgs<T> e)
     {
         if (!syncingFlags)
         {
             syncingFlags = true;
-            Value = SelectedFlags.Combine();
+
+            var value = (int)(object)Value;
+
+            foreach (var item in e.SelectedItems)
+            {
+                value |= (int)(object)item;
+            }
+
+            foreach (var item in e.DeselectedItems)
+            {
+                value &= ~((int)(object)item);
+            }
+
+            Value = (T)(object)value;
             syncingFlags = false;
         }
     }
 
-    public override T Value
-    {
-        get => base.Value;
-        set
-        {
-            base.Value = value;
-            if (!syncingFlags)
-            {
-                syncingFlags = true;
-                SelectedFlags.Clear();
-                EnumValues.Where(v => value.HasFlag(v)).ToList().ForEach(SelectedFlags.Add);
-                syncingFlags = false;
-            }
-        }
-    }
-
-    public ObservableCollection<T> SelectedFlags { get; }
+    public SelectionModel<T> Selection { get; }
 
     public ReactiveCommand<Unit, Unit> SelectAll { get; }
     public ReactiveCommand<Unit, Unit> SelectNone { get; }

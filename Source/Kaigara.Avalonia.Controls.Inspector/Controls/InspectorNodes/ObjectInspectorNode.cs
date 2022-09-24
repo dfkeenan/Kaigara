@@ -9,7 +9,7 @@ using Kaigara.Reflection;
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
 public class ObjectInspectorNode : InspectorNode
 {
-    public ObjectInspectorNode(object instance, InspectorContext context, InspectorNodeProvider provider, InspectorNode parent, MemberInfo memberInfo, string displayName) 
+    public ObjectInspectorNode(object instance, InspectorContext context, InspectorNodeProvider provider, InspectorNode? parent, MemberInfo memberInfo, string? displayName) 
         : base(context, provider, parent, memberInfo, displayName)
     {
         Value = instance ?? throw new ArgumentNullException(nameof(instance));

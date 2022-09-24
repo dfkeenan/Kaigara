@@ -18,18 +18,23 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             TemplatedControl.IsTemplateFocusTarget="True">
-						<Grid Name="PART_Header"
-                              ColumnDefinitions="16, *"
+						<Grid Name="PART_Header"                              
                               Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}" >
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="16"  />
+								<ColumnDefinition Width="auto" SharedSizeGroup="DisplayName" />
+								<ColumnDefinition Width="*" />								
+							</Grid.ColumnDefinitions>
 							<ToggleButton Name="expander"
                                           Focusable="False"
                                           IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"/>
+							<TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
 							<ContentPresenter Name="PART_HeaderPresenter"
                                               Focusable="False"
                                               Content="{TemplateBinding Header}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalAlignment}"
+                                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                               Padding="{TemplateBinding Padding}"
-                                              Grid.Column="1"/>
+                                              Grid.Column="2"/>
 						</Grid>
 					</Border>
 					<ItemsPresenter Name="PART_ItemsPresenter"

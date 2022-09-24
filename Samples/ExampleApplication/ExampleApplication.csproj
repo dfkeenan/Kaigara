@@ -15,6 +15,7 @@
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.14" />
    </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Hosting\Kaigara.Hosting.csproj" />
   </ItemGroup>

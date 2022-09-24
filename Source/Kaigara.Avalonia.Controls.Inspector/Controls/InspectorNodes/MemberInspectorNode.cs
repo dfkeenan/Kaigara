@@ -9,7 +9,7 @@ namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
 public class MemberInspectorNode<T> : MemberInspectorNode
 {
-    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[] index = null)
+    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {
     }
@@ -29,14 +29,14 @@ public class MemberInspectorNode<T> : MemberInspectorNode
 
 public class MemberInspectorNode : InspectorNode
 {
-    private readonly object[] index;
+    private readonly object[]? index;
     private readonly Func<object, object?> getter;
     private readonly Action<object, object?> setter;
     private readonly InspectorNodeProvider valueNodeProvider = null!;
     private IEnumerable<Type>? construcableTypes;
     private InspectorNode? valueNode;
 
-    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[] index = null)
+    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent: parent, memberInfo: memberInfo, displayName: $"{memberInfo.GetDisplayName()}{GetIndex(index)}")
     {
         this.index = index;
@@ -60,11 +60,13 @@ public class MemberInspectorNode : InspectorNode
             throw new ArgumentException("Member must be Field or Property", nameof(memberInfo));
         }
 
-        valueNodeProvider = Context.GetNodeProvider(MemberType);
-
         CreateInstance = ReactiveCommand.Create<Type>(CreateNewInstance);
 
-        Invalidate();
+        if (provider.ItemsSource is object)
+        {
+            valueNodeProvider = Context.GetNodeProvider(MemberType);
+            Invalidate();
+        }
     }
 
     public Type MemberType { get; }
@@ -87,7 +89,7 @@ public class MemberInspectorNode : InspectorNode
     }
 
 
-    private ObjectInspectorNode InstanceNode => (ObjectInspectorNode)this.Parent;
+    private ObjectInspectorNode InstanceNode => (ObjectInspectorNode)this.Parent!;
 
     public InspectorNode? ValueNode 
     { 
@@ -105,7 +107,7 @@ public class MemberInspectorNode : InspectorNode
     public object GetIndex(int i = 0) => index[i];
     public void SetIndex(object value, int i = 0) => index[i] = value;
 
-    private static string? GetIndex(object[] index)
+    private static string? GetIndex(object[]? index)
     {
         if (index == null) return null;
         return $"[{string.Join(", ", index)}]";
