@@ -13,13 +13,17 @@ public class EnumToListConverter : IValueConverter
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var intValue = (int)value;
-        var values = EnumExtentions.GetFlagsValues(value.GetType()).Cast<int>().Where(v => (v & intValue) > 0).ToList();
+        var intValue = (long)value;
+        var values = EnumExtentions.GetFlagsValues(value.GetType())
+            .Cast<long>()
+            .Where(v => (v & intValue) > 0)
+            .Select(e => Enum.ToObject(targetType, e))
+            .ToList();
         return values;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        return (value as IEnumerable).Cast<int>().Aggregate(0, (v,n)=> v | n);
+        return Enum.ToObject(targetType,(value as IEnumerable).Cast<long>().Aggregate(0L, (v,n)=> v | n));
     }
 }

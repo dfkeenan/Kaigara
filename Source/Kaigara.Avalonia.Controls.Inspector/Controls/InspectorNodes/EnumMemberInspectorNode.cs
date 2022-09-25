@@ -74,19 +74,19 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
         {
             syncingFlags = true;
 
-            var value = (int)(object)Value;
+            var value = Value.GetValue();
 
             foreach (var item in e.SelectedItems)
             {
-                value |= (int)(object)item;
+                value |= item.GetValue();
             }
 
             foreach (var item in e.DeselectedItems)
             {
-                value &= ~((int)(object)item);
+                value &= ~(item.GetValue());
             }
 
-            Value = (T)(object)value;
+            Value = value.GetValue<T>();
             syncingFlags = false;
         }
     }

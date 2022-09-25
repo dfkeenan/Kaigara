@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Kaigara.Extentions;
 
@@ -7,21 +8,21 @@ public static class EnumExtentions
     public static IEnumerable<T> GetValues<T>()
         where T : struct, Enum
     {
-        return Enum.GetValues(typeof(T)).Cast<T>();
+        return Enum.GetValues<T>();
     }
 
     public static IEnumerable<T> GetFlagsValues<T>()
-        where T:    struct, Enum
+        where T: struct, Enum
     {
         return GetFlagsValues(typeof(T)).Cast<T>();
     }
 
     public static IEnumerable GetFlagsValues(Type enumType)
     {
-        return Enum.GetValues(enumType).Cast<int>().Where(e => IsPowerOfTwo(e));
+        return Enum.GetValues(enumType).Cast<long>().Where(e => IsPowerOfTwo(e)).Select(e => Enum.ToObject(enumType,e));
     }
 
-    private static bool IsPowerOfTwo(int n)
+    private static bool IsPowerOfTwo(long n)
     {
         return (n > 0 && ((n & (n - 1)) == 0)) ? true : false;
     }
@@ -29,6 +30,61 @@ public static class EnumExtentions
     public static T Combine<T>(this IEnumerable<T> flags)
         where T : struct, Enum
     {
-        return (T)(object)flags.Cast<int>().Aggregate(0, (v, n) => v | n);
+        return flags.Select(f => f.GetValue()).Aggregate(0L, (v, n) => v | n).GetValue<T>();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static long GetValue<T>(this T value)
+        where T : struct, Enum
+    {
+        if (Unsafe.SizeOf<T>() == 1)
+        {
+            return Unsafe.As<T, byte>(ref value);
+        }
+        else if (Unsafe.SizeOf<T>() == 2)
+        {
+            return Unsafe.As<T, short>(ref value);
+        }
+        else if (Unsafe.SizeOf<T>() == 4)
+        {
+            return Unsafe.As<T, int>(ref value);
+        }
+        else if (Unsafe.SizeOf<T>() == 8)
+        {
+            return Unsafe.As<T, long>(ref value);
+        }
+        else
+        {
+            throw new NotSupportedException();
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static T GetValue<T>(this long value)
+        where T : struct, Enum
+    {
+        if (Unsafe.SizeOf<T>() == 1)
+        {
+            byte b = (byte)value;
+            return Unsafe.As<byte, T>(ref b);
+        }
+        else if (Unsafe.SizeOf<T>() == 2)
+        {
+            short s = (short)value;
+            return Unsafe.As<short, T>(ref s);
+        }
+        else if (Unsafe.SizeOf<T>() == 4)
+        {
+            int i = (int)value;
+            return Unsafe.As<int, T>(ref i);
+        }
+        else if (Unsafe.SizeOf<T>() == 8)
+        {
+            return Unsafe.As<long,T>(ref value);
+        }
+        else
+        {
+            throw new NotSupportedException();
+        }
     }
 }
