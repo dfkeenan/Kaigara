@@ -9,7 +9,7 @@ namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
 public class MemberInspectorNode<T> : MemberInspectorNode
 {
-    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
+    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {
     }
@@ -36,7 +36,7 @@ public class MemberInspectorNode : InspectorNode
     private IEnumerable<Type>? construcableTypes;
     private InspectorNode? valueNode;
 
-    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
+    public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent: parent, memberInfo: memberInfo, displayName: $"{memberInfo.GetDisplayName()}{GetIndex(index)}")
     {
         this.index = index;
@@ -89,7 +89,7 @@ public class MemberInspectorNode : InspectorNode
     }
 
 
-    private ObjectInspectorNode InstanceNode => (ObjectInspectorNode)this.Parent!;
+    private ObjectInspectorNodeBase InstanceNode => (ObjectInspectorNodeBase)this.Parent!;
 
     public InspectorNode? ValueNode 
     { 
@@ -143,11 +143,14 @@ public class MemberInspectorNode : InspectorNode
         return getter(InstanceNode.Value);
     }
 
-    public override IEnumerable<InspectorNode> GetChildren()
+    public override IEnumerable<InspectorNode> Children
     {
-        if (ValueNode == null) yield break;
+        get
+        {
+            if (ValueNode == null) yield break;
 
-        yield return ValueNode;
+            yield return ValueNode;
+        }        
     }
 
     public override void Invalidate()
@@ -159,5 +162,6 @@ public class MemberInspectorNode : InspectorNode
     {
         ValueNode = HasValue ? valueNodeProvider?.CreateNode(Context, this, ValueType, index) : null;
         this.RaisePropertyChanged(nameof(HasValue));
+        this.RaisePropertyChanged(nameof(Children));
     }
 }

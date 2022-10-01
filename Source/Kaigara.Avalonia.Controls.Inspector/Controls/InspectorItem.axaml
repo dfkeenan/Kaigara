@@ -40,7 +40,8 @@
 					<ItemsPresenter Name="PART_ItemsPresenter"
                                     IsVisible="{TemplateBinding IsExpanded}"
                                     Items="{TemplateBinding Items}"
-                                    ItemsPanel="{TemplateBinding ItemsPanel}"/>
+									ItemsPanel="{TemplateBinding ItemsPanel}"
+									Grid.IsSharedSizeScope="True"/>
 				</StackPanel>
 			</ControlTemplate>
 		</Setter>

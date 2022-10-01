@@ -31,9 +31,9 @@ public abstract class InspectorNodeProvider : ITreeDataTemplate
 
     public InstancedBinding? ItemsSelector(object item)
     {
-        if (ItemsSource != null)
+        if(item is InspectorNode node && node.Provider.ItemsSource is BindingBase itemsSource)
         {
-            var obs = ItemsSource switch
+            var obs = itemsSource switch
             {
                 Binding reflection => ExpressionObserverBuilder.Build(item, reflection.Path),
                 CompiledBindingExtension compiled => new ExpressionObserver(item, compiled.Path.BuildExpression(false)),

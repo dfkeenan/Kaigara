@@ -9,7 +9,7 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-  <Style Selector="k|ToolBar" >
+  <Style Selector=".DynamicToolBarTray k|ToolBar" >
     <Setter Property="Items" Value="{Binding Items}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
     <Setter Property="ItemTemplate">

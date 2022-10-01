@@ -9,7 +9,7 @@ using ReactiveUI;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
-public class CollectionInspectorNode : ObjectInspectorNode
+public class CollectionInspectorNode : ObjectInspectorNodeBase
 {
     private readonly PropertyInfo itemProperty;
     private readonly InspectorNodeProvider itemNodeProvider;
@@ -69,10 +69,7 @@ public class CollectionInspectorNode : ObjectInspectorNode
         return (MemberInspectorNode)itemNodeProvider.CreateNode(Context, this, itemProperty, new object[] { i });
     }
 
-    public override IEnumerable<InspectorNode> GetChildren()
-    {
-        return Items.AsEnumerable();
-    }
+    public override IEnumerable<InspectorNode> Children => Items.AsEnumerable();
 
     public override void Invalidate()
     {

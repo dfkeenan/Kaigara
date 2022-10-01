@@ -6,7 +6,7 @@ namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
 public class NumericMemberInspectorNode<T> : MemberInspectorNode<T>, INumericMemberInspectorNode
 {
-    public NumericMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
+    public NumericMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {
         TypeCode typeCode = Type.GetTypeCode(Nullable.GetUnderlyingType(MemberType) ?? MemberType);

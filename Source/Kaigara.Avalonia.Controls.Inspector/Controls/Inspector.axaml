@@ -35,11 +35,9 @@
 		<!-- Set Defaults -->
 		<Setter Property="Template">
 			<ControlTemplate>
-				<controls:InspectorItemsControl Name="PART_NodeItems" Items="{TemplateBinding Nodes}" Grid.IsSharedSizeScope="True">
+				<controls:InspectorItemsControl Name="PART_NodeItems" Items="{TemplateBinding Nodes}">
 					<controls:InspectorItemsControl.DataTemplates>
-						<np:ObjectInspectorNodeProvider ItemsSource="{Binding Members}">
-							<TextBlock>hello</TextBlock>
-						</np:ObjectInspectorNodeProvider>
+						
 						
 						<np:MemberInspectorNodeProvider MemberType="s:String">
 							<TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}" />
@@ -101,25 +99,52 @@
 							</Grid>
 						</np:EnumMemberInspectorNodeProvider>
 
-						<np:MemberInspectorNodeProvider MemberType="s:Object" ItemsSource="{Binding ValueNode.Members}">
-							<Grid ColumnDefinitions="Auto,*" Margin="4" >
-								<TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" />
-								<ToggleButton  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}" >
-									<DrawingPresenter Drawing="{DynamicResource VSImageLib.Add_16x}" />
-								</ToggleButton>
-								<Popup IsOpen="{Binding #ConstructorToggle.IsChecked,Mode=TwoWay}" PlacementTarget="{Binding #ConstructorToggle}" PlacementMode="Bottom" StaysOpen="False" Width="350">
-									<ItemsControl Items="{Binding ConstructableTypes}">
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<Button Content="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"
-														Command="{Binding $parent[ItemsControl].DataContext.CreateInstance}"
-														CommandParameter="{Binding}" />
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</Popup>
-							</Grid>
+
+
+						<np:MemberInspectorNodeProvider MemberType="s:Object" ItemsSource="{Binding ValueNode.Children}">
+							<Panel>
+								<Grid IsVisible="{Binding !HasValue}" ColumnDefinitions="Auto,*" Margin="4" >
+									<TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" />
+									<ToggleButton  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}" >
+										<DrawingPresenter Drawing="{DynamicResource VSImageLib.Add_16x}" />
+									</ToggleButton>
+									<Popup IsOpen="{Binding #ConstructorToggle.IsChecked,Mode=TwoWay}"
+										   PlacementMode="Bottom"
+										   StaysOpen="False"
+										   MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+										   PlacementTarget="{TemplateBinding}"
+									   >
+										<ItemsControl Items="{Binding ConstructableTypes}">
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<Button Content="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"
+															Command="{Binding $parent[ItemsControl].DataContext.CreateInstance}"
+															CommandParameter="{Binding}" />
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+										</ItemsControl>
+									</Popup>
+								</Grid>
+								<Border IsVisible="{Binding HasValue}">
+									<ContentControl Content="{Binding ValueNode}" />
+								</Border>								
+							</Panel>							
 						</np:MemberInspectorNodeProvider>
+
+						<np:CollectionInspectorNodeProvider >
+							<k:ToolBarTray>
+								<k:ToolBar>
+									<Button Command="{Binding AddNewItem}" ToolTip.Tip="Add Item">
+										<!--<DrawingPresenter Drawing="{DynamicResource VSImageLib.Add_16x}" />-->
+										Add Item
+									</Button>
+								</k:ToolBar>
+							</k:ToolBarTray>
+						</np:CollectionInspectorNodeProvider>
+
+						<np:ObjectInspectorNodeProvider ItemsSource="{Binding Children}" >
+							<TextBlock>Place holder</TextBlock>
+						</np:ObjectInspectorNodeProvider>
 					</controls:InspectorItemsControl.DataTemplates>
 				</controls:InspectorItemsControl>
 			</ControlTemplate>

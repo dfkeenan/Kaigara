@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 using Kaigara.Reflection;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
-public class ObjectInspectorNode : InspectorNode
+public class ObjectInspectorNode : ObjectInspectorNodeBase
 {
     public ObjectInspectorNode(object instance, InspectorContext context, InspectorNodeProvider provider, InspectorNode? parent, MemberInfo memberInfo, string? displayName) 
-        : base(context, provider, parent, memberInfo, displayName)
-    {
-        Value = instance ?? throw new ArgumentNullException(nameof(instance));
+        : base(instance, context, provider, parent, memberInfo, displayName)
+    {     
 
         Members = Context.GetMembers(Type).Select(CreateNode).Where(n => n != null).Cast<MemberInspectorNode>().ToList();
 
@@ -24,19 +23,9 @@ public class ObjectInspectorNode : InspectorNode
         }
     }
 
-    public Type Type => (Type)MemberInfo;
-
     public IEnumerable<MemberInspectorNode> Members { get; }
 
-    public object Value { get; }
+    public override IEnumerable<InspectorNode> Children => Members;
 
-    public override IEnumerable<InspectorNode> GetChildren()
-    {
-        return Members;
-    }
-
-    public override void Invalidate()
-    {
-        
-    }
+    
 }

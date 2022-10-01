@@ -16,6 +16,12 @@ public class OtherDocumentViewModel : Document
         Items = new ObservableCollection<InspectorTestObject>()
         {
             new InspectorTestObject()
+            {
+                TestObjects = new List<InspectorTestObject>()
+                {
+                    new InspectorTestObject(),
+                }
+            }
         };
     }
 
@@ -23,7 +29,7 @@ public class OtherDocumentViewModel : Document
     {
         public string TestProperty { get; set; }
 
-        [NumericRange(0, 10.0, 0.5d)]
+        //[NumericRange(0, 10.0, 0.5d)]
         public double DoubleTrouble { get; set; }
 
         public TestEnum EnumProperty { get; set; }
@@ -31,7 +37,7 @@ public class OtherDocumentViewModel : Document
         [DisplayName("Flags Yo!")]
         public TestFlagsEnum FlagsEnumProperty { get; set; }
 
-        public InspectorTestObject TestObject { get; set; }
+        public List<InspectorTestObject> TestObjects { get; set; }
     }
 
 

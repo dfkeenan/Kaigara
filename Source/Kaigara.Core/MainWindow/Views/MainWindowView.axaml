@@ -22,7 +22,7 @@
   </kc:ChromeWindow.TitleBarTemplate>-->
   <DockPanel LastChildFill="True">
     <Menu Classes="DynamicMenu" Items="{Binding MainMenu.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
-    <k:ToolBarTray Items="{Binding ToolBarTray.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
+    <k:ToolBarTray Classes="DynamicToolBarTray" Items="{Binding ToolBarTray.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
     <ContentControl Content="{Binding Shell}"/>
   </DockPanel>
 </k:ChromeWindow>

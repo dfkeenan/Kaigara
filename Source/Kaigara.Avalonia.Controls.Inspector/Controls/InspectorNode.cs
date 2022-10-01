@@ -25,7 +25,7 @@ public abstract class InspectorNode : ReactiveObject
     public MemberInfo MemberInfo { get; }
     public string? DisplayName { get; }
 
-    public virtual IEnumerable<InspectorNode> GetChildren() => Enumerable.Empty<InspectorNode>();
+    public virtual IEnumerable<InspectorNode> Children => Enumerable.Empty<InspectorNode>();
 
     public abstract void Invalidate();
 }

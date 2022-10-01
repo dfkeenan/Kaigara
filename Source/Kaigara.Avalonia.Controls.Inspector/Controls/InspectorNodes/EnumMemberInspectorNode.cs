@@ -16,7 +16,7 @@ public class EnumMemberInspectorNode<T> : MemberInspectorNode<T>
     where T : struct, Enum
 {
 
-    public EnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
+    public EnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {      
         EnumValues = EnumExtentions.GetValues<T>().ToList().AsReadOnly();
@@ -32,7 +32,7 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
 {
     private bool syncingFlags = false;
 
-    public FlagsEnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNode parent, MemberInfo memberInfo, object[]? index = null)
+    public FlagsEnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {
         var value = Value;
