@@ -31,14 +31,19 @@
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
+    <Style Selector=".ConstructableTypes MenuItem">
+        <Setter Property="Header" Value="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"/>
+        <Setter Property="Items" Value="{Binding Items}"/>
+        <Setter Property="Command" Value="{Binding $parent[Button].DataContext.CreateInstance}"/>
+        <Setter Property="CommandParameter" Value="{Binding}"/>
+    </Style>
+
     <Style Selector="controls|Inspector">
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
                 <controls:InspectorItemsControl Name="PART_NodeItems" Items="{TemplateBinding Nodes}">
                     <controls:InspectorItemsControl.DataTemplates>
-                        
-                        
                         <np:MemberInspectorNodeProvider MemberType="s:String">
                             <TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}" />
                         </np:MemberInspectorNodeProvider>
@@ -105,25 +110,13 @@
                             <Panel>
                                 <Grid IsVisible="{Binding !HasValue}" ColumnDefinitions="Auto,*" Margin="4" >
                                     <TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" />
-                                    <ToggleButton  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}" >
+                                    <Button  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}"
+                                             Classes="ConstructableTypes">
+                                        <Button.Flyout>
+                                            <MenuFlyout Placement="Bottom" Items="{Binding ConstructableTypes}" />
+                                        </Button.Flyout>
                                         <DrawingPresenter Drawing="{DynamicResource VSImageLib.Add_16x}" />
-                                    </ToggleButton>
-                                    <Popup IsOpen="{Binding #ConstructorToggle.IsChecked,Mode=TwoWay}"
-                                           PlacementMode="Bottom"
-                                           StaysOpen="False"
-                                           MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
-                                           PlacementTarget="{TemplateBinding}"
-                                       >
-                                        <ItemsControl Items="{Binding ConstructableTypes}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Button Content="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"
-                                                            Command="{Binding $parent[ItemsControl].DataContext.CreateInstance}"
-                                                            CommandParameter="{Binding}" />
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </Popup>
+                                    </Button>
                                 </Grid>
                                 <Border IsVisible="{Binding HasValue}">
                                     <ContentControl Content="{Binding ValueNode}" />
