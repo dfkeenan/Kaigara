@@ -120,8 +120,8 @@
                                 </Grid>
                                 <Border IsVisible="{Binding HasValue}">
                                     <ContentControl Content="{Binding ValueNode}" />
-                                </Border>								
-                            </Panel>							
+                                </Border>
+                            </Panel>
                         </np:MemberInspectorNodeProvider>
 
                         <np:CollectionInspectorNodeProvider >
