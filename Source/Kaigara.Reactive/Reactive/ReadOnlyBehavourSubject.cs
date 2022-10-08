@@ -1,5 +1,5 @@
-﻿using System.Reactive.Subjects;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reactive.Subjects;
 
 namespace Kaigara.Reactive;
 

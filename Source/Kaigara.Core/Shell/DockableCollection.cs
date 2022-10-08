@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using Dock.Model.Core;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Dock.Model.Controls;
-using System.Reactive.Disposables;
+using Dock.Model.Core;
 
 namespace Kaigara.Shell;
 

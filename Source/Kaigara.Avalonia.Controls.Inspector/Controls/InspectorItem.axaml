@@ -1,100 +1,100 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
+        xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:controls="using:Kaigara.Avalonia.Controls">
-	<Style Selector="controls|InspectorItem">
-		<Style.Resources>
-			<converters:MarginMultiplierConverter Indent="16" Left="True" x:Key="LeftMarginConverter" />
-		</Style.Resources>
-		<Setter Property="Padding" Value="2"/>
-		<Setter Property="Background" Value="Transparent"/>
-		<Setter Property="Template">
-			<ControlTemplate>
-				<StackPanel>
-					<Border Name="SelectionBorder"
+    <Style Selector="controls|InspectorItem">
+        <Style.Resources>
+            <converters:MarginMultiplierConverter Indent="16" Left="True" x:Key="LeftMarginConverter" />
+        </Style.Resources>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+                    <Border Name="SelectionBorder"
                             Focusable="True"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             TemplatedControl.IsTemplateFocusTarget="True">
-						<Grid Name="PART_Header"                              
+                        <Grid Name="PART_Header"
                               Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}" >
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="16"  />
-								<ColumnDefinition Width="auto" SharedSizeGroup="DisplayName" />
-								<ColumnDefinition Width="*" />								
-							</Grid.ColumnDefinitions>
-							<ToggleButton Name="expander"
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="16"  />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="DisplayName" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <ToggleButton Name="expander"
                                           Focusable="False"
                                           IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"/>
-							<TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
-							<ContentPresenter Name="PART_HeaderPresenter"
+                            <TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                            <ContentPresenter Name="PART_HeaderPresenter"
                                               Focusable="False"
                                               Content="{TemplateBinding Header}"
                                               HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                               Padding="{TemplateBinding Padding}"
                                               Grid.Column="2"/>
-						</Grid>
-					</Border>
-					<ItemsPresenter Name="PART_ItemsPresenter"
+                        </Grid>
+                    </Border>
+                    <ItemsPresenter Name="PART_ItemsPresenter"
                                     IsVisible="{TemplateBinding IsExpanded}"
                                     Items="{TemplateBinding Items}"
-									ItemsPanel="{TemplateBinding ItemsPanel}"
-									Grid.IsSharedSizeScope="True"/>
-				</StackPanel>
-			</ControlTemplate>
-		</Setter>
-	</Style>
+                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                    Grid.IsSharedSizeScope="True"/>
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 
-	<Style Selector="controls|InspectorItem /template/ ToggleButton#expander">
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Border Background="Transparent"
+    <Style Selector="controls|InspectorItem /template/ ToggleButton#expander">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="Transparent"
                         Width="14"
                         Height="12"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-					<Path Fill="{DynamicResource ThemeForegroundBrush}"
+                    <Path Fill="{DynamicResource ThemeForegroundBrush}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
                           Data="M 0 2 L 4 6 L 0 10 Z"/>
-				</Border>
-			</ControlTemplate>
-		</Setter>
-	</Style>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 
-	<Style Selector="controls|InspectorItem /template/ ContentPresenter#PART_HeaderPresenter">
-		<Setter Property="Padding" Value="2"/>
-	</Style>
+    <Style Selector="controls|InspectorItem /template/ ContentPresenter#PART_HeaderPresenter">
+        <Setter Property="Padding" Value="2"/>
+    </Style>
 
-	<Style Selector="controls|InspectorItem /template/ Border#SelectionBorder:pointerover">
-		<Setter Property="Background" Value="{DynamicResource ThemeControlHighlightMidBrush}"/>
-	</Style>
+    <Style Selector="controls|InspectorItem /template/ Border#SelectionBorder:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightMidBrush}"/>
+    </Style>
 
-	<Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder">
-		<Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}"/>
-	</Style>
+    <Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}"/>
+    </Style>
 
-	<Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder:focus">
-		<Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}"/>
-	</Style>
+    <Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder:focus">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}"/>
+    </Style>
 
-	<Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder:pointerover">
-		<Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}"/>
-	</Style>
+    <Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}"/>
+    </Style>
 
-	<Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder:pointerover:focus">
-		<Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}"/>
-	</Style>
+    <Style Selector="controls|InspectorItem:selected /template/ Border#SelectionBorder:pointerover:focus">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}"/>
+    </Style>
 
-	<Style Selector="controls|InspectorItem /template/ ToggleButton#expander:checked">
-		<Setter Property="RenderTransform">
-			<RotateTransform Angle="45"/>
-		</Setter>
-	</Style>
+    <Style Selector="controls|InspectorItem /template/ ToggleButton#expander:checked">
+        <Setter Property="RenderTransform">
+            <RotateTransform Angle="45"/>
+        </Setter>
+    </Style>
 
-	<Style Selector="controls|InspectorItem:empty /template/ ToggleButton#expander">
-		<Setter Property="IsVisible" Value="False"/>
-	</Style>
+    <Style Selector="controls|InspectorItem:empty /template/ ToggleButton#expander">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
 </Styles>

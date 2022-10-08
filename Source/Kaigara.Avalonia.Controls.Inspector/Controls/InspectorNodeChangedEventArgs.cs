@@ -1,5 +1,4 @@
-﻿using System;
-using Avalonia.Interactivity;
+﻿using Avalonia.Interactivity;
 
 
 namespace Kaigara.Avalonia.Controls;

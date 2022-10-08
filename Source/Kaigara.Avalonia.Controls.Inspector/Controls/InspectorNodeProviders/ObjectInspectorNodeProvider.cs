@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Kaigara.Avalonia.Controls.InspectorNodes;
 
 namespace Kaigara.Avalonia.Controls.InspectorProviders;
@@ -16,6 +15,6 @@ public class ObjectInspectorNodeProvider : InspectorNodeProvider
         if (parent is MemberInspectorNode node && node.GetValue() is object obj)
             return new ObjectInspectorNode(obj, inspectorContext, this, parent, (Type)member, "");
 
-        throw new ArgumentException("Invalid parent InspectorNode",nameof(parent));
+        throw new ArgumentException("Invalid parent InspectorNode", nameof(parent));
     }
 }

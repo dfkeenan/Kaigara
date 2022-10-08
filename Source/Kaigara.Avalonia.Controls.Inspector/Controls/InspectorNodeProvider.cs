@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
@@ -26,12 +21,12 @@ public abstract class InspectorNodeProvider : ITreeDataTemplate
 
     public IControl Build(object param)
     {
-        return param is InspectorNode node ? TemplateContent.Load(node.Provider.Content).Control : null!; 
+        return param is InspectorNode node ? TemplateContent.Load(node.Provider.Content).Control : null!;
     }
 
     public InstancedBinding? ItemsSelector(object item)
     {
-        if(item is InspectorNode node && node.Provider.ItemsSource is BindingBase itemsSource)
+        if (item is InspectorNode node && node.Provider.ItemsSource is BindingBase itemsSource)
         {
             var obs = itemsSource switch
             {

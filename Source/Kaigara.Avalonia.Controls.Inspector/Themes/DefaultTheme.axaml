@@ -7,7 +7,7 @@
     </Design.PreviewWith>
 
     <!-- Add Styles Here -->
-	<StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/InspectorItemsControl.axaml"  />
-	<StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/InspectorItem.axaml"  />
-	<StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/Inspector.axaml"  />
+    <StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/InspectorItemsControl.axaml"  />
+    <StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/InspectorItem.axaml"  />
+    <StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/Inspector.axaml"  />
 </Styles>

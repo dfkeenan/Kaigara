@@ -91,9 +91,9 @@ public class MemberInspectorNode : InspectorNode
 
     private ObjectInspectorNodeBase InstanceNode => (ObjectInspectorNodeBase)this.Parent!;
 
-    public InspectorNode? ValueNode 
-    { 
-        get => valueNode; 
+    public InspectorNode? ValueNode
+    {
+        get => valueNode;
         private set { this.RaiseAndSetIfChanged(ref valueNode, value); }
     }
 
@@ -150,7 +150,7 @@ public class MemberInspectorNode : InspectorNode
             if (ValueNode == null) yield break;
 
             yield return ValueNode;
-        }        
+        }
     }
 
     public override void Invalidate()

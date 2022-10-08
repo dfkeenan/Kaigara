@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kaigara.Avalonia.Controls;
+﻿namespace Kaigara.Avalonia.Controls;
 
 public class InspectorMemberIgnoreAttribute : Attribute
 {

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Globalization;
-using System.Linq;
 using Avalonia.Data.Converters;
 using Kaigara.Extentions;
 
@@ -24,6 +22,6 @@ public class EnumToListConverter : IValueConverter
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        return Enum.ToObject(targetType,(value as IEnumerable).Cast<long>().Aggregate(0L, (v,n)=> v | n));
+        return Enum.ToObject(targetType, (value as IEnumerable).Cast<long>().Aggregate(0L, (v, n) => v | n));
     }
 }

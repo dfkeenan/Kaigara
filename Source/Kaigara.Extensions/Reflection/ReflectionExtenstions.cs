@@ -54,7 +54,7 @@ public static class ReflectionExtenstions
         }
     }
 
-    public static IDictionary<string,object?> GetMemberValues(this object instance, Func<MemberInfo,bool> filter)
+    public static IDictionary<string, object?> GetMemberValues(this object instance, Func<MemberInfo, bool> filter)
     {
         var memberValues = new Dictionary<string, object?>();
 
@@ -118,7 +118,7 @@ public static class ReflectionExtenstions
     }
 
     public static bool HasAttribute<T>(this Type type)
-        where T: Attribute
+        where T : Attribute
         => type.GetCustomAttribute<T>() is object;
 
     public static bool IsConstructable(this Type type)

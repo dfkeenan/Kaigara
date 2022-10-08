@@ -1,7 +1,7 @@
-﻿using System.Reactive.Linq;
+﻿using System.Reactive;
+using System.Reactive.Linq;
 using Dock.Model.Core;
 using Dock.Model.Core.Events;
-using System.Reactive;
 
 namespace Kaigara.Shell;
 

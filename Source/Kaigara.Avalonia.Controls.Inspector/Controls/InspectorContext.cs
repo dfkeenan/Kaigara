@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
@@ -25,7 +20,7 @@ public class InspectorContext
     public InspectorNodeProvider GetNodeProvider(MemberInfo memberInfo)
     {
 
-        return FindNodeProvider(p => p.MatchNodeMemberInfo(memberInfo));        
+        return FindNodeProvider(p => p.MatchNodeMemberInfo(memberInfo));
     }
 
     public InspectorNode CreateObjectInspectorNode(object value)

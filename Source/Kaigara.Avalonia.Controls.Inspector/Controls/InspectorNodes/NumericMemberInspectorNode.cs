@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Kaigara.Reflection;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
@@ -15,7 +14,7 @@ public class NumericMemberInspectorNode<T> : MemberInspectorNode<T>, INumericMem
             throw new ArgumentException("Type not numeric.", nameof(T));
         }
 
-        var range = context.GetCustomAttribute<NumericRangeAttribute>(memberInfo,true);
+        var range = context.GetCustomAttribute<NumericRangeAttribute>(memberInfo, true);
 
         HasRange = range is object;
         MinValue = Math.Max(typeCode.GetMinValue(), range?.MinValue ?? double.MinValue);

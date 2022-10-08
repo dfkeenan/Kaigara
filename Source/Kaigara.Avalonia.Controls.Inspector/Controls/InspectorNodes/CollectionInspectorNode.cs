@@ -16,10 +16,10 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
     private readonly ObservableCollection<MemberInspectorNode> items;
 
-    public CollectionInspectorNode(object instance, InspectorContext context, InspectorNodeProvider provider, InspectorNode parent, MemberInfo memberInfo, string displayName) 
+    public CollectionInspectorNode(object instance, InspectorContext context, InspectorNodeProvider provider, InspectorNode parent, MemberInfo memberInfo, string displayName)
         : base(instance, context, provider, parent, memberInfo, displayName)
     {
- 
+
         itemProperty = Type.GetProperty("Item")!;
 
         itemNodeProvider = Context.GetNodeProvider(itemProperty);

@@ -12,10 +12,10 @@ public class ValueMemberInspectorNode<T> : MemberInspectorNode<T>
     {
     }
 
-    public override T Value 
-    { 
-        get => (T)(GetValue() ?? new T()); 
-        set => base.Value = value; 
+    public override T Value
+    {
+        get => (T)(GetValue() ?? new T());
+        set => base.Value = value;
     }
 
     public override void Invalidate()

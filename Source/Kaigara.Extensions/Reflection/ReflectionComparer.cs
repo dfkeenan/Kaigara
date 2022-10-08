@@ -10,7 +10,7 @@ public static class ReflectionComparer
 
     public static bool EqualityComparerEquals(object x, object y)
     {
-        if(ReferenceEquals(x,null) && ReferenceEquals(y, null))
+        if (ReferenceEquals(x, null) && ReferenceEquals(y, null))
         {
             return true;
         }

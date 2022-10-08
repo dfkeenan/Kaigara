@@ -12,14 +12,14 @@ public static class EnumExtentions
     }
 
     public static IEnumerable<T> GetFlagsValues<T>()
-        where T: struct, Enum
+        where T : struct, Enum
     {
         return GetFlagsValues(typeof(T)).Cast<T>();
     }
 
     public static IEnumerable GetFlagsValues(Type enumType)
     {
-        return Enum.GetValues(enumType).Cast<long>().Where(e => IsPowerOfTwo(e)).Select(e => Enum.ToObject(enumType,e));
+        return Enum.GetValues(enumType).Cast<long>().Where(e => IsPowerOfTwo(e)).Select(e => Enum.ToObject(enumType, e));
     }
 
     private static bool IsPowerOfTwo(long n)
@@ -80,7 +80,7 @@ public static class EnumExtentions
         }
         else if (Unsafe.SizeOf<T>() == 8)
         {
-            return Unsafe.As<long,T>(ref value);
+            return Unsafe.As<long, T>(ref value);
         }
         else
         {

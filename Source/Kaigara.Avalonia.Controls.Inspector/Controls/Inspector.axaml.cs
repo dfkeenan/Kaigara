@@ -8,9 +8,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using Avalonia.Styling;
 using Avalonia.Utilities;
-using Kaigara.Avalonia.Controls.InspectorNodes;
 using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Avalonia.Controls;
@@ -83,7 +81,7 @@ public class Inspector : TemplatedControl, IWeakEventSubscriber<NotifyCollection
     static Inspector()
     {
         ItemsProperty.Changed.AddClassHandler<Inspector>((x, e) => x.ItemsChanged(e));
-    }    
+    }
 
     public Inspector()
     {
@@ -123,14 +121,14 @@ public class Inspector : TemplatedControl, IWeakEventSubscriber<NotifyCollection
                 foreach (var item in newValue)
                 {
                     nodes.Add(CreateNode(item));
-                } 
+                }
             }
             WeakEvents.CollectionChanged.Subscribe(newIncc, this);
         }
     }
 
     void IWeakEventSubscriber<NotifyCollectionChangedEventArgs>.OnEvent(object? sender, WeakEvent ev, NotifyCollectionChangedEventArgs e)
-    {        
+    {
         if (NodeItemsControl is not null)
         {
             nodes.MapSourceCollectionChanged(e, (Func<object, InspectorNode>)(i => CreateNode(i)));

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
-using ReactiveUI;
+using Avalonia.Controls.Selection;
 using Kaigara.Extentions;
 using Kaigara.Reflection;
-using Avalonia.Controls.Selection;
+using ReactiveUI;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
@@ -18,10 +16,10 @@ public class EnumMemberInspectorNode<T> : MemberInspectorNode<T>
 
     public EnumMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
-    {      
+    {
         EnumValues = EnumExtentions.GetValues<T>().ToList().AsReadOnly();
     }
-    
+
     public ReadOnlyCollection<T> EnumValues { get; }
 
 }
@@ -60,7 +58,7 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
 
             for (int i = 0; i < EnumValues.Count; i++)
             {
-                if (value.HasFlag(EnumValues[i])) 
+                if (value.HasFlag(EnumValues[i]))
                     Selection.Deselect(i);
                 else
                     Selection.Select(i);

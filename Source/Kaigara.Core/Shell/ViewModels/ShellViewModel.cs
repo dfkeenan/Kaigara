@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive.Linq;
+using System.Reflection;
 using Autofac;
 using Dock.Model.Controls;
 using Dock.Model.Core;
+using Dock.Model.Core.Events;
+using Dock.Model.ReactiveUI.Controls;
+using Kaigara.Collections.ObjectModel;
 using Kaigara.ViewModels;
 using ReactiveUI;
-using System.Reactive.Linq;
-using Kaigara.Collections.ObjectModel;
-using System.Reflection;
-using Dock.Model.ReactiveUI.Controls;
-using Dock.Model.Core.Events;
 
 namespace Kaigara.Shell.ViewModels;
 
@@ -49,7 +49,7 @@ public class ShellViewModel : ViewModel, IShell
         var dockables = new ObservableCollection<IDockable>();
         Documents.SyncItemsTo(dockables);
         Tools.SyncItemsTo(dockables);
-        Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout, dockables);        
+        Dockables = new ReadOnlyDockableCollection<IDockable>(factory, layout, dockables);
 
         factory.WindowClosed += OnDockWindowClosed;
 

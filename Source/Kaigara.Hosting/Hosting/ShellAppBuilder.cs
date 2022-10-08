@@ -1,14 +1,14 @@
-﻿using Avalonia.Controls;
-using Avalonia;
-using Autofac;
+﻿using Autofac;
 using Autofac.Core;
 using Autofac.Extras.CommonServiceLocator;
+using Avalonia;
+using Avalonia.Controls;
 using CommonServiceLocator;
-using Kaigara.ViewModels;
-using Kaigara.Shell;
-using Microsoft.Extensions.Configuration;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
+using Kaigara.Shell;
+using Kaigara.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace Kaigara.Hosting;
 

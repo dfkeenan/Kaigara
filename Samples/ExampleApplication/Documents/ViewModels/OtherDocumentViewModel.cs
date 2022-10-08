@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Dock.Model.ReactiveUI.Controls;
-using Kaigara.Avalonia.Controls;
 
 namespace ExampleApplication.Documents.ViewModels;
 

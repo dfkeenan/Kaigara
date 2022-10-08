@@ -1,7 +1,7 @@
-﻿using Avalonia;
-using ReactiveUI;
+﻿using System.Reactive.Linq;
+using Avalonia;
 using Kaigara.Avalonia.Controls;
-using System.Reactive.Linq;
+using ReactiveUI;
 
 namespace Kaigara.Avalonia.ReactiveUI;
 

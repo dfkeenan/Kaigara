@@ -3,10 +3,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:k="https://github.com/dfkeenan/Kaigara">
     <Style Selector="k|MathUpDown">
-		<Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
-		<Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}"/>
-		<Setter Property="BorderThickness" Value="{DynamicResource ThemeBorderThickness}"/>
-		<Setter Property="Padding" Value="4"/>
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource ThemeBorderThickness}"/>
+        <Setter Property="Padding" Value="4"/>
         <Setter Property="Template">
             <ControlTemplate>
                 <ButtonSpinner Name="PART_Spinner"
@@ -37,7 +37,7 @@
 
     <Style Selector="k|MathUpDown /template/ TextBox#PART_TextBox">
         <Setter Property="Margin" Value="2"/>
-		<Setter Property="MinWidth" Value="20"/>
+        <Setter Property="MinWidth" Value="20"/>
     </Style>
 
     <Style Selector="k|MathUpDown ButtonSpinner:right">
