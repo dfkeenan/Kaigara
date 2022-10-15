@@ -1,4 +1,5 @@
 ﻿using Kaigara.Commands;
+using Kaigara.MainWindow.Views;
 using Kaigara.Menus;
 using Kaigara.Shell;
 using Kaigara.ToolBars;
@@ -13,6 +14,7 @@ public class MainWindowViewModel : WindowViewModel
 
     public IShell Shell { get; }
     public ICommandManager CommandManager { get; }
+    public MainWindowView? View { get; internal set; }
 
     public MainWindowViewModel(IShell shell, ICommandManager commandManager, MainMenuViewModel mainMenu, MainToolBarTrayViewModel toolBarTray)
     {

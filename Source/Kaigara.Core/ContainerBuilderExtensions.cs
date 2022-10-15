@@ -209,6 +209,7 @@ public static class ContainerBuilderExtensions
                            .AssignableTo<RegisteredCommandBase>()
                            .Where(t => namespacePredicate(t))
                            .AsSelf()
+                           .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
                            .As<RegisteredCommandBase>()
                            .SingleInstance();
         return builder;

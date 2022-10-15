@@ -61,8 +61,9 @@ public abstract class RegisteredCommandBase : ReactiveObject
 
     public ICommand Command { get; }
 
-    protected virtual IObservable<bool>? CanExecute => null;
+    
+    public IObservable<bool>? CanExecute { get; protected set; }
 
-
+    protected virtual IObservable<bool>? GetCanExecute() => null;
     protected abstract ICommand CreateCommand();
 }

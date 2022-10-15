@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Kaigara.Commands;
+using Kaigara.Dialogs;
+using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Shell;
 using Kaigara.ToolBars;
@@ -16,17 +18,12 @@ public class MainWindowModule : Module
             .DependsOnModule<ToolBarModule>()
             .DependsOnModule<ShellModule>()
             .DependsOnModule<CommandModule>()
-            .RegisterViewModels<MainWindowModule>()
+            .DependsOnModule<DialogsModule>()
             .RegisterMenus<MainWindowModule>()
             .RegisterToolBars<MainWindowModule>();
 
-
-        //builder.Register(c=> 
-        //{
-        //    var menu = new MainMenuViewModel();
-        //    c.Resolve<IMenuManager>().Register(menu.Definition); 
-        //    return menu; 
-        //}).AsSelf().SingleInstance();
+        builder.RegisterType<MainWindowViewModel>()
+        .SingleInstance().AsSelf();
     }
 
 }

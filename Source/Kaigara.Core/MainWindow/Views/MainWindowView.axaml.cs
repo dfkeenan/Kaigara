@@ -16,6 +16,10 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
         this.WhenActivated(d =>
         {
             ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
+            if(ViewModel != null)
+            {
+                ViewModel.View = this;
+            }
         });
     }
 

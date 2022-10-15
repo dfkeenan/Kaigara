@@ -5,7 +5,7 @@ namespace Kaigara;
 public record ApplicationInfo
 {
     public string ProductName { get; init; }
-    public string? CompnayName { get; init; }
+    public string? CompanyName { get; init; }
     public string Copyright { get; init; }
     public string Version { get; init; }
 
@@ -41,7 +41,7 @@ public record ApplicationInfo
         return new ApplicationInfo
         {
             ProductName = productName,
-            CompnayName = assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company,
+            CompanyName = assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company,
             Copyright = assembly.GetCustomAttribute<AssemblyCopyrightAttribute>()?.Copyright ?? $"© {DateTime.Now.Year}",
             Version = version,
             ApplicationDataPath = appDataPath,
