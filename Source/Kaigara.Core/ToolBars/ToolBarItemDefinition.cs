@@ -2,8 +2,8 @@
 
 public class ToolBarItemDefinition : UIComponentItemDefinition<ToolBarItemDefinition>, IUIComponentDefinition
 {
-    public ToolBarItemDefinition(string name, string? label = null, string? iconName = null)
-        : base(name, label, iconName)
+    public ToolBarItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
+        : base(name, label, iconName, displayOrder)
     {
     }
 

@@ -18,6 +18,8 @@ internal class DefinedMenuItemViewModelBase : ReactiveObject, IDisposable, IMenu
 
     public string? IconName => Definition.IconName;
 
+    public int DisplayOrder => Definition.DisplayOrder;
+
     public virtual bool IsVisible => Definition.IsVisible;
 
     public virtual ICommand? Command => Definition.Command;

@@ -17,13 +17,14 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     private List<Action<IComponentContext>>? bindings;
     private CompositeDisposable disposables;
 
-    public UIComponentItemDefinition(string name, string? label = null, string? iconName = null)
+    public UIComponentItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         this.label = label;
         this.iconName = iconName;
         disposables = new CompositeDisposable();
         isVisible = true;
+        DisplayOrder = displayOrder;
     }
 
     public string Name { get; }
@@ -31,6 +32,8 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     public string? Label => label ?? registeredCommand?.Label;
 
     public string? IconName => iconName ?? registeredCommand?.IconName;
+
+    public int DisplayOrder { get; }
 
     public bool IsVisible
     {
@@ -111,4 +114,7 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     {
         disposables.Dispose();
     }
+
+    public static Comparer<T> DisplayOrderComparer { get; }
+        = Comparer<T>.Create((x,y) => x.DisplayOrder.CompareTo(y.DisplayOrder));
 }

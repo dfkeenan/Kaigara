@@ -5,26 +5,33 @@ namespace Kaigara.MainWindow.ViewModels;
 public class MainMenuViewModel : MenuViewModel
 {
     public MainMenuViewModel()
-        : base(new MenuDefinition("MainMenu")
+        : base(GetDefinition())
+    {
+
+    }
+
+    private static MenuDefinition GetDefinition()
+    {
+        int order = 0;
+
+        return new MenuDefinition("MainMenu")
         {
-                new MenuItemDefinition("File", "_File")
+                new MenuItemDefinition("File", "_File", displayOrder: order += 100)
                 {
-                    new MenuItemDefinition("Exit", "E_xit")
+                    new MenuItemDefinition("Exit", "E_xit", displayOrder: int.MaxValue)
                 },
-                new MenuItemDefinition("Edit", "_Edit")
-                {
-
-                },
-                new MenuItemDefinition("Window", "_Window")
+                new MenuItemDefinition("Edit", "_Edit", displayOrder: order += 100)
                 {
 
                 },
-                new MenuItemDefinition("Help", "_Help")
+                new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
+                {
+
+                },
+                new MenuItemDefinition("Help", "_Help", displayOrder : order += 100)
                 {
 
                 }
-        })
-    {
-
+        };
     }
 }

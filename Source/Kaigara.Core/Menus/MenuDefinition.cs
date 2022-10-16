@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using Autofac;
+using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Menus;
 
@@ -10,7 +11,7 @@ public class MenuDefinition : IEnumerable<MenuItemDefinition>, IUIComponentDefin
     public MenuDefinition(string name)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
-        items = new ObservableCollection<MenuItemDefinition>();
+        items = new SortedObservableCollection<MenuItemDefinition>(UIComponentItemDefinition<MenuItemDefinition>.DisplayOrderComparer);
         Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<MenuItemDefinition>(items);
     }
 

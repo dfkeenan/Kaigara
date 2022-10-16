@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
+using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Menus;
 
@@ -7,10 +8,10 @@ public class MenuItemDefinition : UIComponentItemDefinition<MenuItemDefinition>,
 {
     private readonly ObservableCollection<MenuItemDefinition> items;
 
-    public MenuItemDefinition(string name, string? label = null, string? iconName = null)
-        : base(name, label, iconName)
+    public MenuItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
+        : base(name, label, iconName, displayOrder)
     {
-        items = new ObservableCollection<MenuItemDefinition>();
+        items = new SortedObservableCollection<MenuItemDefinition>(DisplayOrderComparer); ;
         Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<MenuItemDefinition>(items);
     }
 

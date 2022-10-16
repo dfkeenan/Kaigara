@@ -50,7 +50,7 @@ public class MenuManager : IMenuManager
 
         if (definitionAttribute is { })
         {
-            var definition = new MenuItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName);
+            var definition = new MenuItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName, definitionAttribute.DisplayOrder);
             definition.RegisteredCommand = command;
             Register(definitionAttribute.Location, definition);
         }

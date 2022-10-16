@@ -28,5 +28,6 @@ public class ToolBarItemDefinitionAttribute : Attribute
     public string Name { get; }
     public string? IconName { get; set; }
     public string? Label { get; set; }
+    public int DisplayOrder { get; set; }
     public ToolBarItemLocation Location { get; }
 }

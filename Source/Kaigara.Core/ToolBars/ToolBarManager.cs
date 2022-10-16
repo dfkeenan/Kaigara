@@ -49,7 +49,7 @@ public class ToolBarManager : IToolBarManager
 
         if (definitionAttribute is { })
         {
-            var definition = new ToolBarItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName);
+            var definition = new ToolBarItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName, definitionAttribute.DisplayOrder);
             definition.RegisteredCommand = command;
             Register(definitionAttribute.Location, definition);
         }

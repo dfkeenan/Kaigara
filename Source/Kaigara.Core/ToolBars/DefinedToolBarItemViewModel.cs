@@ -22,6 +22,9 @@ internal class DefinedToolBarItemViewModel : ReactiveObject, IToolBarItemViewMod
     public string Name => Definition.Name;
     public string? Label => Definition.Label;
     public string? IconName => Definition.IconName;
+
+    public int DisplayOrder => Definition.DisplayOrder;
+
     public virtual bool IsVisible => Definition.IsVisible;
     public virtual ICommand? Command => Definition.Command;
     public virtual KeyGesture? InputGesture => Definition.InputGesture;

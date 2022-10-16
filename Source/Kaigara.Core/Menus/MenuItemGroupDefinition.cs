@@ -2,8 +2,8 @@
 
 public class MenuItemGroupDefinition : MenuItemDefinition
 {
-    public MenuItemGroupDefinition(string name, string? label = null)
-        : base(name, label)
+    public MenuItemGroupDefinition(string name, string? label = null, int displayOrder = 0)
+        : base(name, label, null, displayOrder)
     {
     }
 

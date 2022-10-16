@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using Autofac;
+using Kaigara.Collections.ObjectModel;
+using Kaigara.Menus;
 using ReactiveUI;
 
 namespace Kaigara.ToolBars;
@@ -15,7 +17,7 @@ public class ToolBarDefinition : ReactiveObject, IEnumerable<ToolBarItemDefiniti
     public ToolBarDefinition(string name)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
-        items = new ObservableCollection<ToolBarItemDefinition>();
+        items = new SortedObservableCollection<ToolBarItemDefinition>(UIComponentItemDefinition<ToolBarItemDefinition>.DisplayOrderComparer); ;
         Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<ToolBarItemDefinition>(items);
         disposables = new CompositeDisposable();
         isVisible = true;
