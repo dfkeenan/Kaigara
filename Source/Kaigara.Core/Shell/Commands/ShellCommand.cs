@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Commands;
 using Kaigara.Reactive;
 using ReactiveUI;
@@ -32,6 +33,7 @@ public abstract class ShellAsyncCommand : RegisteredAsyncCommand
 }
 
 public abstract class ActiveDocumentCommand<TDocument> : ShellCommand
+        where TDocument : Document
 {
     protected override IObservable<bool>? GetCanExecute()
     {
@@ -41,9 +43,20 @@ public abstract class ActiveDocumentCommand<TDocument> : ShellCommand
 
     protected virtual IObservable<bool> GetCanExecute(TDocument document)
         => Observable.Return(true);
+
+    protected override void OnExecute()
+    {
+        OnExecute((TDocument)Shell!.Documents.Active.Value!);
+    }
+
+    protected virtual void OnExecute(TDocument document)
+    {
+        
+    }
 }
 
 public abstract class ActiveDocumentAsyncCommand<TDocument> : ShellAsyncCommand
+        where TDocument : Document
 {
     protected override IObservable<bool>? GetCanExecute()
     {
@@ -53,4 +66,14 @@ public abstract class ActiveDocumentAsyncCommand<TDocument> : ShellAsyncCommand
 
     protected virtual IObservable<bool> GetCanExecute(TDocument document)
         => Observable.Return(true);
+
+    protected override Task OnExecuteAsync()
+    {
+        return OnExecuteAsync((TDocument)Shell!.Documents.Active.Value!);
+    }
+
+    protected virtual Task OnExecuteAsync(TDocument document)
+    {
+        return Task.CompletedTask;
+    }
 }
