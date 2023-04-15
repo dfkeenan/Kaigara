@@ -29,7 +29,7 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
 
     public string Name { get; }
 
-    public string? Label => label ?? registeredCommand?.Label;
+    public string? Label => label ?? registeredCommand?.Label ?? Name;
 
     public string? IconName => iconName ?? registeredCommand?.IconName;
 
