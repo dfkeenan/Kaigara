@@ -77,8 +77,11 @@ public static class ObservableCollectionExtensions
 
             case NotifyCollectionChangedAction.Reset:
                 destination.Clear();
-                for (int i = 0; i < e.NewItems!.Count; i++)
-                    destination.Add(map((TSourceItem)e.NewItems[i]!));
+                if (e.NewItems is not null)
+                {
+                    for (int i = 0; i < e.NewItems.Count; i++)
+                        destination.Add(map((TSourceItem)e.NewItems[i]!)); 
+                }
                 break;
 
             default:
