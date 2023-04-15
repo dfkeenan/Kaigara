@@ -32,22 +32,15 @@ public class InspectorContext
 
     private InspectorNodeProvider? FindNodeProvider(Func<InspectorNodeProvider, bool> predicate)
     {
-        var currentTemplateHost = inspector.NodeItemsControl as ILogical;
 
-        while (currentTemplateHost != null)
+        if(TryGetNodeProvider(inspector, predicate, out var nodeProvider))
         {
-            if (currentTemplateHost is IDataTemplateHost hostCandidate && hostCandidate.IsDataTemplatesInitialized)
-            {
-                foreach (var p in hostCandidate.DataTemplates.OfType<InspectorNodeProvider>())
-                {
-                    if (predicate(p))
-                    {
-                        return p;//queue.Enqueue(p, p.Priority);
-                    }
-                }
-            }
+            return nodeProvider;
+        }
 
-            currentTemplateHost = currentTemplateHost.LogicalParent;
+        if (TryGetNodeProvider(inspector.NodeItemsControl, predicate, out nodeProvider))
+        {
+            return nodeProvider;
         }
 
         IGlobalDataTemplates? global = AvaloniaLocator.Current.GetService<IGlobalDataTemplates>();
@@ -64,6 +57,29 @@ public class InspectorContext
         }
 
         return null;
+
+        static bool TryGetNodeProvider(ILogical? currentTemplateHost, Func<InspectorNodeProvider, bool> predicate, out InspectorNodeProvider? nodeProvider)
+        {
+            while (currentTemplateHost != null)
+            {
+                if (currentTemplateHost is IDataTemplateHost hostCandidate && hostCandidate.IsDataTemplatesInitialized)
+                {
+                    foreach (var p in hostCandidate.DataTemplates.OfType<InspectorNodeProvider>())
+                    {
+                        if (predicate(p))
+                        {
+                            nodeProvider = p;//queue.Enqueue(p, p.Priority);
+                            return true;
+                        }
+                    }
+                }
+
+                currentTemplateHost = currentTemplateHost.LogicalParent;
+            }
+
+            nodeProvider = null;
+            return false;
+        }
     }
 
     public IEnumerable<MemberInfo> GetMembers(Type type)
