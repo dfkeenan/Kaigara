@@ -9,7 +9,7 @@ public class ObjectInspectorNodeBase : InspectorNode
     {
         Value = instance ?? throw new ArgumentNullException(nameof(instance));
 
-
+        IsSharedSizeScope = true;
     }
     public object Value { get; }
 

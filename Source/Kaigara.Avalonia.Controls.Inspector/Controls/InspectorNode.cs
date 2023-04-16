@@ -20,6 +20,8 @@ public abstract class InspectorNode : ReactiveObject
     public MemberInfo MemberInfo { get; }
     public string? DisplayName { get; }
 
+    public bool IsSharedSizeScope { get; protected set; }
+
     public virtual IEnumerable<InspectorNode> Children => Enumerable.Empty<InspectorNode>();
 
     public abstract void Invalidate();

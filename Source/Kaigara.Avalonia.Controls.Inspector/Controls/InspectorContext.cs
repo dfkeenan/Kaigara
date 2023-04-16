@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.LogicalTree;
+using Avalonia.VisualTree;
 using Kaigara.Avalonia.Controls.InspectorNodes;
 using Kaigara.Avalonia.Controls.InspectorProviders;
 using Kaigara.Reflection;
@@ -16,6 +17,8 @@ public class InspectorContext
     {
         this.inspector = inspector;
     }
+
+    public Window? InspectorParentWindow => inspector.GetVisualRoot() as Window;
 
     public InspectorNodeProvider GetNodeProvider(MemberInfo memberInfo)
     {

@@ -22,8 +22,8 @@
                               Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="16"  />
-                                <ColumnDefinition Width="Auto" SharedSizeGroup="DisplayName" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" MinWidth="10" SharedSizeGroup="InspectorNodeDisplayName" />
+                                <ColumnDefinition Width="*"  />
                             </Grid.ColumnDefinitions>
                             <ToggleButton Name="expander"
                                           Focusable="False"
@@ -37,11 +37,13 @@
                                               Grid.Column="2"/>
                         </Grid>
                     </Border>
-                    <ItemsPresenter Name="PART_ItemsPresenter"
+                    <Grid Grid.IsSharedSizeScope="{Binding  IsSharedSizeScope}">
+                        <ItemsPresenter Name="PART_ItemsPresenter"
                                     IsVisible="{TemplateBinding IsExpanded}"
                                     Items="{TemplateBinding Items}"
                                     ItemsPanel="{TemplateBinding ItemsPanel}"
-                                    Grid.IsSharedSizeScope="True"/>
+                                    />
+                    </Grid> 
                 </StackPanel>
             </ControlTemplate>
         </Setter>
