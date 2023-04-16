@@ -20,7 +20,8 @@ public abstract class InspectorNode : ReactiveObject
     public MemberInfo MemberInfo { get; }
     public string? DisplayName { get; }
 
-    public bool IsSharedSizeScope { get; protected set; }
+    private bool isExpanded;
+    public bool IsExpanded { get => isExpanded; set => this.RaiseAndSetIfChanged(ref isExpanded, value); }
 
     public virtual IEnumerable<InspectorNode> Children => Enumerable.Empty<InspectorNode>();
 

@@ -8,8 +8,6 @@ public class ObjectInspectorNodeBase : InspectorNode
         : base(context, provider, parent, memberInfo, displayName)
     {
         Value = instance ?? throw new ArgumentNullException(nameof(instance));
-
-        IsSharedSizeScope = true;
     }
     public object Value { get; }
 

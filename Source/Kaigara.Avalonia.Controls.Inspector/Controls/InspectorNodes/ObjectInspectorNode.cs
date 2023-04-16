@@ -16,6 +16,8 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase
 
             return Context.GetNodeProvider(memberInfo)?.CreateNode(Context, this, memberInfo, null);
         }
+
+        IsExpanded = true;
     }
 
     public IEnumerable<MemberInspectorNode> Members { get; }

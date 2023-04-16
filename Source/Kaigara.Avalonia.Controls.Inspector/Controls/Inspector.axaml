@@ -136,7 +136,8 @@
                         </np:CollectionInspectorNodeProvider>
 
                         <np:ObjectInspectorNodeProvider ItemsSource="{Binding Children}" >
-                            <TextBlock>Place holder</TextBlock>
+                            <Grid></Grid>
+                            <!--<TextBlock>Place holder</TextBlock>-->
                         </np:ObjectInspectorNodeProvider>
                     </controls:InspectorItemsControl.DataTemplates>
                 </controls:InspectorItemsControl>

@@ -30,7 +30,7 @@ public class InspectorContext
     {
         var provider = FindNodeProvider(p => p is ObjectInspectorNodeProvider);
 
-        return new ObjectInspectorNode(value, this, provider!, null, value.GetType(), "");
+        return new ObjectInspectorNode(value, this, provider!, null, value.GetType(), " ");
     }
 
     private InspectorNodeProvider? FindNodeProvider(Func<InspectorNodeProvider, bool> predicate)

@@ -8,6 +8,7 @@
         </Style.Resources>
         <Setter Property="Padding" Value="2"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <StackPanel>
@@ -22,7 +23,7 @@
                               Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="16"  />
-                                <ColumnDefinition Width="Auto" MinWidth="10" SharedSizeGroup="InspectorNodeDisplayName" />
+                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*"  />
                             </Grid.ColumnDefinitions>
                             <ToggleButton Name="expander"
