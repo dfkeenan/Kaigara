@@ -8,27 +8,19 @@ public class UIComponentLocation
 
     public UIComponentLocation(string path)
     {
-        originalPath = path ?? throw new ArgumentNullException(nameof(path));
-        pathSegments = path.Split(pathSeparators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-    }
-
-    public UIComponentLocation(IEnumerable<string> path)
-    {
-        if (path is null)
-        {
+        if(string.IsNullOrWhiteSpace(path))
             throw new ArgumentNullException(nameof(path));
-        }
 
-        if (!path.Any())
-        {
-            throw new ArgumentOutOfRangeException(nameof(path), "Must have at least 1 item");
-        }
 
-        originalPath = String.Join('/', path);
-        pathSegments = path.ToArray();
+        originalPath = path;
+
+        pathSegments = path.Split(pathSeparators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        IsRelative = pathSeparators.Contains(path[0]);
     }
-
+    
     public IReadOnlyList<string> PathSegments => pathSegments;
+
+    public bool IsRelative { get; }
 
     public override string ToString() => originalPath;
 }

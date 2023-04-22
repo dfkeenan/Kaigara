@@ -18,7 +18,10 @@ public class MainMenuViewModel : MenuViewModel
         {
                 new MenuItemDefinition("File", "_File", displayOrder: order += 100)
                 {
-                    new MenuItemDefinition("Exit", "E_xit", displayOrder: int.MaxValue)
+                    new MenuItemGroupDefinition("ExitGroup", displayOrder: int.MaxValue)
+                    {
+                        new MenuItemDefinition("Exit", "E_xit")
+                    }
                 },
                 new MenuItemDefinition("Edit", "_Edit", displayOrder: order += 100)
                 {

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DynamicData;
 
 namespace Kaigara;
 
@@ -8,7 +9,7 @@ internal class UIComponentGraph
 
     public UIComponentGraph(IComponentContext context)
     {
-        root = new UIComponentNode(this, "ROOT");
+        root = new RootUIComponentNode(this, "ROOT");
         ComponentContext = context;
     }
 
@@ -38,5 +39,89 @@ internal class UIComponentGraph
         }
 
         return root.GetNode(location).AddConfiguration(o => options((TDefinition)o));
+    }
+}
+
+internal class RootUIComponentNode : UIComponentNode
+{
+    private Dictionary<string, UIComponentNode> nonRootedNodes = new Dictionary<string, UIComponentNode>();
+
+
+    public RootUIComponentNode(UIComponentGraph graph, string name) 
+        : base(graph, name)
+    {
+    }
+
+    public override IDisposable Add(IUIComponentDefinition definition)
+    {
+        var result = base.Add(definition);
+
+        foreach (var item in nonRootedNodes.ToList())
+        {
+            if (TryFind(item.Key, out var node))
+            {
+                node.Merge(item.Value);
+
+                nonRootedNodes.Remove(item.Key);
+            }
+        }
+
+        return result;
+    }
+
+    public override UIComponentNode GetNode(UIComponentLocation location)
+    {
+        UIComponentNode? node;
+
+        if(location.IsRelative)
+        {
+            if (TryFind(location.PathSegments[0], out node))
+            {
+                foreach (var name in location.PathSegments.Skip(1))
+                {
+                    node = node.GetOrAddNode(name);
+                }
+
+                return node;
+            }
+            else if (nonRootedNodes.TryGetValue(location.PathSegments[0], out node))
+            {
+                foreach (var name in location.PathSegments.Skip(1))
+                {
+                    node = node.GetOrAddNode(name);
+                }
+
+                return node;
+            }
+            else
+            {
+                node = new UIComponentNode(Graph, location.PathSegments[0]);
+                nonRootedNodes.Add(location.PathSegments[0], node);
+
+                foreach (var name in location.PathSegments.Skip(1))
+                {
+                    node = node.GetOrAddNode(name);
+                }
+
+                return node;
+            }
+        }
+
+        node = this;
+
+        foreach (var name in location.PathSegments)
+        {
+            if (nonRootedNodes.TryGetValue(name, out var child))
+            {
+                node = child;
+                nonRootedNodes.Remove(name);
+            }
+            else
+            {
+                node = node.GetOrAddNode(name);
+            }            
+        }
+
+        return node;
     }
 }

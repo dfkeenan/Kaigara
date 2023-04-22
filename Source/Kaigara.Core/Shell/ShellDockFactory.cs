@@ -158,7 +158,7 @@ public class ShellDockFactory : Factory
         AddDockable(mainLayout!, new ProportionalDockSplitter());
         AddDockable(mainLayout!, dock);
         rightToolDock = toolDock;
-
+        dock.Proportion = 0.5;
         return toolDock;
     }
 

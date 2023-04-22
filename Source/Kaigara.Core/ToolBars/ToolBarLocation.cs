@@ -3,18 +3,9 @@
 public class ToolBarLocation : UIComponentLocation
 {
     public ToolBarLocation(string trayName)
-        : base(BuildPath(trayName))
+        : base(trayName)
     {
-
-    }
-
-    private static string[] BuildPath(string trayName)
-    {
-        if (trayName is null)
-        {
-            throw new ArgumentNullException(nameof(trayName));
-        }
-
-        return new string[] { trayName };
+        if(IsRelative)
+            throw new ArgumentException("Must not be relative path",nameof(trayName));
     }
 }

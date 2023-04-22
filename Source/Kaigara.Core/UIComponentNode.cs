@@ -1,4 +1,5 @@
-﻿using System.Reactive.Disposables;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reactive.Disposables;
 using Autofac;
 using Kaigara.Collections.Generic;
 
@@ -21,6 +22,8 @@ internal class UIComponentNode
 
     public IUIComponentDefinition? Definition => definition;
 
+    internal UIComponentGraph Graph => graph;
+
     public IDisposable Add(UIComponentLocation location, IUIComponentDefinition definition)
     {
         var node = GetNode(location);
@@ -33,7 +36,7 @@ internal class UIComponentNode
         });
     }
 
-    public IDisposable Add(IUIComponentDefinition definition)
+    public virtual IDisposable Add(IUIComponentDefinition definition)
     {
         var node = AddDefinition(definition);
 
@@ -44,7 +47,34 @@ internal class UIComponentNode
         });
     }
 
-    public UIComponentNode GetNode(UIComponentLocation location)
+    public virtual bool TryFind(string name, [NotNullWhen(true)] out UIComponentNode? node)
+    {
+        node = null;
+
+        if (this.name == name)
+        {
+            node = this;
+            return true;
+        }
+
+        if(children != null)
+        {
+            if (children.TryGetValue(name, out node))
+                return true;
+
+            foreach (var child in children.Values)
+            {
+                if(child.TryFind(name, out node))
+                    return true;
+
+            }
+        }
+
+
+        return false;
+    }
+
+    public virtual UIComponentNode GetNode(UIComponentLocation location)
     {
         var node = this;
 
@@ -75,10 +105,28 @@ internal class UIComponentNode
         return node;
     }
 
-    private UIComponentNode GetOrAddNode(string name)
+    internal UIComponentNode GetOrAddNode(string name)
     {
         children ??= new Dictionary<string, UIComponentNode>();
-        return children.GetOrAdd(name, n => new UIComponentNode(graph, n));
+        return children.GetOrAdd(name, n => new UIComponentNode(Graph, n));
+    }
+
+    internal void Merge(UIComponentNode node)
+    {
+        children ??= new Dictionary<string, UIComponentNode>();
+
+        if(node.children != null)
+        {
+            foreach (var child in node.children)
+            {
+                children.Add(child.Key, child.Value);
+                if(definition is not null)
+                {
+
+                    child.Value.definition?.OnParentDefined(definition);
+                }
+            }
+        }
     }
 
     private void SetDefinition(IUIComponentDefinition definition)
@@ -96,7 +144,7 @@ internal class UIComponentNode
 
             options?.ForEach(o => o(definition));
 
-            definition.UpdateBindings(graph.ComponentContext);
+            definition.UpdateBindings(Graph.ComponentContext);
         }
 
         foreach (var item in definition.Items)

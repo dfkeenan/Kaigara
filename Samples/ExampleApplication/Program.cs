@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.ReactiveUI;
 using ExampleApplication.Documents.ViewModels;
 using Kaigara.Hosting;
+using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Reactive;
 using Kaigara.Shell;
@@ -40,13 +41,14 @@ class Program
 
                 var menuManager = container.Resolve<IMenuManager>();
 
-                MenuItemDefinition exampleDefinition = new MenuItemDefinition("Example", "_Example")
+                MenuItemDefinition exampleDefinition = new MenuItemGroupDefinition("Example")
                 {
                         new MenuItemDefinition("Thing2", "Thing _2"),
                         new MenuItemDefinition("Thing3", "Thing _3"),
                 }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
-                menuManager.Register(new MenuItemLocation("MainMenu"), exampleDefinition);
+
+                menuManager.Register(new MenuItemLocation("/File"), exampleDefinition);
 
                 menuManager.ConfigureDefinition(new MenuItemLocation("MainMenu/Edit"), definition =>
                 {

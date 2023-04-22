@@ -1,28 +1,25 @@
-﻿namespace Kaigara.ToolBars;
+﻿using Kaigara.Menus;
+
+namespace Kaigara.ToolBars;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ToolBarItemDefinitionAttribute : Attribute
 {
-    public ToolBarItemDefinitionAttribute(string name, string trayName, string toolBarName)
+    public ToolBarItemDefinitionAttribute(string name, string locationPath)
     {
         if (string.IsNullOrEmpty(name))
         {
             throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
         }
 
-        if (string.IsNullOrEmpty(trayName))
+        if (string.IsNullOrEmpty(locationPath))
         {
-            throw new ArgumentException($"'{nameof(trayName)}' cannot be null or empty.", nameof(trayName));
-        }
-
-        if (string.IsNullOrEmpty(toolBarName))
-        {
-            throw new ArgumentException($"'{nameof(toolBarName)}' cannot be null or empty.", nameof(toolBarName));
+            throw new ArgumentException($"'{nameof(locationPath)}' cannot be null or empty.", nameof(locationPath));
         }
 
         Name = name;
 
-        Location = new ToolBarItemLocation(trayName, toolBarName);
+        Location = new ToolBarItemLocation(locationPath);
     }
 
     public string Name { get; }

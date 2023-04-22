@@ -3,21 +3,21 @@
 [AttributeUsage(AttributeTargets.Class)]
 public class MenuItemDefinitionAttribute : Attribute
 {
-    public MenuItemDefinitionAttribute(string name, string path)
+    public MenuItemDefinitionAttribute(string name, string locationPath)
     {
         if (string.IsNullOrEmpty(name))
         {
             throw new ArgumentException($"'{nameof(name)}' cannot be null or empty.", nameof(name));
         }
 
-        if (string.IsNullOrEmpty(path))
+        if (string.IsNullOrEmpty(locationPath))
         {
-            throw new ArgumentException($"'{nameof(path)}' cannot be null or empty.", nameof(path));
+            throw new ArgumentException($"'{nameof(locationPath)}' cannot be null or empty.", nameof(locationPath));
         }
 
         Name = name;
 
-        Location = new MenuItemLocation(path);
+        Location = new MenuItemLocation(locationPath);
     }
 
     public string Name { get; }

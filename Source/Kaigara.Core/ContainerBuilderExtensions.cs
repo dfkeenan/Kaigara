@@ -132,7 +132,7 @@ public static class ContainerBuilderExtensions
                                }
                            })
                            .AsSelf()
-                           .InstancePerDependency();
+                           .SingleInstance();
         return builder;
     }
 
