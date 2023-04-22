@@ -28,10 +28,11 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
         Items = new ReadOnlyObservableCollection<MemberInspectorNode>(items);
 
+        IsReadOnly = List.IsReadOnly;
+
         var canAdd = itemProperty.PropertyType.CanBeActivatedWithoutArguments();
 
         AddNewItem = ReactiveCommand.Create(AddNewListItem, Observable.Never<bool>().StartWith(canAdd));
-        RemoveItem = ReactiveCommand.Create<MemberInspectorNode>(RemoveListItem);
 
         for (int i = 0; i < List.Count; i++)
         {
@@ -41,16 +42,16 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
         items.CollectionChanged += Items_CollectionChanged;
     }
 
+    public bool IsReadOnly { get; }
+
     private Type ElementType => itemProperty.PropertyType;
     private IList List => (IList)Value;
 
     public ReadOnlyObservableCollection<MemberInspectorNode> Items { get; }
 
-    public ReactiveCommand<Unit, Unit> AddNewItem { get; }
+    public ReactiveCommand<Unit, Unit> AddNewItem { get; }    
 
-    public ReactiveCommand<MemberInspectorNode, Unit> RemoveItem { get; }
-
-    private void RemoveListItem(MemberInspectorNode item)
+    internal void RemoveListItem(MemberInspectorNode item)
     {
         int index = (int)item.GetIndex();
         items.RemoveAt(index);

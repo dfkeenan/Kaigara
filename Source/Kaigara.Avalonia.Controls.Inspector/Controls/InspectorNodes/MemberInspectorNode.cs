@@ -60,7 +60,22 @@ public class MemberInspectorNode : InspectorNode
             throw new ArgumentException("Member must be Field or Property", nameof(memberInfo));
         }
 
+
+        if (MemberInfo.GetCustomAttribute<DefaultValueAttribute>(false) is DefaultValueAttribute attr)
+        {
+            DefaultValue = attr.Value;
+        }
+        else
+        {
+            DefaultValue = ValueType switch
+            {
+                { IsValueType: true } => Activator.CreateInstance(ValueType),
+                _ => null
+            };
+        }
+
         CreateInstance = ReactiveCommand.Create<Type>(CreateNewInstance);
+        Remove = ReactiveCommand.Create(RemoveInstance);
 
         if (provider.ItemsSource is object)
         {
@@ -75,7 +90,21 @@ public class MemberInspectorNode : InspectorNode
 
     public bool IsReadOnly { get; }
 
-    public bool HasValue => GetValue() is object;
+    public object? DefaultValue { get; }
+
+    public bool HasValue => GetValue() is object value && !value.Equals(DefaultValue);
+
+    public override bool CanRemove
+    {
+        get
+        {
+            if (index != null && InstanceNode is CollectionInspectorNode collectionInspectorNode && !collectionInspectorNode.IsReadOnly)
+                return true;
+
+
+            return HasValue && !IsReadOnly;
+        }
+    }
 
     public bool IsConstructable => ConstructableTypes?.Any() == true;
 
@@ -102,6 +131,23 @@ public class MemberInspectorNode : InspectorNode
     private void CreateNewInstance(Type type)
     {
         SetValue(Activator.CreateInstance(type));
+        IsExpanded = true;
+    }
+
+    public ReactiveCommand<Unit, Unit> Remove { get; }
+
+    private void RemoveInstance()
+    {
+        if (InstanceNode is CollectionInspectorNode collection)
+        {
+            collection.RemoveListItem(this);
+        }
+        else
+        {
+            SetValue(DefaultValue);
+            IsExpanded = false;
+        }
+        
     }
 
     public object GetIndex(int i = 0) => index[i];
@@ -122,7 +168,7 @@ public class MemberInspectorNode : InspectorNode
 
         var oldValue = GetValue();
         setter(InstanceNode.Value, value);
-        UpdateValueNode();
+        Invalidate();
 
         EventArgs args;
 
@@ -163,5 +209,6 @@ public class MemberInspectorNode : InspectorNode
         ValueNode = HasValue ? valueNodeProvider?.CreateNode(Context, this, ValueType, index) : null;
         this.RaisePropertyChanged(nameof(HasValue));
         this.RaisePropertyChanged(nameof(Children));
+        this.RaisePropertyChanged(nameof(CanRemove));
     }
 }

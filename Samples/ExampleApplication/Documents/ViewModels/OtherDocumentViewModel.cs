@@ -31,12 +31,16 @@ public class OtherDocumentViewModel : Document
         //[NumericRange(0, 10.0, 0.5d)]
         public double DoubleTrouble { get; set; }
 
+        public int Integer { get; set; }
+
         public TestEnum EnumProperty { get; set; }
 
         [DisplayName("Flags Yo!")]
         public TestFlagsEnum FlagsEnumProperty { get; set; }
 
         public List<InspectorTestObject> TestObjects { get; set; }
+
+        public List<int> TestNumbers { get; set; }  
     }
 
 

@@ -17,10 +17,4 @@ public class ValueMemberInspectorNode<T> : MemberInspectorNode<T>
         get => (T)(GetValue() ?? new T());
         set => base.Value = value;
     }
-
-    public override void Invalidate()
-    {
-        base.Invalidate();
-        ((IReactiveObject)this).RaisePropertyChanged((string?)null);
-    }
 }

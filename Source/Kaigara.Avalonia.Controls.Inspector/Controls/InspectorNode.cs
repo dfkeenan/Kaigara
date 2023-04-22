@@ -20,6 +20,8 @@ public abstract class InspectorNode : ReactiveObject
     public MemberInfo MemberInfo { get; }
     public string? DisplayName { get; }
 
+    public virtual bool CanRemove => false;
+
     private bool isExpanded;
     public bool IsExpanded { get => isExpanded; set => this.RaiseAndSetIfChanged(ref isExpanded, value); }
 

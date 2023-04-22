@@ -66,6 +66,22 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
         }, Observable.Never<bool>().StartWith(!IsReadOnly));
     }
 
+    public override void Invalidate()
+    {
+        base.Invalidate();
+        var value = Value;
+
+        for (int i = 0; i < EnumValues.Count; i++)
+        {
+            if (value.HasFlag(EnumValues[i]))
+                Selection.Select(i);
+            else
+                Selection.Deselect(i);
+        }
+
+    }
+
+
     private void Selection_SelectionChanged(object? sender, SelectionModelSelectionChangedEventArgs<T> e)
     {
         if (!syncingFlags)

@@ -38,6 +38,22 @@
         <Setter Property="CommandParameter" Value="{Binding}"/>
     </Style>
 
+    <Style Selector="controls|InspectorItem Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    
+    <Style Selector="controls|InspectorItem > :not(controls|InspectorItem) Button:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}" />
+    </Style>
+    <Style Selector="controls|InspectorItem:selected > :not(controls|InspectorItem) Button:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}" />
+    </Style>
+
+    <Style Selector="controls|InspectorItem:selected > :not(controls|InspectorItem) Button:pressed">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
+    </Style>
+
     <Style Selector="controls|Inspector">
         <!-- Set Defaults -->
         <Setter Property="Template">
@@ -109,30 +125,27 @@
                         <np:MemberInspectorNodeProvider MemberType="s:Object" ItemsSource="{Binding ValueNode.Children}">
                             <Panel>
                                 <Grid IsVisible="{Binding !HasValue}" ColumnDefinitions="Auto,*" Margin="4" >
-                                    <TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" />
+                                    <TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" VerticalAlignment="Center" />
                                     <Button  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}"
                                              Classes="ConstructableTypes">
                                         <Button.Flyout>
-                                            <MenuFlyout Placement="Bottom" Items="{Binding ConstructableTypes}" />
+                                            <MenuFlyout Placement="BottomEdgeAlignedRight" Items="{Binding ConstructableTypes}" />
                                         </Button.Flyout>
-                                        <DrawingPresenter Drawing="{DynamicResource VSImageLib.Add_16x}" />
+                                        <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}">
+                                        </Image>
                                     </Button>
                                 </Grid>
-                                <Border IsVisible="{Binding HasValue}">
-                                    <ContentControl Content="{Binding ValueNode}" />
-                                </Border>
+                                <ContentControl IsVisible="{Binding HasValue}" Content="{Binding ValueNode}" />
                             </Panel>
                         </np:MemberInspectorNodeProvider>
 
                         <np:CollectionInspectorNodeProvider >
-                            <k:ToolBarTray>
-                                <k:ToolBar>
-                                    <Button Command="{Binding AddNewItem}" ToolTip.Tip="Add Item">
-                                        <!--<DrawingPresenter Drawing="{DynamicResource VSImageLib.Add_16x}" />-->
-                                        Add Item
-                                    </Button>
-                                </k:ToolBar>
-                            </k:ToolBarTray>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Command="{Binding AddNewItem}" ToolTip.Tip="Add Item">
+                                    <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}">
+                                    </Image>
+                                </Button>
+                            </StackPanel>
                         </np:CollectionInspectorNodeProvider>
 
                         <np:ObjectInspectorNodeProvider ItemsSource="{Binding Children}" >

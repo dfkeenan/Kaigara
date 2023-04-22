@@ -30,12 +30,21 @@
                                           Focusable="False"
                                           IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"/>
                             <TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                            <ContentPresenter Name="PART_HeaderPresenter"
+                            <DockPanel Grid.Column="2"
+                                       LastChildFill="True"
+                                       Margin="{TemplateBinding Padding}">
+                                <Button DockPanel.Dock="Right" VerticalAlignment="Center"
+                                        IsVisible="{Binding CanRemove}"
+                                        ToolTip.Tip="Remove" Command="{Binding Remove}">
+                                    <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Remove_color_16x}">
+                                    </Image>
+                                </Button>
+                                <ContentPresenter Name="PART_HeaderPresenter"
                                               Focusable="False"
-                                              Content="{TemplateBinding Header}"
                                               HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                                              Padding="{TemplateBinding Padding}"
-                                              Grid.Column="2"/>
+                                              Content="{TemplateBinding Header}"
+                                              />
+                            </DockPanel>
                         </Grid>
                     </Border>
                     <Grid Grid.IsSharedSizeScope="{Binding  IsSharedSizeScope}">
