@@ -3,6 +3,7 @@
         xmlns:k="https://github.com/dfkeenan/Kaigara"
         xmlns:controls="using:Kaigara.Avalonia.Controls"
         xmlns:np="using:Kaigara.Avalonia.Controls.InspectorProviders"
+        xmlns:n="using:Kaigara.Avalonia.Controls.InspectorNodes"
         xmlns:s="using:System">
     <Design.PreviewWith>
         <controls:Inspector />
@@ -62,6 +63,9 @@
                     <controls:InspectorItemsControl.DataTemplates>
                         <np:MemberInspectorNodeProvider MemberType="s:String">
                             <TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}" />
+                        </np:MemberInspectorNodeProvider>
+                        <np:MemberInspectorNodeProvider MemberType="s:Boolean">
+                            <CheckBox IsChecked="{Binding Value}" IsEnabled="{Binding !IsReadOnly}" />
                         </np:MemberInspectorNodeProvider>
                         <np:NumericMemberInspectorNodeProvider >
                             <StackPanel >
@@ -152,6 +156,9 @@
                             <Grid></Grid>
                             <!--<TextBlock>Place holder</TextBlock>-->
                         </np:ObjectInspectorNodeProvider>
+                        <TreeDataTemplate DataType="n:CategoryInspectorNode" ItemsSource="{Binding Children}">
+                            <Grid></Grid>
+                        </TreeDataTemplate>
                     </controls:InspectorItemsControl.DataTemplates>
                 </controls:InspectorItemsControl>
             </ControlTemplate>

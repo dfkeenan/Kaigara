@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel;
+using System.Reflection;
 using Kaigara.Reflection;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
@@ -18,11 +19,20 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase
         }
 
         IsExpanded = true;
+
+
+        var members = Members.ToLookup(m => m.MemberInfo.GetCustomAttribute<CategoryAttribute>()?.Category ?? "Misc");
+
+        if(members.Count > 1 )
+        {
+           Categories =  members.Select(m => new CategoryInspectorNode(Context, provider, this, m.Key, m.ToList())).ToList();
+        }
     }
 
     public IEnumerable<MemberInspectorNode> Members { get; }
+    public IEnumerable<CategoryInspectorNode>? Categories { get; }
 
-    public override IEnumerable<InspectorNode> Children => Members;
+    public override IEnumerable<InspectorNode> Children => (IEnumerable<InspectorNode>?)Categories ?? Members;
 
 
 }

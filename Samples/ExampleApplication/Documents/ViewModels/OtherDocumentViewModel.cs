@@ -33,12 +33,17 @@ public class OtherDocumentViewModel : Document
 
         public int Integer { get; set; }
 
+        [Category("Enums")]
         public TestEnum EnumProperty { get; set; }
+
+        [Category("Enums")]
 
         [DisplayName("Flags Yo!")]
         public TestFlagsEnum FlagsEnumProperty { get; set; }
+        [Category("Lists")]
 
         public List<InspectorTestObject> TestObjects { get; set; }
+        [Category("Lists")]
 
         public List<int> TestNumbers { get; set; }  
     }

@@ -37,8 +37,10 @@ public class MemberInspectorNode : InspectorNode
     private InspectorNode? valueNode;
 
     public MemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
-        : base(context, provider, parent: parent, memberInfo: memberInfo, displayName: $"{memberInfo.GetDisplayName()}{GetIndex(index)}")
+        : base(context, provider, parent: parent, displayName: $"{memberInfo.GetDisplayName()}{GetIndex(index)}")
     {
+        MemberInfo = memberInfo ?? throw new ArgumentNullException(nameof(memberInfo));
+
         this.index = index;
 
         if (MemberInfo is PropertyInfo property)
@@ -83,6 +85,8 @@ public class MemberInspectorNode : InspectorNode
             Invalidate();
         }
     }
+
+    public MemberInfo MemberInfo { get; }
 
     public Type MemberType { get; }
 
