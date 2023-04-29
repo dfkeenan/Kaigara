@@ -13,8 +13,3 @@ public interface IMenuItemViewModel : IDisposable
     string? Label { get; }
     string? IconName { get; }
 }
-
-public interface IMenuItemGroupViewModel
-{
-
-}

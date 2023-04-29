@@ -1,28 +1,21 @@
 ﻿using System.Collections.ObjectModel;
-using Kaigara.Menus;
 using System.Collections.Specialized;
 using ReactiveUI;
 using System.Collections;
-using System.Windows.Input;
 using Avalonia.Input;
+using System.Windows.Input;
 
 namespace Kaigara.ToolBars;
 
-internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
+internal class DefinedToolBarItemGroupViewModel : DefinedToolBarItemViewModel
 {
     private ReadOnlyObservableCollection<IToolBarItemViewModel> items;
-    private IDisposable changeSubscription;
 
-    public DefinedToolBarViewModel(ToolBarDefinition definition)
+    internal event Action? ItemsChanged;
+
+    public DefinedToolBarItemGroupViewModel(ToolBarItemGroupDefinition definition) : base(definition)
     {
-        Definition = definition ?? throw new ArgumentNullException(nameof(definition));
-
         items = Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<ToolBarItemDefinition, IToolBarItemViewModel>(definition.Items, (Func<ToolBarItemDefinition, IToolBarItemViewModel>)(d => d.Build()));
-
-        changeSubscription = definition.Changed.Subscribe(n =>
-        {
-            this.RaisePropertyChanged(n.PropertyName);
-        });
 
         ((INotifyCollectionChanged)items).CollectionChanged += DefinedMenuItemViewModel_CollectionChanged;
 
@@ -75,12 +68,6 @@ internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
         this.RaisePropertyChanged(nameof(Items));
     }
 
-    public ToolBarDefinition Definition { get; }
-
-    public string Name => Definition.Name;
-
-    public bool IsVisible => Definition.IsVisible;
-
     public IEnumerable<IToolBarItemViewModel> Items
     {
         get
@@ -118,14 +105,31 @@ internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
             }
         }
     }
+}
+
+public class ToolBarItemSeparatorViewModel : IToolBarItemViewModel
+{
+    public static ToolBarItemSeparatorViewModel Instance { get; } = new ToolBarItemSeparatorViewModel();
+
+    private ToolBarItemSeparatorViewModel()
+    {
+        
+    }
+
+    public ICommand? Command => null;
+
+    public object? CommandParameter => null;
+
+    public KeyGesture? InputGesture => null;
+
+    public bool IsVisible => true;
+
+    public string? Label => "-";
+
+    public string? IconName => null;
 
     public void Dispose()
     {
-        Dispose(true);
-    }
 
-    protected virtual void Dispose(bool disposing)
-    {
-        changeSubscription.Dispose();
     }
 }

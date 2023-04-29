@@ -120,6 +120,11 @@ internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
         foreach (var item in items)
         {
             item.Dispose();
+            if (item is DefinedMenuItemGroupViewModel group)
+            {
+                group.ItemsChanged -= CallItemsChanged;
+                group.PropertyChanged -= Group_PropertyChanged;
+            }
         }
     }
 }

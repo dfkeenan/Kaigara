@@ -10,8 +10,18 @@ public class ToolBarItemDefinition : UIComponentItemDefinition<ToolBarItemDefini
     IEnumerable<IUIComponentDefinition> IUIComponentDefinition.Items => Enumerable.Empty<IUIComponentDefinition>();
 
     void IUIComponentDefinition.OnParentDefined(IUIComponentDefinition parent)
-        => ((ToolBarDefinition)parent).Add(this);
+    {
+        switch (parent)
+        {
+            case ToolBarDefinition toolBar:
+                toolBar.Add(this);
+                break;
+            case ToolBarItemGroupDefinition toolBarItemGroup:
+                toolBarItemGroup.Add(this);
+                break;
+        }
+    }
 
-    internal IToolBarItemViewModel Build()
+    internal virtual IToolBarItemViewModel Build()
         => new DefinedToolBarItemViewModel(this);
 }

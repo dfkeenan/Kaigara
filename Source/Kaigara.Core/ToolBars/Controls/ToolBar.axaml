@@ -16,6 +16,9 @@
       <DataTemplate>
         <ContentPresenter Content="{Binding}" >
           <ContentPresenter.DataTemplates>
+              <DataTemplate  DataType="vm:ToolBarItemSeparatorViewModel">
+                  <Separator />
+              </DataTemplate>
             <DataTemplate DataType="vm:IToolBarItemViewModel">
               <Button Command="{Binding Command}" 
                       CommandParameter="{Binding CommandParameter}"
