@@ -105,6 +105,23 @@ internal class DefinedToolBarItemGroupViewModel : DefinedToolBarItemViewModel
             }
         }
     }
+
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (disposing)
+        {
+            foreach (var item in items)
+            {
+                if (item is DefinedToolBarItemGroupViewModel group)
+                {
+                    group.ItemsChanged += CallItemsChanged;
+                    group.PropertyChanged += Group_PropertyChanged;
+                }
+                item.Dispose();
+            }
+        }
+    }
 }
 
 public class ToolBarItemSeparatorViewModel : IToolBarItemViewModel

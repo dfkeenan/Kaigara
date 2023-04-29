@@ -126,6 +126,20 @@ internal class DefinedToolBarViewModel : ReactiveObject, IToolBarViewModel
 
     protected virtual void Dispose(bool disposing)
     {
-        changeSubscription.Dispose();
+        if (disposing)
+        {
+            changeSubscription.Dispose();
+
+            foreach (var item in items)
+            {
+                if (item is DefinedToolBarItemGroupViewModel group)
+                {
+                    group.ItemsChanged += CallItemsChanged;
+                    group.PropertyChanged += Group_PropertyChanged;
+                }
+
+                item.Dispose();
+            } 
+        }
     }
 }
