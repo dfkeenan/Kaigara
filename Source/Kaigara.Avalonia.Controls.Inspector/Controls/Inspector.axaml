@@ -9,6 +9,10 @@
         <controls:Inspector />
     </Design.PreviewWith>
 
+    <Style Selector="ListBox.checklist:disabled /template/ Border#border">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
     <Style Selector="ListBox.checklist ListBoxItem">
         <Setter Property="Template">
             <ControlTemplate>
