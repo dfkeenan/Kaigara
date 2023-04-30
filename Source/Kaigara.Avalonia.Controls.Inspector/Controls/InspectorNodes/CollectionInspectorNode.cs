@@ -59,7 +59,7 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
     private void AddNewListItem()
     {
-        var item = Activator.CreateInstance(ElementType);
+        var item = Activator.CreateInstance(ElementType.EnsureRuntimeType());
         var itemIndex = Items.Count;
         List.Add(item);
         items.Add(CreateItemNode(Value, itemIndex));

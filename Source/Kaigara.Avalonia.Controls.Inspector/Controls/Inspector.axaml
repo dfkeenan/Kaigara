@@ -99,8 +99,8 @@
 
                         <np:EnumMemberInspectorNodeProvider FlagsEnum="True">
                             <Grid>
-                                <ToggleButton x:Name="DropDownToggle" HorizontalContentAlignment="Stretch" Padding="2">
-                                    <TextBlock Text="Change values" />
+                                <ToggleButton x:Name="DropDownToggle" Padding="2">
+                                    <TextBlock Text="{Binding Value ,Converter={x:Static k:EnumFlagsToStringConverter.Instance}}" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
                                 </ToggleButton>
                                 <Popup IsOpen="{Binding IsChecked,ElementName=DropDownToggle, Mode=TwoWay}" StaysOpen="False" >
                                     <DockPanel Margin="2">

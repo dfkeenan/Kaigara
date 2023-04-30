@@ -9,8 +9,10 @@ public class EnumToStringConverter : IValueConverter
     public static EnumToStringConverter Instance { get; } = new EnumToStringConverter();
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var fieldInfo = value.GetType().GetField(value.ToString());
-        return fieldInfo.GetDisplayName();
+        var valueType = value!.GetType().EnsureRuntimeType();
+
+        var fieldInfo = valueType.GetField(value.ToString()!);
+        return fieldInfo!.GetDisplayName();
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

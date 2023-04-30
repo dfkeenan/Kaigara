@@ -25,7 +25,7 @@ public class MemberInspectorNodeProvider : InspectorNodeProvider
     public override bool MatchNodeMemberInfo(MemberInfo memberInfo)
     {
         return MemberType is object
-            && memberInfo.TryGetMemberType() is Type memberType
+            && memberInfo.TryGetMemberType()?.EnsureRuntimeType() is Type memberType
             && (MemberType.IsAssignableFrom(memberType) || (Nullable.GetUnderlyingType(memberType)?.IsAssignableFrom(MemberType) == true));
     }
 
@@ -36,6 +36,6 @@ public class MemberInspectorNodeProvider : InspectorNodeProvider
 
     internal static InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNodeProvider provider, Type genericNodeType, Type nodeType, InspectorNode parent, MemberInfo member, object[]? index)
     {
-        return CreateNode(inspectorContext, provider, genericNodeType.MakeGenericType(nodeType), parent, member, index);
+        return CreateNode(inspectorContext, provider, genericNodeType.MakeGenericType(nodeType.EnsureRuntimeType()), parent, member, index);
     }
 }

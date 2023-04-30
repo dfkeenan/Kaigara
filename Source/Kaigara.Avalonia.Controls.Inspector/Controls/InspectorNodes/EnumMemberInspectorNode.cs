@@ -68,17 +68,19 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
 
     public override void Invalidate()
     {
-        base.Invalidate();
-        var value = Value;
-
-        for (int i = 0; i < EnumValues.Count; i++)
+        if (!syncingFlags)
         {
-            if (value.HasFlag(EnumValues[i]))
-                Selection.Select(i);
-            else
-                Selection.Deselect(i);
-        }
+            var value = Value;
 
+            for (int i = 0; i < EnumValues.Count; i++)
+            {
+                if (value.HasFlag(EnumValues[i]))
+                    Selection.Select(i);
+                else
+                    Selection.Deselect(i);
+            }
+        }
+        base.Invalidate();
     }
 
 

@@ -71,7 +71,7 @@ public class MemberInspectorNode : InspectorNode
         {
             DefaultValue = ValueType switch
             {
-                { IsValueType: true } => Activator.CreateInstance(ValueType),
+                { IsValueType: true } => Activator.CreateInstance(ValueType.EnsureRuntimeType()),
                 _ => null
             };
         }
@@ -134,7 +134,7 @@ public class MemberInspectorNode : InspectorNode
 
     private void CreateNewInstance(Type type)
     {
-        SetValue(Activator.CreateInstance(type));
+        SetValue(Activator.CreateInstance(type.EnsureRuntimeType()));
         IsExpanded = true;
     }
 

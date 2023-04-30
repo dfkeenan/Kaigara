@@ -9,7 +9,7 @@ public class CollectionInspectorNodeProvider : InspectorNodeProvider
     public override bool MatchNodeMemberInfo(MemberInfo memberInfo)
     {
         return memberInfo is Type type
-           && type.IsInstanceOfGenericInterface(typeof(IList<>));
+           && type.EnsureRuntimeType().IsInstanceOfGenericInterface(typeof(IList<>));
     }
 
     public override InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNode parent, MemberInfo member, object[]? index = null)

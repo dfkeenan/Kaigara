@@ -102,6 +102,22 @@ public static class ReflectionExtenstions
         return memberType;
     }
 
+    public static bool IsRuntimeType(this Type type)
+    {
+        return typeof(Type).IsAssignableFrom(type);
+    }
+
+    public static Type EnsureRuntimeType(this Type type)
+    {
+        if (type.IsRuntimeType() is false)
+        {
+            return Type.GetTypeFromHandle(type.TypeHandle);
+        }
+
+        return type;
+    }
+
+
     public static bool IsReadOnly(this FieldInfo fieldInfo)
     {
         return !fieldInfo.IsPublic || fieldInfo.IsInitOnly || fieldInfo.IsAssembly;

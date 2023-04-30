@@ -89,17 +89,9 @@ public class InspectorContext
     {
         var mappedType = inspector.ReflectionContext.MapType(type.GetTypeInfo());
 
-        MemberInfo[] memberInfos = mappedType.GetMembers(BindingFlags.Public | BindingFlags.Instance);
-        var mappedMembers = memberInfos
-            .Where(m => m is FieldInfo || m is PropertyInfo)
-            .ToDictionary(m => m.Name);
-
         var members = from member in type.GetMembers(BindingFlags.Public | BindingFlags.Instance)
                       where member is FieldInfo field || member is PropertyInfo property
-                      let mappedMember = mappedMembers[member.Name]
-                      where GetCustomAttribute<InspectorMemberIgnoreAttribute>(mappedMember, true) == null &&
-                            ((member is FieldInfo field) ||
-                            (member is PropertyInfo property))
+                      where GetCustomAttribute<InspectorMemberIgnoreAttribute>(member, true) == null
                       select member;
 
         return members;

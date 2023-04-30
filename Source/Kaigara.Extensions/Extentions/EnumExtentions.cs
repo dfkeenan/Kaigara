@@ -17,9 +17,30 @@ public static class EnumExtentions
         return GetFlagsValues(typeof(T)).Cast<T>();
     }
 
-    public static IEnumerable GetFlagsValues(Type enumType)
+    public static IEnumerable<object> GetFlagsValues(Type enumType)
     {
-        return Enum.GetValues(enumType).Cast<long>().Where(e => IsPowerOfTwo(e)).Select(e => Enum.ToObject(enumType, e));
+        foreach (var item in Enum.GetValues(enumType))
+        {
+            var value = Convert.ToInt64(item);
+
+            if(IsPowerOfTwo(value))
+            {
+                yield return Enum.ToObject(enumType, value);
+            }
+        }
+    }
+
+    public static IEnumerable<object> GetFlagsValues(Type enumType, long value)
+    {
+        foreach (var item in Enum.GetValues(enumType))
+        {
+            var itemValue = Convert.ToInt64(item);
+
+            if (IsPowerOfTwo(itemValue) && (itemValue & value) != 0)
+            {
+                yield return Enum.ToObject(enumType, itemValue);
+            }
+        }
     }
 
     private static bool IsPowerOfTwo(long n)
