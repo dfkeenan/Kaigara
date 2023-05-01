@@ -13,7 +13,7 @@ using Kaigara.Collections.ObjectModel;
 
 namespace Kaigara.Avalonia.Controls;
 
-[TemplatePart("PART_NodeItems", typeof(InspectorItemsControl))]
+[TemplatePart("PART_NodeItems", typeof(ItemsControl))]
 public class Inspector : TemplatedControl, IWeakEventSubscriber<NotifyCollectionChangedEventArgs>
 {
     private IEnumerable _items = new AvaloniaList<object>();
@@ -65,7 +65,7 @@ public class Inspector : TemplatedControl, IWeakEventSubscriber<NotifyCollection
         set => SetAndRaise(SearchAssembliesProperty, ref searchAssemblies, value);
     }
 
-    internal InspectorItemsControl? NodeItemsControl { get; private set; }
+    internal ItemsControl? NodeItemsControl { get; private set; }
 
     public InspectorContext InspectorContext { get; }
 
@@ -92,7 +92,7 @@ public class Inspector : TemplatedControl, IWeakEventSubscriber<NotifyCollection
     {
         base.OnApplyTemplate(e);
 
-        NodeItemsControl = e.NameScope.Find<InspectorItemsControl>("PART_NodeItems");
+        NodeItemsControl = e.NameScope.Find<ItemsControl>("PART_NodeItems");
 
         if (NodeItemsControl is not null && Items is not null)
         {

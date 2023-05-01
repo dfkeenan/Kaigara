@@ -1,6 +1,7 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="https://github.com/dfkeenan/Kaigara"
+        xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
         xmlns:controls="using:Kaigara.Avalonia.Controls"
         xmlns:np="using:Kaigara.Avalonia.Controls.InspectorProviders"
         xmlns:n="using:Kaigara.Avalonia.Controls.InspectorNodes"
@@ -43,19 +44,19 @@
         <Setter Property="CommandParameter" Value="{Binding}"/>
     </Style>
 
-    <Style Selector="controls|InspectorItem Button">
+    <Style Selector="controls|Inspector TreeViewItem Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
     
-    <Style Selector="controls|InspectorItem > :not(controls|InspectorItem) Button:pointerover">
+    <Style Selector="controls|Inspector TreeViewItem > :not(TreeViewItem) Button:pointerover">
         <Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}" />
     </Style>
-    <Style Selector="controls|InspectorItem:selected > :not(controls|InspectorItem) Button:pointerover">
+    <Style Selector="controls|Inspector TreeViewItem:selected > :not(TreeViewItem) Button:pointerover">
         <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}" />
     </Style>
 
-    <Style Selector="controls|InspectorItem:selected > :not(controls|InspectorItem) Button:pressed">
+    <Style Selector="controls|Inspector TreeViewItem:selected > :not(TreeViewItem) Button:pressed">
         <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
     </Style>
 
@@ -63,8 +64,65 @@
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <controls:InspectorItemsControl Name="PART_NodeItems" Items="{TemplateBinding Nodes}">
-                    <controls:InspectorItemsControl.DataTemplates>
+                <TreeView Name="PART_NodeItems" Items="{TemplateBinding Nodes}">
+                    <TreeView.Styles>
+                        <Style Selector="TreeViewItem">
+                            <Style.Resources>
+                                <converters:MarginMultiplierConverter Indent="16" Left="True" x:Key="LeftMarginConverter" />
+                            </Style.Resources>
+                            <Setter Property="Padding" Value="2"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                            <Setter Property="Template">
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <Border Name="SelectionBorder"
+                                                Focusable="True"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{TemplateBinding CornerRadius}"
+                                                TemplatedControl.IsTemplateFocusTarget="True">
+                                            <Grid Name="PART_Header"
+                                                  Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}" >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="16"  />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*"  />
+                                                </Grid.ColumnDefinitions>
+                                                <ToggleButton Name="expander"
+                                                              Focusable="False"
+                                                              IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"/>
+                                                <TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                                <DockPanel Grid.Column="2"
+                                                           LastChildFill="True"
+                                                           Margin="{TemplateBinding Padding}">
+                                                    <Button DockPanel.Dock="Right" VerticalAlignment="Center"
+                                                            IsVisible="{Binding CanRemove}"
+                                                            ToolTip.Tip="Remove" Command="{Binding Remove}">
+                                                        <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Remove_color_16x}">
+                                                        </Image>
+                                                    </Button>
+                                                    <ContentPresenter Name="PART_HeaderPresenter"
+                                                                  Focusable="False"
+                                                                  HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                                                                  Content="{TemplateBinding Header}"
+                                              />
+                                                </DockPanel>
+                                            </Grid>
+                                        </Border>
+                                        <Grid Grid.IsSharedSizeScope="{Binding  IsSharedSizeScope}">
+                                            <ItemsPresenter Name="PART_ItemsPresenter"
+                                                        IsVisible="{TemplateBinding IsExpanded}"
+                                                        Items="{TemplateBinding Items}"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                        </Grid>
+                                    </StackPanel>
+                                </ControlTemplate>
+                            </Setter>
+                        </Style>
+                    </TreeView.Styles>
+                    <TreeView.DataTemplates>
                         <np:MemberInspectorNodeProvider MemberType="s:String">
                             <TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}" />
                         </np:MemberInspectorNodeProvider>
@@ -163,8 +221,8 @@
                         <TreeDataTemplate DataType="n:CategoryInspectorNode" ItemsSource="{Binding Children}">
                             <Grid></Grid>
                         </TreeDataTemplate>
-                    </controls:InspectorItemsControl.DataTemplates>
-                </controls:InspectorItemsControl>
+                    </TreeView.DataTemplates>
+                </TreeView>
             </ControlTemplate>
         </Setter>
     </Style>

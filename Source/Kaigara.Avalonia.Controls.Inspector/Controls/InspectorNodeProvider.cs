@@ -21,7 +21,20 @@ public abstract class InspectorNodeProvider : ITreeDataTemplate
 
     public IControl Build(object param)
     {
-        return param is InspectorNode node ? TemplateContent.Load(node.Provider.Content).Control : null!;
+        if (param is InspectorNode node)
+        {
+            var visualTreeForItem = TemplateContent.Load(node.Provider.Content)?.Result;
+            if (visualTreeForItem != null)
+            {
+                visualTreeForItem.DataContext = node;
+            }
+
+            return visualTreeForItem;
+        }
+        else
+        {
+            return null!;
+        }
     }
 
     public InstancedBinding? ItemsSelector(object item)
