@@ -1,15 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using Avalonia.Utilities;
 using Kaigara.Reflection;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
-public class ObjectInspectorNode : ObjectInspectorNodeBase
+public class ObjectInspectorNode : ObjectInspectorNodeBase, IWeakEventSubscriber<PropertyChangedEventArgs>
 {
     public ObjectInspectorNode(object instance, InspectorContext context, InspectorNodeProvider provider, InspectorNode? parent, MemberInfo memberInfo, string? displayName)
         : base(instance, context, provider, parent, memberInfo, displayName)
     {
 
-        Members = Context.GetMembers(Type).Select(CreateNode).Where(n => n != null).Cast<MemberInspectorNode>().ToList();
+        Members = Context.GetMembersForObject(instance).Select(CreateNode).Where(n => n != null).Cast<MemberInspectorNode>().ToList();
 
         InspectorNode? CreateNode(MemberInfo memberInfo)
         {
@@ -27,6 +28,11 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase
         {
            Categories =  members.Select(m => new CategoryInspectorNode(Context, provider, this, m.Key, m.ToList())).ToList();
         }
+
+        if(instance is INotifyPropertyChanged propertyChanged)
+        {
+            WeakEvents.PropertyChanged.Subscribe(propertyChanged, this);
+        }
     }
 
     public IEnumerable<MemberInspectorNode> Members { get; }
@@ -34,5 +40,17 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase
 
     public override IEnumerable<InspectorNode> Children => (IEnumerable<InspectorNode>?)Categories ?? Members;
 
+    void IWeakEventSubscriber<PropertyChangedEventArgs>.OnEvent(object? sender, WeakEvent ev, PropertyChangedEventArgs e)
+    {
+        Members.FirstOrDefault(m => m.MemberInfo.Name == e.PropertyName)?.Invalidate();
+    }
 
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+        if (Value is INotifyPropertyChanged propertyChanged)
+        {
+            WeakEvents.PropertyChanged.Unsubscribe(propertyChanged, this);
+        }
+    }
 }

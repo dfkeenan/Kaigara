@@ -85,16 +85,34 @@ public class InspectorContext
         }
     }
 
+    public Type GetTypeForObject(object value)
+        => inspector.ReflectionContext.GetTypeForObject(value);
+
+    public IEnumerable<MemberInfo> GetMembersForObject(object value)
+    {
+        var mappedType = inspector.ReflectionContext.GetTypeForObject(value);
+
+        var members = GetMembersQuery(mappedType);
+
+        return members;
+    }
+
+
     public IEnumerable<MemberInfo> GetMembers(Type type)
     {
         var mappedType = inspector.ReflectionContext.MapType(type.GetTypeInfo());
 
-        var members = from member in type.GetMembers(BindingFlags.Public | BindingFlags.Instance)
-                      where member is FieldInfo field || member is PropertyInfo property
-                      where GetCustomAttribute<InspectorMemberIgnoreAttribute>(member, true) == null
-                      select member;
+        var members = GetMembersQuery(mappedType);
 
         return members;
+    }
+
+    private IEnumerable<MemberInfo> GetMembersQuery(Type type)
+    {
+        return from member in type.GetMembers(BindingFlags.Public | BindingFlags.Instance)
+               where member is FieldInfo field || member is PropertyInfo property
+               where GetCustomAttribute<InspectorMemberIgnoreAttribute>(member, true) == null
+               select member;
     }
 
     public T? GetCustomAttribute<T>(MemberInfo element, bool inherit = false)

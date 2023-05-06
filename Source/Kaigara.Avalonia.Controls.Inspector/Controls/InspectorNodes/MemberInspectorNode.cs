@@ -210,6 +210,8 @@ public class MemberInspectorNode : InspectorNode
 
     private void UpdateValueNode()
     {
+        if(ValueNode is IDisposable disposable) disposable.Dispose();
+
         ValueNode = HasValue ? valueNodeProvider?.CreateNode(Context, this, ValueType, index) : null;
         this.RaisePropertyChanged(nameof(HasValue));
         this.RaisePropertyChanged(nameof(Children));
