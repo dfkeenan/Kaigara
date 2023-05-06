@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.Reflection;
+using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 
 namespace Kaigara.Avalonia.Views;
@@ -31,7 +32,7 @@ public class ViewLocator : IDataTemplate
         }
 
         type = Type.GetType(name) ?? AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
+            .SelectMany(a => TryGetTypes(a))
             .FirstOrDefault(t => t.FullName == name);
 
         if (type is { })
@@ -40,6 +41,18 @@ public class ViewLocator : IDataTemplate
         }
 
         return type;
+
+        static IEnumerable<Type> TryGetTypes(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (Exception)
+            {
+                return Enumerable.Empty<Type>();
+            }
+        }
     }
 
     public bool Match(object data)
