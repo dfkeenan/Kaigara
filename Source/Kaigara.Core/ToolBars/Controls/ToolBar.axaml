@@ -32,7 +32,7 @@
                 <StackPanel Orientation="Horizontal">
                   <Image Width="16" Height="16"
                          IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" 
-                         Source="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}">
+                         Source="{Binding IconName, Converter={k:NameToResourceConverter }}">
                   </Image>
                   <TextBlock Text="{Binding Label}" IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
                 </StackPanel>

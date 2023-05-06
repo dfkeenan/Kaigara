@@ -14,7 +14,7 @@
     <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
     <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
-    <Setter Property="Icon" Value="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}"/>
+    <Setter Property="Icon" Value="{Binding IconName, Converter={k:NameToResourceConverter }}"/>
   </Style>
 
   <Style Selector=".DynamicMenu MenuItem /template/ ContentPresenter#icon">
