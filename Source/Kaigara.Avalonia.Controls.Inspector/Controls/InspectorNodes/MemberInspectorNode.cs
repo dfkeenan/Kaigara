@@ -139,6 +139,9 @@ public class MemberInspectorNode : InspectorNode
         IsExpanded = true;
     }
 
+    public string RemoveLabel => index is null ? "Reset" : "Remove";
+    public string RemoveIconName => index is null ? "VSImageLib.Restart_16x" : "VSImageLib.Remove_color_16x";
+
     public ReactiveCommand<Unit, Unit> Remove { get; protected set; }
 
     private void RemoveInstance()

@@ -99,8 +99,8 @@
                                                            Margin="{TemplateBinding Padding}">
                                                     <Button DockPanel.Dock="Right" VerticalAlignment="Center"
                                                             Opacity="{Binding CanRemove}"
-                                                            ToolTip.Tip="Remove" Command="{Binding Remove}">
-                                                        <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Remove_color_16x}">
+                                                            ToolTip.Tip="{Binding RemoveLabel}" Command="{Binding Remove}">
+                                                        <Image Width="16" Height="16" Source="{Binding RemoveIconName, Converter={k:NameToResourceConverter }}">
                                                         </Image>
                                                     </Button>
                                                     <ContentPresenter Name="PART_HeaderPresenter"
