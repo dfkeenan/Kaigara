@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Reactive;
 using System.Reflection;
+using DynamicData.Binding;
 using Kaigara.Reflection;
 using ReactiveUI;
 
@@ -76,8 +77,8 @@ public class MemberInspectorNode : InspectorNode
             };
         }
 
-        CreateInstance = ReactiveCommand.Create<Type>(CreateNewInstance);
-        Remove = ReactiveCommand.Create(RemoveInstance);
+        CreateInstance = ReactiveCommand.Create<Type>(CreateNewInstance, outputScheduler: RxApp.MainThreadScheduler);
+        Remove = ReactiveCommand.Create(RemoveInstance, this.WhenValueChanged(t => t.CanRemove), outputScheduler: RxApp.MainThreadScheduler);
 
         if (provider.ItemsSource is object)
         {
@@ -138,7 +139,7 @@ public class MemberInspectorNode : InspectorNode
         IsExpanded = true;
     }
 
-    public ReactiveCommand<Unit, Unit> Remove { get; }
+    public ReactiveCommand<Unit, Unit> Remove { get; protected set; }
 
     private void RemoveInstance()
     {

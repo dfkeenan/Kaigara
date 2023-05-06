@@ -98,7 +98,7 @@
                                                            LastChildFill="True"
                                                            Margin="{TemplateBinding Padding}">
                                                     <Button DockPanel.Dock="Right" VerticalAlignment="Center"
-                                                            IsVisible="{Binding CanRemove}"
+                                                            Opacity="{Binding CanRemove}"
                                                             ToolTip.Tip="Remove" Command="{Binding Remove}">
                                                         <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Remove_color_16x}">
                                                         </Image>

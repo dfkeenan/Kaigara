@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using Avalonia.Threading;
 using Avalonia.Utilities;
 using Kaigara.Reflection;
 
@@ -42,7 +43,10 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase, IWeakEventSubscriber
 
     void IWeakEventSubscriber<PropertyChangedEventArgs>.OnEvent(object? sender, WeakEvent ev, PropertyChangedEventArgs e)
     {
-        Members.FirstOrDefault(m => m.MemberInfo.Name == e.PropertyName)?.Invalidate();
+        Dispatcher.UIThread.Post(() =>
+        {
+            Members.FirstOrDefault(m => m.MemberInfo.Name == e.PropertyName)?.Invalidate();
+        });
     }
 
     protected override void Dispose(bool disposing)

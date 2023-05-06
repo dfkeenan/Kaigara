@@ -46,12 +46,12 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
         SelectAll = ReactiveCommand.Create(() =>
         {
             Selection.SelectAll();
-        }, Observable.Never<bool>().StartWith(!IsReadOnly));
+        }, Observable.Never<bool>().StartWith(!IsReadOnly), RxApp.MainThreadScheduler);
 
-        SelectNone = ReactiveCommand.Create(() =>
+        Remove = SelectNone = ReactiveCommand.Create(() =>
         {
             Selection.Clear();
-        }, Observable.Never<bool>().StartWith(!IsReadOnly));
+        }, Observable.Never<bool>().StartWith(!IsReadOnly), RxApp.MainThreadScheduler);
         SelectInverse = ReactiveCommand.Create(() =>
         {
             var value = Value;
@@ -63,7 +63,7 @@ public class FlagsEnumMemberInspectorNode<T> : EnumMemberInspectorNode<T>
                 else
                     Selection.Select(i);
             }
-        }, Observable.Never<bool>().StartWith(!IsReadOnly));
+        }, Observable.Never<bool>().StartWith(!IsReadOnly), RxApp.MainThreadScheduler);
     }
 
     public override void Invalidate()
