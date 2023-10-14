@@ -1,4 +1,3 @@
-using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -34,11 +33,14 @@ public class ChromeWindowButtons : TemplatedControl
             max.IsVisible = window.WindowState != WindowState.Maximized;
             res.IsVisible = window.WindowState == WindowState.Maximized;
 
-            var windowStateChanged = window.GetPropertyChangedObservable(Window.WindowStateProperty)
-                .Select(e => (WindowState)e.NewValue!);
-
-            max.Bind(Button.IsVisibleProperty, windowStateChanged.Select(ws => ws != WindowState.Maximized));
-            res.Bind(Button.IsVisibleProperty, windowStateChanged.Select(ws => ws == WindowState.Maximized));
+            window.PropertyChanged += (object? sender, AvaloniaPropertyChangedEventArgs e) =>
+            {
+                if (sender is Window window && e.Property == Window.WindowStateProperty && e.NewValue is WindowState ws)
+                {
+                    max.IsVisible = ws != WindowState.Maximized;
+                    res.IsVisible = ws == WindowState.Maximized;
+                }
+            };
         }
     }
 

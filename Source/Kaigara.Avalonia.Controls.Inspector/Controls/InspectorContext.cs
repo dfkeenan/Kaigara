@@ -45,8 +45,8 @@ public class InspectorContext
         {
             return nodeProvider;
         }
-
-        IGlobalDataTemplates? global = AvaloniaLocator.Current.GetService<IGlobalDataTemplates>();
+        
+        IGlobalDataTemplates? global = Application.Current as IGlobalDataTemplates;
 
         if (global != null && global.IsDataTemplatesInitialized)
         {

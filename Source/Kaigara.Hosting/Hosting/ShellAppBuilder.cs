@@ -12,10 +12,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Kaigara.Hosting;
 
-public sealed class ShellAppBuilder<TAppBuilder>
-        where TAppBuilder : AppBuilderBase<TAppBuilder>, new()
+public sealed class ShellAppBuilder
 {
-    private readonly AppBuilderBase<TAppBuilder> appBuilder;
+    private readonly AppBuilder appBuilder;
     private readonly string[] args;
     private ContainerBuilder containerBuilder;
     private ConfigurationBuilder configurationBuilder;
@@ -24,7 +23,7 @@ public sealed class ShellAppBuilder<TAppBuilder>
 
     private Func<IShell, IConfiguration, IContainer, Startup>? startupFactory;
 
-    public ShellAppBuilder(AppBuilderBase<TAppBuilder> appBuilder, ApplicationInfo appInfo, string[] args)
+    public ShellAppBuilder(AppBuilder appBuilder, ApplicationInfo appInfo, string[] args)
     {
         this.appBuilder = appBuilder ?? throw new ArgumentNullException(nameof(appBuilder));
         this.appInfo = appInfo;
@@ -33,7 +32,7 @@ public sealed class ShellAppBuilder<TAppBuilder>
         configurationBuilder = new ConfigurationBuilder();
     }
 
-    public ShellAppBuilder<TAppBuilder> Configure(Action<ConfigurationBuilder> builderCallback)
+    public ShellAppBuilder Configure(Action<ConfigurationBuilder> builderCallback)
     {
         if (builderCallback is null)
         {
@@ -45,7 +44,7 @@ public sealed class ShellAppBuilder<TAppBuilder>
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> AddDefaultConfiguration()
+    public ShellAppBuilder AddDefaultConfiguration()
     {
         string userSettingsFilePath = Path.Combine(appInfo.ApplicationDataPath, "settings.json");
 
@@ -61,7 +60,7 @@ public sealed class ShellAppBuilder<TAppBuilder>
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> Register(Action<ContainerBuilder> builderCallback)
+    public ShellAppBuilder Register(Action<ContainerBuilder> builderCallback)
     {
         if (builderCallback is null)
         {
@@ -73,19 +72,19 @@ public sealed class ShellAppBuilder<TAppBuilder>
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> RegisterModule<TModule>() where TModule : IModule, new()
+    public ShellAppBuilder RegisterModule<TModule>() where TModule : IModule, new()
     {
         containerBuilder.RegisterModule<TModule>();
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> RegisterDefaultModules()
+    public ShellAppBuilder RegisterDefaultModules()
     {
         containerBuilder.RegisterModule<DefaultsModule>();
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> RegisterAllAppModels(NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+    public ShellAppBuilder RegisterAllAppModels(NamespaceRule namespaceRule = NamespaceRule.StartsWith)
     {
         var appType = this.appBuilder.ApplicationType;
         containerBuilder.RegisterAllModels(appType.Assembly, appType.Namespace!, namespaceRule);
@@ -93,7 +92,7 @@ public sealed class ShellAppBuilder<TAppBuilder>
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> Startup(StartupDelegate startup)
+    public ShellAppBuilder Startup(StartupDelegate startup)
     {
         startupFactory = (IShell shell, IConfiguration configuration, IContainer container)
             => new DelegatedStartup(shell, configuration, container, startup);
@@ -101,7 +100,7 @@ public sealed class ShellAppBuilder<TAppBuilder>
         return this;
     }
 
-    public ShellAppBuilder<TAppBuilder> Startup<TStartup>()
+    public ShellAppBuilder Startup<TStartup>()
         where TStartup : Startup
     {
         startupFactory = (IShell shell, IConfiguration configuration, IContainer container)

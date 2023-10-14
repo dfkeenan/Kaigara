@@ -11,10 +11,9 @@ public class UriToAssetConverter : IValueConverter
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        var assetLoader = AvaloniaLocator.Current?.GetService<IAssetLoader>();
-        if (value is Uri uri && assetLoader?.Exists(uri) == true)
+        if (value is Uri uri && AssetLoader.Exists(uri) == true)
         {
-            var stream = assetLoader.Open(uri);
+            var stream = AssetLoader.Open(uri);
             try
             {
                 var result = Activator.CreateInstance(targetType, stream);

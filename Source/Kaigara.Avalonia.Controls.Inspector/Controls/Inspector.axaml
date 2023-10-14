@@ -39,7 +39,7 @@
 
     <Style Selector=".ConstructableTypes MenuItem">
         <Setter Property="Header" Value="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"/>
-        <Setter Property="Items" Value="{Binding Items}"/>
+        <Setter Property="ItemsSource" Value="{Binding Items}"/>
         <Setter Property="Command" Value="{Binding $parent[Button].DataContext.CreateInstance}"/>
         <Setter Property="CommandParameter" Value="{Binding}"/>
     </Style>
@@ -64,7 +64,7 @@
         <!-- Set Defaults -->
         <Setter Property="Template">
             <ControlTemplate>
-                <TreeView Name="PART_NodeItems" Items="{TemplateBinding Nodes}">
+                <TreeView Name="PART_NodeItems" ItemsSource="{TemplateBinding Nodes}">
                     <TreeView.Styles>
                         <Style Selector="TreeViewItem">
                             <Style.Resources>
@@ -114,7 +114,6 @@
                                         <Grid Grid.IsSharedSizeScope="{Binding  IsSharedSizeScope}">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
                                                         IsVisible="{TemplateBinding IsExpanded}"
-                                                        Items="{TemplateBinding Items}"
                                                         ItemsPanel="{TemplateBinding ItemsPanel}" />
                                         </Grid>
                                     </StackPanel>
@@ -150,7 +149,7 @@
                         </np:NumericMemberInspectorNodeProvider>
 
                         <np:EnumMemberInspectorNodeProvider>
-                            <ComboBox SelectedItem="{Binding Value}" Items="{Binding EnumValues}" IsEnabled="{Binding !IsReadOnly}" >
+                            <ComboBox SelectedItem="{Binding Value}" ItemsSource="{Binding EnumValues}" IsEnabled="{Binding !IsReadOnly}" >
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ,Converter={x:Static k:EnumToStringConverter.Instance}}" />
@@ -164,7 +163,7 @@
                                 <ToggleButton x:Name="DropDownToggle" Padding="2">
                                     <TextBlock Text="{Binding Value ,Converter={x:Static k:EnumFlagsToStringConverter.Instance}}" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
                                 </ToggleButton>
-                                <Popup IsOpen="{Binding IsChecked,ElementName=DropDownToggle, Mode=TwoWay}" StaysOpen="False" >
+                                <Popup IsOpen="{Binding IsChecked,ElementName=DropDownToggle, Mode=TwoWay}" IsLightDismissEnabled="true" >
                                     <DockPanel Margin="2">
                                         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="2" Margin="0,2,0,0">
                                             <Button Content="All" Command="{Binding SelectAll}" />
@@ -173,7 +172,7 @@
                                         </StackPanel>
                                         <ListBox Classes="checklist"
                                                  Selection="{Binding Selection}"
-                                                 Items="{Binding EnumValues}"
+                                                 ItemsSource="{Binding EnumValues}"
                                                  SelectionMode="Multiple,Toggle" IsEnabled="{Binding !IsReadOnly}">
                                             <ListBox.ItemTemplate>
                                                 <DataTemplate>
@@ -195,7 +194,7 @@
                                     <Button  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}"
                                              Classes="ConstructableTypes">
                                         <Button.Flyout>
-                                            <MenuFlyout Placement="BottomEdgeAlignedRight" Items="{Binding ConstructableTypes}" />
+                                            <MenuFlyout Placement="BottomEdgeAlignedRight" ItemsSource="{Binding ConstructableTypes}" />
                                         </Button.Flyout>
                                         <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}">
                                         </Image>

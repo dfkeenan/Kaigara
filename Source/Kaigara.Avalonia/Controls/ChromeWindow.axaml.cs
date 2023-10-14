@@ -11,7 +11,7 @@ using Avalonia.Styling;
 namespace Kaigara.Avalonia.Controls;
 
 [PseudoClasses(":platformWindows", ":platformOSX", ":platformLinux")]
-public class ChromeWindow : Window, IStyleable
+public class ChromeWindow : Window
 {
     public static readonly StyledProperty<IDataTemplate> TitleBarTemplateProperty = AvaloniaProperty.Register<ChromeWindow, IDataTemplate>(nameof(TitleBarTemplate));
 
@@ -55,7 +55,7 @@ public class ChromeWindow : Window, IStyleable
 
     }
 
-    Type IStyleable.StyleKey => typeof(ChromeWindow);
+    protected override Type StyleKeyOverride => typeof(ChromeWindow);
 
     protected void OnTemplateApplied(object sender, TemplateAppliedEventArgs e)
     {

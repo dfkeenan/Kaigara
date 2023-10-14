@@ -9,7 +9,7 @@ public class ViewLocator : IDataTemplate
     private readonly Dictionary<string, Type> viewTypeCache = new Dictionary<string, Type>();
     public bool SupportsRecycling => false;
 
-    public IControl Build(object data)
+    public Control Build(object? data)
     {
         var name = data.GetType().FullName!.Replace("ViewModel", "View");
         Type? type = GetType(name);
@@ -55,7 +55,7 @@ public class ViewLocator : IDataTemplate
         }
     }
 
-    public bool Match(object data)
+    public bool Match(object? data)
     {
         return data is { } && data.GetType().Name.EndsWith("ViewModel");
     }

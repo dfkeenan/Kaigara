@@ -32,7 +32,7 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase, IWeakEventSubscriber
 
         if(instance is INotifyPropertyChanged propertyChanged)
         {
-            WeakEvents.PropertyChanged.Subscribe(propertyChanged, this);
+            WeakEvents.ThreadSafePropertyChanged.Subscribe(propertyChanged, this);
         }
     }
 
@@ -54,7 +54,7 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase, IWeakEventSubscriber
         base.Dispose(disposing);
         if (Value is INotifyPropertyChanged propertyChanged)
         {
-            WeakEvents.PropertyChanged.Unsubscribe(propertyChanged, this);
+            WeakEvents.ThreadSafePropertyChanged.Unsubscribe(propertyChanged, this);
         }
     }
 }

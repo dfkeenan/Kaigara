@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using Kaigara.MainWindow.ViewModels;
 
 namespace Kaigara.Dialogs;
@@ -22,23 +23,23 @@ public class DialogService : IDialogService
         this.context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public Task<string?> ShowAsync(SaveFileDialog saveFileDialog)
+    public Task<IStorageFile?> ShowAsync(FilePickerSaveOptions options)
     {
-        if (saveFileDialog is null)
+        if (options is null)
         {
-            throw new ArgumentNullException(nameof(saveFileDialog));
+            throw new ArgumentNullException(nameof(options));
         }
 
-        return saveFileDialog.ShowAsync(Window);
+        return Window.StorageProvider.SaveFilePickerAsync(options);
     }
 
-    public Task<string[]?> ShowAsync(OpenFileDialog openFileDialog)
+    public Task<IReadOnlyList<IStorageFile>> ShowAsync(FilePickerOpenOptions options)
     {
-        if (openFileDialog is null)
+        if (options is null)
         {
-            throw new ArgumentNullException(nameof(openFileDialog));
+            throw new ArgumentNullException(nameof(options));
         }
 
-        return openFileDialog.ShowAsync(Window);
+        return Window.StorageProvider.OpenFilePickerAsync(options);
     }
 }

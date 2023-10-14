@@ -10,7 +10,7 @@
 
     <!-- Add Styles Here -->
   <Style Selector=".DynamicToolBarTray k|ToolBar" >
-    <Setter Property="Items" Value="{Binding Items}"/>
+    <Setter Property="ItemsSource" Value="{Binding Items}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
     <Setter Property="ItemTemplate">
       <DataTemplate>

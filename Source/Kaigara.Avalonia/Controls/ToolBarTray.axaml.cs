@@ -7,7 +7,7 @@ namespace Kaigara.Avalonia.Controls;
 
 public class ToolBarTray : ItemsControl
 {
-    private static readonly FuncTemplate<IPanel> DefaultPanel =
+    private static readonly FuncTemplate<Panel?> DefaultPanel =
         new(() => new WrapPanel { Orientation = Orientation.Horizontal });
 
     static ToolBarTray()
@@ -20,9 +20,13 @@ public class ToolBarTray : ItemsControl
 
     }
 
-    protected override IItemContainerGenerator CreateItemContainerGenerator()
+    protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
     {
-        return new ItemContainerGenerator<ToolBar>(this, ContentControl.ContentProperty,
-            ContentControl.ContentTemplateProperty);
+        return new ToolBar();
+    }
+
+    protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
+    {
+        return NeedsContainer<ToolBar>(item, out recycleKey);
     }
 }

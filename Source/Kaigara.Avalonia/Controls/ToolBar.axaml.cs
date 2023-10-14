@@ -6,7 +6,7 @@ namespace Kaigara.Avalonia.Controls;
 
 public class ToolBar : ItemsControl
 {
-    private static readonly FuncTemplate<IPanel> DefaultPanel =
+    private static readonly FuncTemplate<Panel?> DefaultPanel =
         new(() => new StackPanel { Orientation = Orientation.Horizontal });
 
     static ToolBar()

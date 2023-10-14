@@ -1,8 +1,10 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 
 namespace Kaigara.Dialogs;
 public interface IDialogService
 {
-    Task<string[]?> ShowAsync(OpenFileDialog openFileDialog);
-    Task<string?> ShowAsync(SaveFileDialog saveFileDialog);
+    public Task<IStorageFile?> ShowAsync(FilePickerSaveOptions options);
+
+    public Task<IReadOnlyList<IStorageFile>> ShowAsync(FilePickerOpenOptions options);
 }

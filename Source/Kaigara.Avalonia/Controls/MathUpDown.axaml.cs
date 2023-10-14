@@ -2,7 +2,7 @@
 using Avalonia.Styling;
 
 namespace Kaigara.Avalonia.Controls;
-public class MathUpDown : NumericUpDown, IStyleable
+public class MathUpDown : NumericUpDown
 {
-    Type IStyleable.StyleKey => typeof(MathUpDown);
+    protected override Type StyleKeyOverride => typeof(MathUpDown);
 }

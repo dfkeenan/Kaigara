@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Autofac;
 using Avalonia;
 using Avalonia.ReactiveUI;
+using ExampleApplication.Commands;
 using ExampleApplication.Documents.ViewModels;
 using Kaigara.Hosting;
 using Kaigara.MainWindow.ViewModels;

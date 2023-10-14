@@ -5,7 +5,7 @@
       <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ReactiveUI" Version="18.3.1" />
+    <PackageReference Include="ReactiveUI" Version="19.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />

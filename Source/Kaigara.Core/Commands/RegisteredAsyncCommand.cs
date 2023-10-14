@@ -1,7 +1,7 @@
 ﻿using System.Reactive.Linq;
 using System.Windows.Input;
 using Avalonia.Input;
-using Avalonia.Threading;
+using Avalonia.ReactiveUI;
 using ReactiveUI;
 
 namespace Kaigara.Commands;

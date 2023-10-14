@@ -136,16 +136,6 @@ public class ShellViewModel : ViewModel, IShell
                 dockables = dockables.Concat(dock.VisibleDockables);
             }
 
-            if (dock.PinnedDockables is { })
-            {
-                dockables = dockables.Concat(dock.PinnedDockables);
-            }
-
-            if (dock.HiddenDockables is { })
-            {
-                dockables = dockables.Concat(dock.HiddenDockables);
-            }
-
             foreach (var item in dockables)
             {
                 foreach (var child in GetDocumentsAndTools(item))

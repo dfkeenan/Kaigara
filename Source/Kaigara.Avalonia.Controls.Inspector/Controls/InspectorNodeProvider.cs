@@ -11,15 +11,17 @@ using Avalonia.Metadata;
 namespace Kaigara.Avalonia.Controls;
 public abstract class InspectorNodeProvider : ITreeDataTemplate
 {
+    private readonly TreeDataTemplate template = new TreeDataTemplate();
+
     //we need content to be object otherwise portable.xaml is crashing
     [Content]
     [TemplateContent]
     public object? Content { get; set; }
 
     [AssignBinding]
-    public BindingBase? ItemsSource { get; set; }
+    public BindingBase? ItemsSource { get => template.ItemsSource; set => template.ItemsSource = value; }
 
-    public IControl Build(object param)
+    public Control? Build(object? param)
     {
         if (param is InspectorNode node)
         {
@@ -37,24 +39,17 @@ public abstract class InspectorNodeProvider : ITreeDataTemplate
         }
     }
 
-    public InstancedBinding? ItemsSelector(object item)
+    public InstancedBinding? ItemsSelector(object? item)
     {
-        if (item is InspectorNode node && node.Provider.ItemsSource is BindingBase itemsSource)
+        if (item is InspectorNode node)
         {
-            var obs = itemsSource switch
-            {
-                Binding reflection => ExpressionObserverBuilder.Build(item, reflection.Path),
-                CompiledBindingExtension compiled => new ExpressionObserver(item, compiled.Path.BuildExpression(false)),
-                _ => throw new InvalidOperationException("InspectorNodeProvider currently only supports Binding and CompiledBindingExtension!")
-            };
-
-            return InstancedBinding.OneWay(obs, BindingPriority.Style);
+          return node.Provider.template.ItemsSelector(item);
         }
 
         return null;
     }
 
-    public bool Match(object data)
+    public bool Match(object? data)
     {
         return data is InspectorNode node && node.Provider.Content is { };
     }
