@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Kaigara.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AvaloniaXaml Remove="MainWindow\Views\MainWindowView.axaml" />
     <AvaloniaXaml Remove="Menus\Controls\Menu.axaml" />
     <AvaloniaXaml Remove="Themes\DefaultTheme.axaml" />

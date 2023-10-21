@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
 using Kaigara.Commands;
@@ -7,6 +8,8 @@ using Kaigara.MainWindow.ViewModels;
 using ReactiveUI;
 
 namespace Kaigara.MainWindow.Views;
+
+public record class ViewCreated<T>(T View) where T : TopLevel;
 
 public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
 {
@@ -21,6 +24,8 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
                 ViewModel.View = this;
             }
         });
+
+        MessageBus.Current.SendMessage(new ViewCreated<MainWindowView>(this));
     }
 
     private void InitializeComponent()

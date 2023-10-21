@@ -1,8 +1,11 @@
 ﻿using Autofac;
+using Avalonia.Platform.Storage;
 using Kaigara.Commands;
 using Kaigara.Dialogs;
 using Kaigara.MainWindow.ViewModels;
+using Kaigara.MainWindow.Views;
 using Kaigara.Menus;
+using Kaigara.Services;
 using Kaigara.Shell;
 using Kaigara.ToolBars;
 
@@ -24,6 +27,10 @@ public class MainWindowModule : Module
 
         builder.RegisterType<MainWindowViewModel>()
         .SingleInstance().AsSelf();
+
+        builder.RegisterType<StorageProviderDecorator<MainWindowView>>()
+            .As<IStorageProvider>()
+            .SingleInstance();
     }
 
 }

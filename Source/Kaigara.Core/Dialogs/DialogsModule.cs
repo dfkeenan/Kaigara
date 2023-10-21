@@ -10,6 +10,8 @@ using Kaigara.MainWindow;
 using Kaigara.Menus;
 using Kaigara.Shell;
 using Kaigara.ToolBars;
+using Avalonia.Platform.Storage;
+using Kaigara.Services;
 
 namespace Kaigara.Dialogs;
 public class DialogsModule : Module
