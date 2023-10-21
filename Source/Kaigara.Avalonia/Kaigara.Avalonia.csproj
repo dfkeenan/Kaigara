@@ -25,4 +25,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Kaigara.Extensions\Kaigara.Extensions.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Controls\Toolbar.axaml.cs">
+      <DependentUpon>Toolbar.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ToolbarTray.axaml.cs">
+      <DependentUpon>ToolbarTray.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ using Kaigara.MainWindow.Views;
 using Kaigara.Menus;
 using Kaigara.Services;
 using Kaigara.Shell;
-using Kaigara.ToolBars;
+using Kaigara.Toolbars;
 
 namespace Kaigara.MainWindow;
 
@@ -18,12 +18,12 @@ public class MainWindowModule : Module
         base.Load(builder);
         builder
             .DependsOnModule<MenuModule>()
-            .DependsOnModule<ToolBarModule>()
+            .DependsOnModule<ToolbarModule>()
             .DependsOnModule<ShellModule>()
             .DependsOnModule<CommandModule>()
             .DependsOnModule<DialogsModule>()
             .RegisterMenus<MainWindowModule>()
-            .RegisterToolBars<MainWindowModule>();
+            .RegisterToolbars<MainWindowModule>();
 
         builder.RegisterType<MainWindowViewModel>()
         .SingleInstance().AsSelf();

@@ -10,7 +10,7 @@ using Kaigara.MainWindow.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Reactive;
 using Kaigara.Shell;
-using Kaigara.ToolBars;
+using Kaigara.Toolbars;
 using Microsoft.Extensions.Configuration;
 using ReactiveUI;
 
@@ -57,14 +57,14 @@ class Program
                     definition.VisibleWhen<IShell>(s => s.Dockables.Active.Is<ExampleDocumentViewModel>(e => e.WhenAnyValue(e => e.IsChecked)));
                 });
 
-                var toolBarManager = container.Resolve<IToolBarManager>();
+                var toolBarManager = container.Resolve<IToolbarManager>();
 
-                var exampleToolBar = new ToolBarDefinition("Example")
+                var exampleToolbar = new ToolbarDefinition("Example")
                 {
-                    //new ToolBarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
+                    //new ToolbarItemDefinition("FIrst").BindCommand<ExampleCommand>(),
                 }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
-                toolBarManager.Register(new ToolBarLocation("MainToolBarTray"), exampleToolBar);
+                toolBarManager.Register(new ToolbarLocation("MainToolbarTray"), exampleToolbar);
 
                 shell.Documents.Open<ExampleDocumentViewModel>();
                 shell.Documents.Open<OtherDocumentViewModel>();

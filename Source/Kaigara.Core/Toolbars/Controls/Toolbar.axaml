@@ -1,0 +1,54 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="https://github.com/dfkeenan/Kaigara"
+        xmlns:vm="using:Kaigara.Toolbars">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+  <Style Selector=".DynamicToolbarTray k|Toolbar" >
+    <Setter Property="ItemsSource" Value="{Binding Items}"/>
+    <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
+    <Setter Property="ItemTemplate">
+      <DataTemplate>
+        <ContentPresenter Content="{Binding}" >
+          <ContentPresenter.DataTemplates>
+              <DataTemplate  DataType="vm:ToolbarItemSeparatorViewModel">
+                  <Separator />
+              </DataTemplate>
+            <DataTemplate DataType="vm:IToolbarItemViewModel">
+              <Button Command="{Binding Command}" 
+                      CommandParameter="{Binding CommandParameter}"
+                      IsVisible="{Binding IsVisible}">
+                <ToolTip.Tip>
+                  <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="Label" />
+                    <Binding Path="InputGesture" StringFormat="({0})" TargetNullValue=""/>
+                  </MultiBinding>
+                </ToolTip.Tip>
+                <StackPanel Orientation="Horizontal">
+                  <Image Width="16" Height="16"
+                         IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" 
+                         Source="{Binding IconName, Converter={k:NameToResourceConverter }}">
+                  </Image>
+                  <TextBlock Text="{Binding Label}" IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
+                </StackPanel>
+              </Button>
+            </DataTemplate>
+          </ContentPresenter.DataTemplates>
+        </ContentPresenter>
+      </DataTemplate>
+    </Setter>
+  </Style>
+
+  <!--<Style Selector="k|Toolbar Button">
+    <Setter Property="Command" Value="{Binding Command}"/>
+    <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+    <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
+    --><!--<Setter Property="Icon" Value="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}"/>--><!--
+    
+  </Style>-->
+</Styles>

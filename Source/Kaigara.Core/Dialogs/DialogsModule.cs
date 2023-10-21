@@ -9,7 +9,7 @@ using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow;
 using Kaigara.Menus;
 using Kaigara.Shell;
-using Kaigara.ToolBars;
+using Kaigara.Toolbars;
 using Avalonia.Platform.Storage;
 using Kaigara.Services;
 

@@ -3,12 +3,12 @@ using ExampleApplication.Tools.ViewModels;
 using Kaigara.Commands;
 using Kaigara.Menus;
 using Kaigara.Shell;
-using Kaigara.ToolBars;
+using Kaigara.Toolbars;
 
 namespace ExampleApplication.Commands;
 
 [MenuItemDefinition("Example1", "MainMenu/Example")]
-[ToolBarItemDefinition("Example1", "MainToolBarTray/Example")]
+[ToolbarItemDefinition("Example1", "MainToolbarTray/Example")]
 [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "ExampleIcon")]
 public class ExampleCommand : RegisteredCommand
 {

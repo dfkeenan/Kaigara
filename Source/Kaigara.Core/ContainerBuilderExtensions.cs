@@ -5,7 +5,7 @@ using Dock.Model.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;
 using Kaigara.Menus;
-using Kaigara.ToolBars;
+using Kaigara.Toolbars;
 using Kaigara.ViewModels;
 
 namespace Kaigara;
@@ -136,7 +136,7 @@ public static class ContainerBuilderExtensions
         return builder;
     }
 
-    public static ContainerBuilder RegisterToolBars<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+    public static ContainerBuilder RegisterToolbars<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
        where TModule : IModule
     {
         if (builder is null)
@@ -146,10 +146,10 @@ public static class ContainerBuilderExtensions
 
         var moduleType = typeof(TModule);
 
-        return builder.RegisterToolBars(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+        return builder.RegisterToolbars(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
     }
 
-    public static ContainerBuilder RegisterToolBars(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+    public static ContainerBuilder RegisterToolbars(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
     {
         if (builder is null)
         {
@@ -164,13 +164,13 @@ public static class ContainerBuilderExtensions
         var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
 
         builder.RegisterAssemblyTypes(assembly)
-                           .AssignableTo<ToolBarTrayViewModel>()
+                           .AssignableTo<ToolbarTrayViewModel>()
                            .Where(t => namespacePredicate(t))
                            .OnActivating(e =>
                            {
-                               if (e.Instance is ToolBarTrayViewModel m)
+                               if (e.Instance is ToolbarTrayViewModel m)
                                {
-                                   e.Context.Resolve<IToolBarManager>().Register(m.Definition);
+                                   e.Context.Resolve<IToolbarManager>().Register(m.Definition);
                                }
                            })
                            .AsSelf()
@@ -317,7 +317,7 @@ public static class ContainerBuilderExtensions
         builder.RegisterDocuments(assembly, @namespace, namespaceRule);
         builder.RegisterTools(assembly, @namespace, namespaceRule);
         builder.RegisterMenus(assembly, @namespace, namespaceRule);
-        builder.RegisterToolBars(assembly, @namespace, namespaceRule);
+        builder.RegisterToolbars(assembly, @namespace, namespaceRule);
         builder.RegisterCommands(assembly, @namespace, namespaceRule);
 
         return builder;
