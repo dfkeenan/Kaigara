@@ -6,7 +6,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Platform;
-using Avalonia.Styling;
 
 namespace Kaigara.Avalonia.Controls;
 

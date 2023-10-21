@@ -1,10 +1,7 @@
 ﻿using System.Collections.ObjectModel;
-using Kaigara.Menus;
 using System.Collections.Specialized;
 using ReactiveUI;
 using System.Collections;
-using System.Windows.Input;
-using Avalonia.Input;
 
 namespace Kaigara.Toolbars;
 

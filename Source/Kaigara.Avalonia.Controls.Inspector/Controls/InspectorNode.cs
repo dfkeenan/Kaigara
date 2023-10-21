@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using ReactiveUI;
+﻿using ReactiveUI;
 
 namespace Kaigara.Avalonia.Controls;
 public abstract class InspectorNode : ReactiveObject

@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using Autofac;
 using Kaigara.Collections.ObjectModel;
-using Kaigara.Menus;
 using ReactiveUI;
 
 namespace Kaigara.Toolbars;

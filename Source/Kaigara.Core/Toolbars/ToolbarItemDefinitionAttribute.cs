@@ -1,6 +1,4 @@
-﻿using Kaigara.Menus;
-
-namespace Kaigara.Toolbars;
+﻿namespace Kaigara.Toolbars;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class ToolbarItemDefinitionAttribute : Attribute

@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using ReactiveUI;
 
 namespace Kaigara.Avalonia.Controls.InspectorNodes;
 
