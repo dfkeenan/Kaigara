@@ -12,7 +12,7 @@ public class CollectionInspectorNodeProvider : InspectorNodeProvider
            && type.EnsureRuntimeType().IsInstanceOfGenericInterface(typeof(IList<>));
     }
 
-    public override InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNode parent, MemberInfo member, object[]? index = null)
+    public override InspectorNode? CreateNode(InspectorContext inspectorContext, InspectorNode parent, MemberInfo member, object[]? index = null)
     {
         if (parent is MemberInspectorNode node && node.GetValue() is object obj)
             return new CollectionInspectorNode(obj, inspectorContext, this, parent, (Type)member, "");

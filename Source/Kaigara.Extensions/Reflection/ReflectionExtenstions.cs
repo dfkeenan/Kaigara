@@ -86,7 +86,7 @@ public static class ReflectionExtenstions
 
     }
 
-    public static Type? TryGetMemberType(this MemberInfo member)
+    public static Type TryGetMemberType(this MemberInfo member)
     {
         Type? memberType = null;
 
@@ -99,7 +99,7 @@ public static class ReflectionExtenstions
             memberType = field.FieldType;
         }
 
-        return memberType;
+        return memberType ?? throw new ArgumentException($"'{nameof(member)}' is not a PropertyInfo or FieldInfo", nameof(member));
     }
 
     public static bool IsRuntimeType(this Type type)

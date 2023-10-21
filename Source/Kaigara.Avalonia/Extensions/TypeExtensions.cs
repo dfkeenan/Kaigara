@@ -40,9 +40,9 @@ internal static class TypeExtensions
             throw new ArgumentNullException(nameof(type));
         }
 
-        if (type.IsArray)
+        if (type.IsArray && type.GetElementType() is Type elementType)
         {
-            return ToSimpleCSharpName(type.GetElementType()) + "[" + new string(',', type.GetArrayRank() - 1) + "]";
+            return ToSimpleCSharpName(elementType) + "[" + new string(',', type.GetArrayRank() - 1) + "]";
         }
 
         if (!type.IsGenericType)

@@ -20,7 +20,7 @@ public class InspectorContext
 
     public Window? InspectorParentWindow => inspector.GetVisualRoot() as Window;
 
-    public InspectorNodeProvider GetNodeProvider(MemberInfo memberInfo)
+    public InspectorNodeProvider? GetNodeProvider(MemberInfo memberInfo)
     {
 
         return FindNodeProvider(p => p.MatchNodeMemberInfo(memberInfo));

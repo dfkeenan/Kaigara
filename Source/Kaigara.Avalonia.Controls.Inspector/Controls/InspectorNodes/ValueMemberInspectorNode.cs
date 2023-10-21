@@ -7,7 +7,7 @@ public class ValueMemberInspectorNode<T> : MemberInspectorNode<T>
     where T : struct
 {
 
-    public ValueMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[] index = null)
+    public ValueMemberInspectorNode(InspectorContext context, InspectorNodeProvider provider, ObjectInspectorNodeBase parent, MemberInfo memberInfo, object[]? index = null)
         : base(context, provider, parent, memberInfo, index)
     {
     }

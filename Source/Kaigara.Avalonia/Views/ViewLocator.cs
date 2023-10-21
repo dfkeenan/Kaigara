@@ -11,6 +11,8 @@ public class ViewLocator : IDataTemplate
 
     public Control Build(object? data)
     {
+        if(data == null) return new TextBlock { Text = "Not Found" };
+
         var name = data.GetType().FullName!.Replace("ViewModel", "View");
         Type? type = GetType(name);
 

@@ -31,7 +31,7 @@ public class MemberInspectorNodeProvider : InspectorNodeProvider
 
     internal static InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNodeProvider provider, Type nodeType, InspectorNode parent, MemberInfo member, object[]? index)
     {
-        return (InspectorNode)Activator.CreateInstance(nodeType, inspectorContext, provider, parent, member, index);
+        return (InspectorNode)(Activator.CreateInstance(nodeType, inspectorContext, provider, parent, member, index) ?? throw new Exception($"Unable to create type {nodeType}"));
     }
 
     internal static InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNodeProvider provider, Type genericNodeType, Type nodeType, InspectorNode parent, MemberInfo member, object[]? index)

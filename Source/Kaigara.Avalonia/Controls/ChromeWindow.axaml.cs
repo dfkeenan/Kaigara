@@ -59,10 +59,12 @@ public class ChromeWindow : Window
 
     protected void OnTemplateApplied(object sender, TemplateAppliedEventArgs e)
     {
-        var titleBar = e.NameScope.Find<Control>("PART_TitleBar");
 
-        titleBar.PointerPressed += TitleBar_PointerPressed;
-        titleBar.DoubleTapped += TitleBar_DoubleTapped;
+        if (e.NameScope.Find<Control>("PART_TitleBar") is Control titleBar)
+        {
+            titleBar.PointerPressed += TitleBar_PointerPressed;
+            titleBar.DoubleTapped += TitleBar_DoubleTapped; 
+        }
     }
 
     private void TitleBar_DoubleTapped(object? sender, global::Avalonia.Interactivity.RoutedEventArgs e)

@@ -13,7 +13,7 @@ public static class CommandManagerExtensions
                new KeyBinding()
                {
                    [!KeyBinding.CommandProperty] = c.WhenAnyValue(c => c.Command).ToBinding(),
-                   [!KeyBinding.GestureProperty] = c.WhenAnyValue<RegisteredCommandBase, KeyGesture>(c => c.InputGesture).ToBinding(),
+                   [!KeyBinding.GestureProperty] = c.WhenAnyValue<RegisteredCommandBase, KeyGesture?>(c => c.InputGesture).ToBinding(),
 
                })).SyncTo(keyBindings);
     }

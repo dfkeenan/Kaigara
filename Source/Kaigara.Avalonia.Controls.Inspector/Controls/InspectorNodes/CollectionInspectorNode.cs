@@ -22,7 +22,7 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
         itemProperty = Type.GetProperty("Item")!;
 
-        itemNodeProvider = Context.GetNodeProvider(itemProperty);
+        itemNodeProvider = Context.GetNodeProvider(itemProperty) ?? throw new ArgumentException($"No NodePRovider found for '{itemProperty}'",nameof(itemProperty));
 
         items = new ObservableCollection<MemberInspectorNode>();
 
@@ -67,7 +67,7 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
     private MemberInspectorNode CreateItemNode(object list, int i)
     {
-        return (MemberInspectorNode)itemNodeProvider.CreateNode(Context, this, itemProperty, new object[] { i });
+        return (MemberInspectorNode)itemNodeProvider.CreateNode(Context, this, itemProperty, new object[] { i })!;
     }
 
     public override IEnumerable<InspectorNode> Children => Items.AsEnumerable();

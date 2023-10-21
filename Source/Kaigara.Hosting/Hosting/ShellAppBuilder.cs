@@ -86,8 +86,10 @@ public sealed class ShellAppBuilder
 
     public ShellAppBuilder RegisterAllAppModels(NamespaceRule namespaceRule = NamespaceRule.StartsWith)
     {
-        var appType = this.appBuilder.ApplicationType;
-        containerBuilder.RegisterAllModels(appType.Assembly, appType.Namespace!, namespaceRule);
+        if (appBuilder.ApplicationType is Type appType)
+        {
+            containerBuilder.RegisterAllModels(appType.Assembly, appType.Namespace!, namespaceRule);
+        }
 
         return this;
     }

@@ -26,7 +26,7 @@ public class ConverterParameterBindingExtension
     {
         var parameter = new ConverterParameterBinding();
 
-        var binding = new ReflectionBindingExtension(Path) { RelativeSource = RelativeSource }.ProvideValue(serviceProvider);
+        var binding = new ReflectionBindingExtension(Path ?? "") { RelativeSource = RelativeSource }.ProvideValue(serviceProvider);
 
         parameter.Bind(ConverterParameterBinding.ValueProperty, binding);
 

@@ -17,16 +17,16 @@ public class ChromeWindowButtons : TemplatedControl
         if (VisualRoot is Window window)
         {
             var min = e.NameScope.Find<Button>("PART_MinimizeButton");
-            min.Click += (s, e) => window.WindowState = WindowState.Minimized;
+            min!.Click += (s, e) => window.WindowState = WindowState.Minimized;
 
             var max = e.NameScope.Find<Button>("PART_MaximizeButton");
-            max.Click += (s, e) => window.WindowState = WindowState.Maximized;
+            max!.Click += (s, e) => window.WindowState = WindowState.Maximized;
 
             var res = e.NameScope.Find<Button>("PART_RestoreButton");
-            res.Click += (s, e) => window.WindowState = WindowState.Normal;
+            res!.Click += (s, e) => window.WindowState = WindowState.Normal;
 
             var close = e.NameScope.Find<Button>("PART_CloseButton");
-            close.Click += (s, e) => window.Close();
+            close!.Click += (s, e) => window.Close();
 
             DoubleTapped += (s, e) => ToggleWindowState(window);
 

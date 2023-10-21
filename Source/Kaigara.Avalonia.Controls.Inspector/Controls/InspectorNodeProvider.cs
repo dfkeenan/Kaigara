@@ -54,7 +54,7 @@ public abstract class InspectorNodeProvider : ITreeDataTemplate
         return data is InspectorNode node && node.Provider.Content is { };
     }
 
-    public abstract InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNode parent, MemberInfo memberInfo, object[]? index = null);
+    public abstract InspectorNode? CreateNode(InspectorContext inspectorContext, InspectorNode parent, MemberInfo memberInfo, object[]? index = null);
 
     public virtual bool MatchNodeMemberInfo(MemberInfo memberInfo)
     {

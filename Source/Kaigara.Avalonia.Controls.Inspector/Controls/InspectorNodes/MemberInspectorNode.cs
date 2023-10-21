@@ -33,7 +33,7 @@ public class MemberInspectorNode : InspectorNode
     private readonly object[]? index;
     private readonly Func<object, object?> getter;
     private readonly Action<object, object?> setter;
-    private readonly InspectorNodeProvider valueNodeProvider = null!;
+    private readonly InspectorNodeProvider? valueNodeProvider = null!;
     private IEnumerable<Type>? construcableTypes;
     private InspectorNode? valueNode;
 
@@ -158,8 +158,17 @@ public class MemberInspectorNode : InspectorNode
         
     }
 
-    public object GetIndex(int i = 0) => index[i];
-    public void SetIndex(object value, int i = 0) => index[i] = value;
+    public object GetIndex(int i = 0)
+    {
+        if (index is null) throw new InvalidOperationException("Member is not indexable.");
+        return index[i];
+    }
+
+    public void SetIndex(object value, int i = 0)
+    {
+        if (index is null) throw new InvalidOperationException("Member is not indexable.");
+        index[i] = value;
+    }
 
     private static string? GetIndex(object[]? index)
     {
@@ -182,7 +191,7 @@ public class MemberInspectorNode : InspectorNode
 
         if (InstanceNode is CollectionInspectorNode)
         {
-            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, oldValue, (int)index[0]);
+            args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, oldValue, (int)index![0]);
         }
         else
         {

@@ -8,7 +8,7 @@ public static class ReflectionComparer
     private static readonly Type GenericEqualityComparer = typeof(EqualityComparer<>);
     private static readonly ConcurrentDictionary<Type, Func<object, object, bool>> equalityComparers = new ConcurrentDictionary<Type, Func<object, object, bool>>();
 
-    public static bool EqualityComparerEquals(object x, object y)
+    public static bool EqualityComparerEquals(object? x, object? y)
     {
         if (ReferenceEquals(x, null) && ReferenceEquals(y, null))
         {
