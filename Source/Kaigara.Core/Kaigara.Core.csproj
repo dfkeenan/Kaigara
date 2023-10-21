@@ -14,13 +14,13 @@
   <ItemGroup>
     <AvaloniaXaml Remove="MainWindow\Views\MainWindowView.axaml" />
     <AvaloniaXaml Remove="Menus\Controls\Menu.axaml" />
-    <AvaloniaXaml Remove="Themes\DefaultTheme.axaml" />
+    <AvaloniaXaml Remove="Themes\Simple.axaml" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="MainWindow\Views\MainWindowView.axaml" />
     <AvaloniaResource Include="Menus\Controls\Menu.axaml" />
-    <AvaloniaResource Include="Themes\DefaultTheme.axaml" />
+    <AvaloniaResource Include="Themes\Simple.axaml" />
   </ItemGroup>
 
   <ItemGroup>

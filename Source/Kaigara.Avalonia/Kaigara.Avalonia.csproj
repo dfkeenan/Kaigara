@@ -8,13 +8,13 @@
   <ItemGroup>
     <AvaloniaXaml Remove="Controls\ChromeWindow.axaml" />
     <AvaloniaXaml Remove="Controls\ChromeWindowButtons.axaml" />
-    <AvaloniaXaml Remove="Themes\DefaultTheme.axaml" />
+    <AvaloniaXaml Remove="Themes\Simple.axaml" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="Controls\ChromeWindow.axaml" />
     <AvaloniaResource Include="Controls\ChromeWindowButtons.axaml" />
-    <AvaloniaResource Include="Themes\DefaultTheme.axaml" />
+    <AvaloniaResource Include="Themes\Simple.axaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.5" />
