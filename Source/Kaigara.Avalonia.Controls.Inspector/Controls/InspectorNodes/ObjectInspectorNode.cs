@@ -15,7 +15,7 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase, IWeakEventSubscriber
 
         InspectorNode? CreateNode(MemberInfo memberInfo)
         {
-            Type memberType = memberInfo.TryGetMemberType()!;
+            Type memberType = memberInfo.GetMemberType();
 
             return Context.GetNodeProvider(memberInfo)?.CreateNode(Context, this, memberInfo, null);
         }

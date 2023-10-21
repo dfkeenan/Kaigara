@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Kaigara.Extentions;
 
@@ -86,7 +87,7 @@ public static class ReflectionExtenstions
 
     }
 
-    public static Type TryGetMemberType(this MemberInfo member)
+    public static Type GetMemberType(this MemberInfo member)
     {
         Type? memberType = null;
 
@@ -101,6 +102,23 @@ public static class ReflectionExtenstions
 
         return memberType ?? throw new ArgumentException($"'{nameof(member)}' is not a PropertyInfo or FieldInfo", nameof(member));
     }
+
+    public static bool TryGetMemberType(this MemberInfo member, [NotNullWhen(true)]out Type? memberType)
+    {
+        memberType = null;
+
+        if (member is PropertyInfo property)
+        {
+            memberType = property.PropertyType;
+        }
+        else if (member is FieldInfo field)
+        {
+            memberType = field.FieldType;
+        }
+
+        return memberType is not null;
+    }
+
 
     public static bool IsRuntimeType(this Type type)
     {

@@ -12,7 +12,7 @@ public class MemberInspectorNodeProvider : InspectorNodeProvider
 
     public override InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNode parent, MemberInfo memberInfo, object[]? index = null)
     {
-        Type memberType = memberInfo.TryGetMemberType();
+        Type memberType = memberInfo.GetMemberType();
 
         if (NodeType is object)
         {
@@ -25,8 +25,9 @@ public class MemberInspectorNodeProvider : InspectorNodeProvider
     public override bool MatchNodeMemberInfo(MemberInfo memberInfo)
     {
         return MemberType is object
-            && memberInfo.TryGetMemberType()?.EnsureRuntimeType() is Type memberType
-            && (MemberType.IsAssignableFrom(memberType) || (Nullable.GetUnderlyingType(memberType)?.IsAssignableFrom(MemberType) == true));
+            && memberInfo.TryGetMemberType(out var memberType) 
+            && memberType.EnsureRuntimeType() is Type runTimeMemberType
+            && (MemberType.IsAssignableFrom(runTimeMemberType) || (Nullable.GetUnderlyingType(runTimeMemberType)?.IsAssignableFrom(MemberType) == true));
     }
 
     internal static InspectorNode CreateNode(InspectorContext inspectorContext, InspectorNodeProvider provider, Type nodeType, InspectorNode parent, MemberInfo member, object[]? index)
