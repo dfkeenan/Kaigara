@@ -73,7 +73,8 @@
   <Style Selector="k|ToolBar Separator">
     <!--Width="1" Background="{DynamicResource ThemeBorderMidBrush}"-->
     <Setter Property="Width" Value="1" />
-    <Setter Property="Margin" Value="0 0" />
+    <Setter Property="Height" Value="NaN" />
+    <Setter Property="Margin" Value="2" />
     <Setter Property="Background" Value="{DynamicResource ThemeBorderMidBrush}" />
   </Style>
 </Styles>
