@@ -141,10 +141,12 @@ public class ShellDockFactory : Factory
         if (leftToolDock is { }) return leftToolDock;
 
         var (toolDock, dock) = GetToolDock(Alignment.Left, Orientation.Vertical);
+        toolDock.Id = ShellDockIds.LeftToolDock;
 
         InsertDockable(mainLayout!, dock, 0);
         InsertDockable(mainLayout!, new ProportionalDockSplitter(), 1);
         leftToolDock = toolDock;
+        dock.Proportion = 0.5;
 
         return toolDock;
     }
@@ -154,6 +156,7 @@ public class ShellDockFactory : Factory
         if (rightToolDock is { }) return rightToolDock;
 
         var (toolDock, dock) = GetToolDock(Alignment.Right, Orientation.Vertical);
+        toolDock.Id = ShellDockIds.RightToolDock;
 
         AddDockable(mainLayout!, new ProportionalDockSplitter());
         AddDockable(mainLayout!, dock);
@@ -167,6 +170,7 @@ public class ShellDockFactory : Factory
         if (bottomToolDock is { }) return bottomToolDock;
 
         var (toolDock, dock) = GetToolDock(Alignment.Bottom, Orientation.Horizontal);
+        toolDock.Id = ShellDockIds.BottomToolDock;
 
         AddDockable(mainLayoutVertical!, new ProportionalDockSplitter());
         AddDockable(mainLayoutVertical!, dock);
@@ -179,7 +183,6 @@ public class ShellDockFactory : Factory
     {
         var toolDock = new ToolDock()
         {
-            Id = ShellDockIds.LeftToolDock,
             ActiveDockable = null,
             VisibleDockables = base.CreateList<IDockable>(),
             Alignment = alignment,

@@ -11,9 +11,4 @@ public partial class ExampleDocumentView : ReactiveUserControl<ExampleDocumentVi
     {
         InitializeComponent();
     }
-
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
 }
