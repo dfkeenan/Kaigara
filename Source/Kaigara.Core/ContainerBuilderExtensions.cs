@@ -4,9 +4,13 @@ using Autofac.Core;
 using Dock.Model.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;
+using Kaigara.Configuration;
 using Kaigara.Menus;
 using Kaigara.Toolbars;
 using Kaigara.ViewModels;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Kaigara;
 
@@ -19,6 +23,84 @@ public enum NamespaceRule
 public static class ContainerBuilderExtensions
 {
     private static readonly string RegisteredModulesKey = $"{nameof(Kaigara)}.{nameof(ContainerBuilderExtensions)}.RegisteredModules";
+
+    private static readonly MethodInfo configureMethod
+        = typeof(ContainerBuilderExtensions)
+          .GetMethod(nameof(Configure), 1, new[] { typeof(ContainerBuilder), typeof(string) })!;
+
+    public static ContainerBuilder Configure(this ContainerBuilder builder, Type type, string? name = null)
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        configureMethod.MakeGenericMethod(type).Invoke(null, new object?[] { builder, name });
+
+        return builder;
+    }
+
+    public static ContainerBuilder Configure<TOptions>(this ContainerBuilder builder, string? name = null) 
+        where TOptions : class
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        name ??= typeof(TOptions).FullName;
+
+        builder.Register((IConfiguration config) => new ConfigurationChangeTokenSource<TOptions>(Options.DefaultName, config.GetSection(name!)))
+                .As<IOptionsChangeTokenSource<TOptions>>()
+                .SingleInstance();
+
+        builder.Register((IConfiguration config) => new NamedConfigureFromConfigurationOptions<TOptions>(Options.DefaultName, config.GetSection(name!)))
+               .As<IConfigureOptions<TOptions>>()
+               .SingleInstance();
+
+        return builder;
+    }
+
+    public static ContainerBuilder Configure<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+        where TModule : IModule
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        var moduleType = typeof(TModule);
+
+        return builder.Configure(moduleType.Assembly, moduleType.Namespace!, namespaceRule);
+    }
+
+    public static ContainerBuilder Configure(this ContainerBuilder builder, Assembly assembly, string @namespace, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (@namespace is null)
+        {
+            throw new ArgumentNullException(nameof(@namespace));
+        }
+
+        var namespacePredicate = GetNamespacePredicate(@namespace!, namespaceRule);
+
+
+        var configTypes = from type in assembly.GetTypes()
+                          where type.IsAssignableTo(typeof(IOptionsModel))
+                             && namespacePredicate(type)
+                          select type;
+
+        foreach (var type in configTypes)
+        {
+            builder.Configure(type);
+        }
+        
+        return builder;
+    }
 
     public static ContainerBuilder RegisterModuleOnce<TModule>(this ContainerBuilder builder)
         where TModule : IModule, new()
@@ -319,7 +401,7 @@ public static class ContainerBuilderExtensions
         builder.RegisterMenus(assembly, @namespace, namespaceRule);
         builder.RegisterToolbars(assembly, @namespace, namespaceRule);
         builder.RegisterCommands(assembly, @namespace, namespaceRule);
-
+        builder.Configure(assembly, @namespace, namespaceRule);
         return builder;
     }
 

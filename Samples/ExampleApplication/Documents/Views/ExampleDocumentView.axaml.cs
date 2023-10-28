@@ -1,9 +1,11 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.ReactiveUI;
+using ExampleApplication.Documents.ViewModels;
 
 namespace ExampleApplication.Documents.Views;
 
-public partial class ExampleDocumentView : UserControl
+public partial class ExampleDocumentView : ReactiveUserControl<ExampleDocumentViewModel>
 {
     public ExampleDocumentView()
     {

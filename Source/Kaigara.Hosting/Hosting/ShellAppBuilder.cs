@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Core;
+using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
 using Avalonia;
 using Avalonia.Controls;
@@ -9,6 +10,7 @@ using Kaigara.MainWindow.Views;
 using Kaigara.Shell;
 using Kaigara.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kaigara.Hosting;
 
@@ -54,8 +56,8 @@ public sealed class ShellAppBuilder
         }
 
         configurationBuilder.SetBasePath(Environment.CurrentDirectory)
-                            .AddJsonFile("appsettings.json", true)
-                            .AddJsonFile(userSettingsFilePath, true);
+                            .AddJsonFile("appsettings.json", true, true)
+                            .AddJsonFile(userSettingsFilePath, true, true);
 
         return this;
     }
@@ -114,7 +116,11 @@ public sealed class ShellAppBuilder
     public void Start(Action<IWindowViewModel>? mainWindowOptions = null)
     {
         var configuration = configurationBuilder.Build();
-        containerBuilder.RegisterInstance(configuration).As<IConfiguration>();
+        containerBuilder.RegisterInstance(configuration).As<IConfiguration>().SingleInstance();
+
+        var serviceCollection = new ServiceCollection().AddOptions();
+        containerBuilder.Populate(serviceCollection);
+
 
         container = containerBuilder.Build();
 

@@ -4,8 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ExampleApplication.Documents.Views.ExampleDocumentView">
-  <Grid RowDefinitions="auto" ColumnDefinitions="auto, 1*" Margin="4" >
-    <TextBlock Grid.Column="0" Text="Is Checked" />
-    <CheckBox Grid.Column="1" Margin="4,0" IsChecked="{Binding IsChecked}"></CheckBox>
+  <Grid RowDefinitions="auto, auto" ColumnDefinitions="auto, 1*" Margin="4">
+    <Grid.Styles>
+      <Style Selector="Label">
+        <Setter Property="Margin" Value="0,0,8,0" />
+      </Style>
+    </Grid.Styles>
+    <Label Grid.Column="0" Content="Is Checked"  />
+    <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}"></CheckBox>
+
+    <Label Grid.Row="1" Grid.Column="0" Content="Config Value" />
+    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Config.Value}" />
+    
   </Grid>
 </UserControl>
