@@ -5,7 +5,6 @@ using Kaigara.Dialogs;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
 using Kaigara.Menus;
-using Kaigara.Services;
 using Kaigara.Shell;
 using Kaigara.Toolbars;
 
@@ -28,9 +27,16 @@ public class MainWindowModule : Module
         builder.RegisterType<MainWindowViewModel>()
         .SingleInstance().AsSelf();
 
-        builder.RegisterType<StorageProviderDecorator<MainWindowView>>()
-            .As<IStorageProvider>()
-            .SingleInstance();
+        builder.Register((MainWindowViewModel vm) => 
+        {
+            var result = new MainWindowView()
+            {
+                DataContext = vm
+            };
+            ShellViewLocator.RegisterShell(vm.Shell, result);
+            return result;
+        })
+        .SingleInstance();
     }
 
 }

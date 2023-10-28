@@ -18,12 +18,19 @@ public class ViewLocator : IDataTemplate
 
         if (type != null)
         {
-            return (Control)Activator.CreateInstance(type)!;
+            var control = (Control)Activator.CreateInstance(type)!;
+            ViewLocated(data, control);
+            return control;
         }
         else
         {
             return new TextBlock { Text = "Not Found: " + name };
         }
+    }
+
+    protected virtual void ViewLocated(object data, Control control)
+    {
+        
     }
 
     private Type? GetType(string name)

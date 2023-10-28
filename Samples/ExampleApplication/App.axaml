@@ -1,10 +1,10 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:k="using:Kaigara.Avalonia.Views"
+             xmlns:k="https://github.com/dfkeenan/Kaigara"
              x:Class="ExampleApplication.App"
              RequestedThemeVariant="Dark">
     <Application.DataTemplates>
-        <k:ViewLocator></k:ViewLocator>
+        <k:ShellViewLocator></k:ShellViewLocator>
     </Application.DataTemplates>
     <Application.Resources>
         <DrawingImage x:Key="ExampleIcon" >

@@ -127,14 +127,8 @@ public sealed class ShellAppBuilder
 
         void StartApplication(Application app, string[] args)
         {
-            var mainWindowViewModel = container.Resolve<MainWindowViewModel>();
-            mainWindowOptions?.Invoke(mainWindowViewModel);
-
-            var window = new MainWindowView()
-            {
-                DataContext = mainWindowViewModel,
-            };
-
+            var window = container.Resolve<MainWindowView>();
+            mainWindowOptions?.Invoke(window.ViewModel!);
             app.Run(window);
         }
     }

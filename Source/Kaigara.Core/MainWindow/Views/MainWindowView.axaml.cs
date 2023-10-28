@@ -9,8 +9,6 @@ using ReactiveUI;
 
 namespace Kaigara.MainWindow.Views;
 
-public record class ViewCreated<T>(T View) where T : TopLevel;
-
 public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
 {
     public MainWindowView()
@@ -25,7 +23,6 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
             }
         });
 
-        MessageBus.Current.SendMessage(new ViewCreated<MainWindowView>(this));
     }
 
     private void InitializeComponent()
