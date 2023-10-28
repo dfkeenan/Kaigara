@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Dock.Model.Controls;
+using Dock.Model.Core;
 using Kaigara.Avalonia.Views;
 
 namespace Kaigara.Shell;
@@ -14,7 +16,7 @@ public class ShellViewLocator : ViewLocator
 
     protected override void ViewLocated(object data, Control control)
     {
-        if(data is null || control is null) return;
+        if(data is not IDockable) return;
 
         controlTable.AddOrUpdate(data, control);
     }

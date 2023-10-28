@@ -16,11 +16,10 @@ public class ViewLocator : IDataTemplate
         var name = data.GetType().FullName!.Replace("ViewModel", "View");
         Type? type = GetType(name);
 
-        if (type != null)
+        if (type is not null && Activator.CreateInstance(type) is Control control)
         {
-            var control = (Control)Activator.CreateInstance(type)!;
             ViewLocated(data, control);
-            return control;
+            return control!;
         }
         else
         {
