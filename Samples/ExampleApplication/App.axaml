@@ -18,9 +18,6 @@
     </Application.Resources>
     <Application.Styles>
         <SimpleTheme  />
-        <StyleInclude Source="avares://Dock.Avalonia/Themes/DockSimpleTheme.axaml"/>
-        <StyleInclude Source="avares://Kaigara.Avalonia/Themes/Simple.axaml"/>
-        <StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Themes/Simple.axaml"/>
-        <StyleInclude Source="avares://Kaigara.Core/Themes/Simple.axaml"/>
+        <k:SimpleShellTheme />
     </Application.Styles>
 </Application>

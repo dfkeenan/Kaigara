@@ -14,13 +14,15 @@
   <ItemGroup>
     <AvaloniaXaml Remove="MainWindow\Views\MainWindowView.axaml" />
     <AvaloniaXaml Remove="Menus\Controls\Menu.axaml" />
-    <AvaloniaXaml Remove="Themes\Simple.axaml" />
+    <AvaloniaXaml Remove="Shell\Controls\Dock.axaml" />
+    <AvaloniaXaml Remove="Themes\SimpleShellTheme.axaml" />
   </ItemGroup>
 
   <ItemGroup>
     <AvaloniaResource Include="MainWindow\Views\MainWindowView.axaml" />
     <AvaloniaResource Include="Menus\Controls\Menu.axaml" />
-    <AvaloniaResource Include="Themes\Simple.axaml" />
+    <AvaloniaResource Include="Shell\Controls\Dock.axaml" />
+    <AvaloniaResource Include="Themes\SimpleShellTheme.axaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia.ReactiveUI\Kaigara.Avalonia.ReactiveUI.csproj" />
     <ProjectReference Include="..\Kaigara.Extensions\Kaigara.Extensions.csproj" />
