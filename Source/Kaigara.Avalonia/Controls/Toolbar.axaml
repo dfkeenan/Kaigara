@@ -1,80 +1,55 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:k="https://github.com/dfkeenan/Kaigara">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:k="https://github.com/dfkeenan/Kaigara">
   <Design.PreviewWith>
-    <k:Toolbar >
+    <k:Toolbar>
       <Button>Hello</Button>
       <Button>Hello</Button>
       <Separator VerticalAlignment="Stretch" />
       <Button>Hello</Button>
     </k:Toolbar>
   </Design.PreviewWith>
-
-  <Styles.Resources>
-    <VisualBrush x:Key="ToolbarGripBrush" TileMode="Tile" SourceRect="0,0,4,5" DestinationRect="0,0,4,5" Stretch="Uniform">
-      <VisualBrush.Visual>
-        <Image Width="4" Height="5">
-          <DrawingImage>
-            <DrawingGroup>
-              <GeometryDrawing Brush="#FF505050">
-                <RectangleGeometry Rect="0,0,1,1" />
-              </GeometryDrawing>
-              <GeometryDrawing Brush="#FF505050">
-                <RectangleGeometry Rect="0,4,1,1" />
-              </GeometryDrawing>
-              <GeometryDrawing Brush="#FF505050">
-                <RectangleGeometry Rect="2,2,1,1" />
-              </GeometryDrawing>
-            </DrawingGroup>
-          </DrawingImage>
-        </Image>
-      </VisualBrush.Visual>
-    </VisualBrush>
-  </Styles.Resources>
-
-  <Style Selector="k|Toolbar">
-    <!-- Set Defaults -->
-    <Setter Property="ItemsPanel" >
+  <VisualBrush x:Key="ToolbarGripBrush" TileMode="Tile" SourceRect="0,0,4,5" DestinationRect="0,0,4,5" Stretch="Uniform">
+    <VisualBrush.Visual>
+      <Image Width="4" Height="5">
+        <DrawingImage>
+          <DrawingGroup>
+            <GeometryDrawing Brush="#FF505050">
+              <RectangleGeometry Rect="0,0,1,1" />
+            </GeometryDrawing>
+            <GeometryDrawing Brush="#FF505050">
+              <RectangleGeometry Rect="0,4,1,1" />
+            </GeometryDrawing>
+            <GeometryDrawing Brush="#FF505050">
+              <RectangleGeometry Rect="2,2,1,1" />
+            </GeometryDrawing>
+          </DrawingGroup>
+        </DrawingImage>
+      </Image>
+    </VisualBrush.Visual>
+  </VisualBrush>
+  <ControlTheme x:Key="{x:Type k:Toolbar}" TargetType="k:Toolbar">
+    <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
         <StackPanel Orientation="Horizontal" />
       </ItemsPanelTemplate>
     </Setter>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              Padding="{TemplateBinding Padding}">
+        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
           <DockPanel LastChildFill="True">
             <Thumb DockPanel.Dock="Left" Width="10" Cursor="SizeAll">
               <Thumb.Template>
                 <ControlTemplate>
                   <Border Background="Transparent">
-                    <Rectangle Fill="{StaticResource ToolbarGripBrush}" Margin="2" />                    
+                    <Rectangle Fill="{StaticResource ToolbarGripBrush}" Margin="2" />
                   </Border>
                 </ControlTemplate>
               </Thumb.Template>
             </Thumb>
-            <ItemsPresenter Name="PART_ItemsPresenter"
-                          ItemsPanel="{TemplateBinding ItemsPanel}"/>
+            <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
           </DockPanel>
         </Border>
       </ControlTemplate>
     </Setter>
-  </Style>
-
-  <Style Selector="k|Toolbar Button">
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="BorderThickness" Value="0" />
-  </Style>
-  <Style Selector="k|Toolbar Button:pointerover">
-    <Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}" />
-  </Style>
-  <Style Selector="k|Toolbar Separator">
-    <!--Width="1" Background="{DynamicResource ThemeBorderMidBrush}"-->
-    <Setter Property="Width" Value="1" />
-    <Setter Property="Height" Value="NaN" />
-    <Setter Property="Margin" Value="2" />
-    <Setter Property="Background" Value="{DynamicResource ThemeBorderMidBrush}" />
-  </Style>
-</Styles>
+  </ControlTheme>
+</ResourceDictionary>

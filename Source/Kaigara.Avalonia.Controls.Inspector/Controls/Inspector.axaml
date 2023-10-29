@@ -1,23 +1,88 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:k="https://github.com/dfkeenan/Kaigara"
-        xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
-        xmlns:controls="using:Kaigara.Avalonia.Controls"
-        xmlns:np="using:Kaigara.Avalonia.Controls.InspectorProviders"
-        xmlns:n="using:Kaigara.Avalonia.Controls.InspectorNodes"
-        xmlns:s="using:System">
-    <Design.PreviewWith>
-        <controls:Inspector />
-    </Design.PreviewWith>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="https://github.com/avaloniaui" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:k="https://github.com/dfkeenan/Kaigara" 
+                    xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls" 
+                    xmlns:controls="using:Kaigara.Avalonia.Controls" 
+                    xmlns:np="using:Kaigara.Avalonia.Controls.InspectorProviders" 
+                    xmlns:n="using:Kaigara.Avalonia.Controls.InspectorNodes" xmlns:s="using:System">
+  <Design.PreviewWith>
+    <controls:Inspector />
+  </Design.PreviewWith>
+  <ControlTheme x:Key="SimpleInspectorTreeViewItemToggleButtonTheme"
+                TargetType="ToggleButton">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Width="14"
+                Height="12"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent">
+          <Path HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Data="M 0 2 L 4 6 L 0 10 Z"
+                Fill="{DynamicResource ThemeForegroundBrush}" />
+        </Border>
+      </ControlTemplate>
+    </Setter>
 
-    <Style Selector="ListBox.checklist:disabled /template/ Border#border">
-        <Setter Property="Opacity" Value="1" />
+    <Style Selector="^:checked">
+      <Setter Property="RenderTransform">
+        <RotateTransform Angle="45" />
+      </Setter>
     </Style>
+  </ControlTheme>
+  
+  <ControlTheme x:Key="{x:Type controls:Inspector}" TargetType="controls:Inspector">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <TreeView Name="PART_NodeItems" ItemsSource="{TemplateBinding Nodes}">
+          <TreeView.Styles>
+            <Style Selector="TreeViewItem">
+              <Style.Resources>
+                <converters:MarginMultiplierConverter Indent="16" Left="True" x:Key="LeftMarginConverter" />
+              </Style.Resources>
+              <Setter Property="Padding" Value="2" />
+              <Setter Property="Background" Value="Transparent" />
+              <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+              <Setter Property="Template">
+                <ControlTemplate>
+                  <StackPanel>
+                    <Border Name="SelectionBorder" Focusable="True" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" TemplatedControl.IsTemplateFocusTarget="True">
+                      <Grid Name="PART_Header" Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="16" />
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton Name="PART_ExpandCollapseChevron" 
+                                      Focusable="False" 
+                                      IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}" 
+                                      Theme="{StaticResource SimpleInspectorTreeViewItemToggleButtonTheme}"/>
+                        <TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <DockPanel Grid.Column="2" LastChildFill="True" Margin="{TemplateBinding Padding}">
+                          <Button DockPanel.Dock="Right" VerticalAlignment="Center" Opacity="{Binding CanRemove}" ToolTip.Tip="{Binding RemoveLabel}" Command="{Binding Remove}">
+                            <Image Width="16" Height="16" Source="{Binding RemoveIconName, Converter={k:NameToResourceConverter }}"></Image>
+                          </Button>
+                          <ContentPresenter Name="PART_HeaderPresenter" Focusable="False" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Content="{TemplateBinding Header}" />
+                        </DockPanel>
+                      </Grid>
+                    </Border>
+                    <Grid Grid.IsSharedSizeScope="{Binding  IsSharedSizeScope}">
+                      <ItemsPresenter Name="PART_ItemsPresenter" IsVisible="{TemplateBinding IsExpanded}" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </Grid>
+                  </StackPanel>
+                </ControlTemplate>
+              </Setter>
+            </Style>
+            <Style Selector="ListBox.checklist:disabled /template/ Border#border">
+              <Setter Property="Opacity" Value="1" />
+            </Style>
 
-    <Style Selector="ListBox.checklist ListBoxItem">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <DockPanel Background="Transparent">
+            <Style Selector="ListBox.checklist ListBoxItem">
+              <Setter Property="Template">
+                <ControlTemplate>
+                  <DockPanel Background="Transparent">
                     <CheckBox DockPanel.Dock="Left" IsChecked="{TemplateBinding IsSelected}" IsHitTestVisible="false" Focusable="false" />
                     <ContentPresenter Name="PART_ContentPresenter"
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -28,201 +93,112 @@
                                             Padding="{TemplateBinding Padding}"
                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-                </DockPanel>
-            </ControlTemplate>
-        </Setter>
-    </Style>
+                  </DockPanel>
+                </ControlTemplate>
+              </Setter>
+            </Style>
 
-    <Style Selector="ListBox.checklist ListBoxItem:selected /template/ ContentPresenter">
-        <Setter Property="Background" Value="Transparent"/>
-    </Style>
+            <Style Selector="ListBox.checklist ListBoxItem:selected /template/ ContentPresenter">
+              <Setter Property="Background" Value="Transparent"/>
+            </Style>
 
-    <Style Selector=".ConstructableTypes MenuItem">
-        <Setter Property="Header" Value="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"/>
-        <Setter Property="ItemsSource" Value="{Binding Items}"/>
-        <Setter Property="Command" Value="{Binding $parent[Button].DataContext.CreateInstance}"/>
-        <Setter Property="CommandParameter" Value="{Binding}"/>
-    </Style>
-
-    <Style Selector="controls|Inspector TreeViewItem Button">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-    </Style>
-    
-    <Style Selector="controls|Inspector TreeViewItem > :not(TreeViewItem) Button:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}" />
-    </Style>
-    <Style Selector="controls|Inspector TreeViewItem:selected > :not(TreeViewItem) Button:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}" />
-    </Style>
-
-    <Style Selector="controls|Inspector TreeViewItem:selected > :not(TreeViewItem) Button:pressed">
-        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
-    </Style>
-
-    <Style Selector="controls|Inspector">
-        <!-- Set Defaults -->
-        <Setter Property="Template">
-            <ControlTemplate>
-                <TreeView Name="PART_NodeItems" ItemsSource="{TemplateBinding Nodes}">
-                    <TreeView.Styles>
-                        <Style Selector="TreeViewItem">
-                            <Style.Resources>
-                                <converters:MarginMultiplierConverter Indent="16" Left="True" x:Key="LeftMarginConverter" />
-                            </Style.Resources>
-                            <Setter Property="Padding" Value="2"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-                            <Setter Property="Template">
-                                <ControlTemplate>
-                                    <StackPanel>
-                                        <Border Name="SelectionBorder"
-                                                Focusable="True"
-                                                Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                CornerRadius="{TemplateBinding CornerRadius}"
-                                                TemplatedControl.IsTemplateFocusTarget="True">
-                                            <Grid Name="PART_Header"
-                                                  Margin="{TemplateBinding Level, Mode=OneWay, Converter={StaticResource LeftMarginConverter}}" >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="16"  />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*"  />
-                                                </Grid.ColumnDefinitions>
-                                                <ToggleButton Name="expander"
-                                                              Focusable="False"
-                                                              IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"/>
-                                                <TextBlock Text="{Binding DisplayName}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                                <DockPanel Grid.Column="2"
-                                                           LastChildFill="True"
-                                                           Margin="{TemplateBinding Padding}">
-                                                    <Button DockPanel.Dock="Right" VerticalAlignment="Center"
-                                                            Opacity="{Binding CanRemove}"
-                                                            ToolTip.Tip="{Binding RemoveLabel}" Command="{Binding Remove}">
-                                                        <Image Width="16" Height="16" Source="{Binding RemoveIconName, Converter={k:NameToResourceConverter }}">
-                                                        </Image>
-                                                    </Button>
-                                                    <ContentPresenter Name="PART_HeaderPresenter"
-                                                                  Focusable="False"
-                                                                  HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                                                                  Content="{TemplateBinding Header}"
-                                              />
-                                                </DockPanel>
-                                            </Grid>
-                                        </Border>
-                                        <Grid Grid.IsSharedSizeScope="{Binding  IsSharedSizeScope}">
-                                            <ItemsPresenter Name="PART_ItemsPresenter"
-                                                        IsVisible="{TemplateBinding IsExpanded}"
-                                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
-                                        </Grid>
-                                    </StackPanel>
-                                </ControlTemplate>
-                            </Setter>
-                        </Style>
-                    </TreeView.Styles>
-                    <TreeView.DataTemplates>
-                        <np:MemberInspectorNodeProvider MemberType="s:String">
-                            <TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}" />
-                        </np:MemberInspectorNodeProvider>
-                        <np:MemberInspectorNodeProvider MemberType="s:Boolean">
-                            <CheckBox IsChecked="{Binding Value}" IsEnabled="{Binding !IsReadOnly}" />
-                        </np:MemberInspectorNodeProvider>
-                        <np:NumericMemberInspectorNodeProvider >
-                            <StackPanel >
-                                <controls:MathUpDown
-                                               Value="{Binding Value}"
-                                               FormatString="{Binding FormatString}"
-                                               Minimum="{Binding MinValue}"
-                                               Maximum="{Binding MaxValue}"
-                                               Increment="{Binding Increment}"
-                                               ShowButtonSpinner="{Binding !HasRange}"
-                                               ClipValueToMinMax="True"
-                                               IsReadOnly="{Binding IsReadOnly}"/>
-                                <Slider IsVisible="{Binding HasRange}"
-                                        IsEnabled="{Binding !IsReadOnly}"
-                                        Value="{Binding Value}"
-                                        Minimum="{Binding MinValue}"
-                                        Maximum="{Binding MaxValue}"
-                                        SmallChange="{Binding Increment}"/>
-                            </StackPanel>
-                        </np:NumericMemberInspectorNodeProvider>
-
-                        <np:EnumMemberInspectorNodeProvider>
-                            <ComboBox SelectedItem="{Binding Value}" ItemsSource="{Binding EnumValues}" IsEnabled="{Binding !IsReadOnly}" >
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ,Converter={x:Static k:EnumToStringConverter.Instance}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                        </np:EnumMemberInspectorNodeProvider>
-
-                        <np:EnumMemberInspectorNodeProvider FlagsEnum="True">
-                            <Grid>
-                                <ToggleButton x:Name="DropDownToggle" Padding="2">
-                                    <TextBlock Text="{Binding Value ,Converter={x:Static k:EnumFlagsToStringConverter.Instance}}" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
-                                </ToggleButton>
-                                <Popup IsOpen="{Binding IsChecked,ElementName=DropDownToggle, Mode=TwoWay}" IsLightDismissEnabled="true" >
-                                    <DockPanel Margin="2">
-                                        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="2" Margin="0,2,0,0">
-                                            <Button Content="All" Command="{Binding SelectAll}" />
-                                            <Button Content="None" Command="{Binding SelectNone}" />
-                                            <Button Content="Invert" Command="{Binding SelectInverse}" />
-                                        </StackPanel>
-                                        <ListBox Classes="checklist"
-                                                 Selection="{Binding Selection}"
-                                                 ItemsSource="{Binding EnumValues}"
-                                                 SelectionMode="Multiple,Toggle" IsEnabled="{Binding !IsReadOnly}">
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding ,Converter={x:Static k:EnumToStringConverter.Instance}}"/>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </DockPanel>
-                                </Popup>
-                            </Grid>
-                        </np:EnumMemberInspectorNodeProvider>
-
-
-
-                        <np:MemberInspectorNodeProvider MemberType="s:Object" ItemsSource="{Binding ValueNode.Children}">
-                            <Panel>
-                                <Grid IsVisible="{Binding !HasValue}" ColumnDefinitions="Auto,*" Margin="4" >
-                                    <TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" VerticalAlignment="Center" />
-                                    <Button  Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}"
-                                             Classes="ConstructableTypes">
-                                        <Button.Flyout>
-                                            <MenuFlyout Placement="BottomEdgeAlignedRight" ItemsSource="{Binding ConstructableTypes}" />
-                                        </Button.Flyout>
-                                        <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}">
-                                        </Image>
-                                    </Button>
-                                </Grid>
-                                <ContentControl IsVisible="{Binding HasValue}" Content="{Binding ValueNode}" />
-                            </Panel>
-                        </np:MemberInspectorNodeProvider>
-
-                        <np:CollectionInspectorNodeProvider >
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Command="{Binding AddNewItem}" ToolTip.Tip="Add Item">
-                                    <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}">
-                                    </Image>
-                                </Button>
-                            </StackPanel>
-                        </np:CollectionInspectorNodeProvider>
-
-                        <np:ObjectInspectorNodeProvider ItemsSource="{Binding Children}" >
-                            <Grid></Grid>
-                            <!--<TextBlock>Place holder</TextBlock>-->
-                        </np:ObjectInspectorNodeProvider>
-                        <TreeDataTemplate DataType="n:CategoryInspectorNode" ItemsSource="{Binding Children}">
-                            <Grid></Grid>
-                        </TreeDataTemplate>
-                    </TreeView.DataTemplates>
-                </TreeView>
-            </ControlTemplate>
-        </Setter>
-    </Style>
-</Styles>
+            <Style Selector=".ConstructableTypes MenuItem">
+              <Setter Property="Header" Value="{Binding Converter={x:Static k:TypeToSimpleNameConverter.Instance}}"/>
+              <Setter Property="ItemsSource" Value="{Binding Items}"/>
+              <Setter Property="Command" Value="{Binding $parent[Button].DataContext.CreateInstance}"/>
+              <Setter Property="CommandParameter" Value="{Binding}"/>
+            </Style>
+            
+            <Style Selector="TreeViewItem Button">
+              <Setter Property="Background" Value="Transparent" />
+              <Setter Property="BorderThickness" Value="0" />
+            </Style>
+            <Style Selector="TreeViewItem > :not(TreeViewItem) Button:pointerover">
+              <Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}" />
+            </Style>
+            <Style Selector="TreeViewItem:selected > :not(TreeViewItem) Button:pointerover">
+              <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush2}" />
+            </Style>
+            <Style Selector="TreeViewItem:selected > :not(TreeViewItem) Button:pressed">
+              <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
+            </Style>
+          </TreeView.Styles>
+          <TreeView.DataTemplates>
+            <np:MemberInspectorNodeProvider MemberType="s:String">
+              <TextBox Text="{Binding Value}" IsReadOnly="{Binding IsReadOnly}" />
+            </np:MemberInspectorNodeProvider>
+            <np:MemberInspectorNodeProvider MemberType="s:Boolean">
+              <CheckBox IsChecked="{Binding Value}" IsEnabled="{Binding !IsReadOnly}" />
+            </np:MemberInspectorNodeProvider>
+            <np:NumericMemberInspectorNodeProvider>
+              <StackPanel>
+                <controls:MathUpDown Value="{Binding Value}" FormatString="{Binding FormatString}" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" Increment="{Binding Increment}" ShowButtonSpinner="{Binding !HasRange}" ClipValueToMinMax="True" IsReadOnly="{Binding IsReadOnly}" />
+                <Slider IsVisible="{Binding HasRange}" IsEnabled="{Binding !IsReadOnly}" Value="{Binding Value}" Minimum="{Binding MinValue}" Maximum="{Binding MaxValue}" SmallChange="{Binding Increment}" />
+              </StackPanel>
+            </np:NumericMemberInspectorNodeProvider>
+            <np:EnumMemberInspectorNodeProvider>
+              <ComboBox SelectedItem="{Binding Value}" ItemsSource="{Binding EnumValues}" IsEnabled="{Binding !IsReadOnly}">
+                <ComboBox.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding ,Converter={x:Static k:EnumToStringConverter.Instance}}" />
+                  </DataTemplate>
+                </ComboBox.ItemTemplate>
+              </ComboBox>
+            </np:EnumMemberInspectorNodeProvider>
+            <np:EnumMemberInspectorNodeProvider FlagsEnum="True">
+              <Grid>
+                <ToggleButton x:Name="DropDownToggle" Padding="2">
+                  <TextBlock Text="{Binding Value ,Converter={x:Static k:EnumFlagsToStringConverter.Instance}}" HorizontalAlignment="Stretch" TextWrapping="Wrap" />
+                </ToggleButton>
+                <Popup IsOpen="{Binding IsChecked,ElementName=DropDownToggle, Mode=TwoWay}" IsLightDismissEnabled="true">
+                  <DockPanel Margin="2">
+                    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Spacing="2" Margin="0,2,0,0">
+                      <Button Content="All" Command="{Binding SelectAll}" />
+                      <Button Content="None" Command="{Binding SelectNone}" />
+                      <Button Content="Invert" Command="{Binding SelectInverse}" />
+                    </StackPanel>
+                    <ListBox Classes="checklist" Selection="{Binding Selection}" ItemsSource="{Binding EnumValues}" SelectionMode="Multiple,Toggle" IsEnabled="{Binding !IsReadOnly}">
+                      <ListBox.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock Text="{Binding ,Converter={x:Static k:EnumToStringConverter.Instance}}" />
+                        </DataTemplate>
+                      </ListBox.ItemTemplate>
+                    </ListBox>
+                  </DockPanel>
+                </Popup>
+              </Grid>
+            </np:EnumMemberInspectorNodeProvider>
+            <np:MemberInspectorNodeProvider MemberType="s:Object" ItemsSource="{Binding ValueNode.Children}">
+              <Panel>
+                <Grid IsVisible="{Binding !HasValue}" ColumnDefinitions="Auto,*" Margin="4">
+                  <TextBlock Grid.Column="0" Text="{Binding MemberType, Converter={x:Static k:TypeToSimpleNameConverter.Instance}}" VerticalAlignment="Center" />
+                  <Button Grid.Column="1" HorizontalAlignment="Right" Name="ConstructorToggle" ToolTip.Tip="Create" IsVisible="{Binding IsConstructable}" Classes="ConstructableTypes">
+                    <Button.Flyout>
+                      <MenuFlyout Placement="BottomEdgeAlignedRight" ItemsSource="{Binding ConstructableTypes}" />
+                    </Button.Flyout>
+                    <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}"></Image>
+                  </Button>
+                </Grid>
+                <ContentControl IsVisible="{Binding HasValue}" Content="{Binding ValueNode}" />
+              </Panel>
+            </np:MemberInspectorNodeProvider>
+            <np:CollectionInspectorNodeProvider>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding AddNewItem}" ToolTip.Tip="Add Item">
+                  <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}"></Image>
+                </Button>
+              </StackPanel>
+            </np:CollectionInspectorNodeProvider>
+            <np:ObjectInspectorNodeProvider ItemsSource="{Binding Children}">
+              <Grid></Grid>
+              <!--<TextBlock>Place holder</TextBlock>-->
+            </np:ObjectInspectorNodeProvider>
+            <TreeDataTemplate DataType="n:CategoryInspectorNode" ItemsSource="{Binding Children}">
+              <Grid></Grid>
+            </TreeDataTemplate>
+          </TreeView.DataTemplates>
+        </TreeView>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

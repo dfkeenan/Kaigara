@@ -5,7 +5,13 @@
             <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/Inspector.axaml"  />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
 
     <!-- Add Styles Here -->
-    <StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/Inspector.axaml"  />
 </Styles>

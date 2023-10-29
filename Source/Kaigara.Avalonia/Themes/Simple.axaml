@@ -4,11 +4,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:idc="using:Kaigara.Avalonia.Controls">
 
-    <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ChromeWindowButtons.axaml"  />
-    <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ChromeWindow.axaml"  />
-
-    <StyleInclude Source="avares://Kaigara.Avalonia/Controls/Toolbar.axaml"  />
-    <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ToolbarTray.axaml"  />
-
-    <StyleInclude Source="avares://Kaigara.Avalonia/Controls/MathUpDown.axaml"  />
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/ChromeWindowButtons.axaml"  />
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/ChromeWindow.axaml"  />
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/Toolbar.axaml"  />
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/ToolbarTray.axaml"  />
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/MathUpDown.axaml"  />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+  <StyleInclude Source="avares://Kaigara.Avalonia/Controls/ToolbarItems.axaml"  />
 </Styles>

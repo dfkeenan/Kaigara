@@ -1,11 +1,9 @@
-<Styles xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:k="https://github.com/dfkeenan/Kaigara"
-        >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:k="https://github.com/dfkeenan/Kaigara">
   <Design.PreviewWith>
     <Grid Width="500" Height="100" RowDefinitions="1*" ColumnDefinitions="1*" Background="Magenta">
-      <k:ToolbarTray  Grid.Row="0" Grid.Column="0" >
-        <k:Toolbar >
+      <k:ToolbarTray Grid.Row="0" Grid.Column="0">
+        <k:Toolbar>
           <Button>Hello</Button>
           <Button>Hello</Button>
           <Separator />
@@ -19,25 +17,23 @@
       </k:ToolbarTray>
     </Grid>
   </Design.PreviewWith>
-
-  <Style Selector="k|ToolbarTray">
-    <!-- Set Defaults -->
-    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}"/>
-    <Setter Property="ItemsPanel" >
+  <ControlTheme x:Key="{x:Type k:ToolbarTray}" TargetType="k:ToolbarTray">
+    <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
+    <Setter Property="ItemsPanel">
       <ItemsPanelTemplate>
-        <WrapPanel Orientation="Horizontal"/>
+        <WrapPanel Orientation="Horizontal" />
       </ItemsPanelTemplate>
     </Setter>
     <Setter Property="Template">
       <ControlTemplate>
-        <Border Background="{TemplateBinding Background}"
-              BorderBrush="{TemplateBinding BorderBrush}"
-              BorderThickness="{TemplateBinding BorderThickness}"
-              Padding="{TemplateBinding Padding}">
-          <ItemsPresenter Name="PART_ItemsPresenter"
-                          ItemsPanel="{TemplateBinding ItemsPanel}"/>
+        <Border Background="{TemplateBinding Background}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" 
+                Padding="{TemplateBinding Padding}">
+          <ItemsPresenter Name="PART_ItemsPresenter" 
+                          ItemsPanel="{TemplateBinding ItemsPanel}" />
         </Border>
       </ControlTemplate>
     </Setter>
-  </Style>
-</Styles>
+  </ControlTheme>
+</ResourceDictionary>
