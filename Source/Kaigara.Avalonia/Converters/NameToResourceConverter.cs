@@ -19,7 +19,7 @@ public class NameToResourceConverter : IValueConverter
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is string name && ResourceHost?.TryFindResource(name, out var resource) == true)
+        if (value is string name && ResourceHost?.TryFindResource(name, Application.Current?.ActualThemeVariant, out var resource) == true)
         {
             return resource!;
         }

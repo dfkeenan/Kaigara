@@ -8,7 +8,7 @@
                     xmlns:n="using:Kaigara.Avalonia.Controls.InspectorNodes" xmlns:s="using:System">
   <Design.PreviewWith>
     <controls:Inspector />
-  </Design.PreviewWith>
+  </Design.PreviewWith> 
   <ControlTheme x:Key="SimpleInspectorTreeViewItemToggleButtonTheme"
                 TargetType="ToggleButton">
     <Setter Property="Template">
@@ -176,7 +176,7 @@
                     <Button.Flyout>
                       <MenuFlyout Placement="BottomEdgeAlignedRight" ItemsSource="{Binding ConstructableTypes}" />
                     </Button.Flyout>
-                    <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}"></Image>
+                    <Image Width="16" Height="16" Source="{DynamicResource InspectorAddIcon}"></Image>
                   </Button>
                 </Grid>
                 <ContentControl IsVisible="{Binding HasValue}" Content="{Binding ValueNode}" />
@@ -185,7 +185,7 @@
             <np:CollectionInspectorNodeProvider>
               <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding AddNewItem}" ToolTip.Tip="Add Item">
-                  <Image Width="16" Height="16" Source="{DynamicResource VSImageLib.Add_16x}"></Image>
+                  <Image Width="16" Height="16" Source="{DynamicResource InspectorAddIcon}"></Image>
                 </Button>
               </StackPanel>
             </np:CollectionInspectorNodeProvider>

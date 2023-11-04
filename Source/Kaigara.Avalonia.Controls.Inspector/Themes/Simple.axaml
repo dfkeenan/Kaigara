@@ -8,7 +8,8 @@
   <Styles.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <MergeResourceInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Controls/Inspector.axaml"  />
+        <ResourceInclude Source="/Controls/InspectorIcons.axaml"/>
+        <ResourceInclude Source="/Controls/Inspector.axaml"  />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Styles.Resources>
