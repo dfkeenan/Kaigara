@@ -5,6 +5,7 @@ using Autofac.Extras.CommonServiceLocator;
 using Avalonia;
 using Avalonia.Controls;
 using CommonServiceLocator;
+using Kaigara.Configuration;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
 using Kaigara.Shell;
@@ -19,7 +20,6 @@ public sealed class ShellAppBuilder
     private readonly AppBuilder appBuilder;
     private readonly string[] args;
     private ContainerBuilder containerBuilder;
-    private ConfigurationBuilder configurationBuilder;
     private ApplicationInfo appInfo;
     private IContainer? container;
 
@@ -31,7 +31,6 @@ public sealed class ShellAppBuilder
         this.appInfo = appInfo;
         this.args = args;
         containerBuilder = new ContainerBuilder();
-        configurationBuilder = new ConfigurationBuilder();
     }
 
     public ShellAppBuilder Configure(Action<ConfigurationBuilder> builderCallback)
@@ -41,7 +40,7 @@ public sealed class ShellAppBuilder
             throw new ArgumentNullException(nameof(builderCallback));
         }
 
-        builderCallback.Invoke(configurationBuilder);
+        containerBuilder.RegisterInstance(builderCallback).SingleInstance();
 
         return this;
     }
@@ -55,9 +54,10 @@ public sealed class ShellAppBuilder
             Directory.CreateDirectory(Path.GetDirectoryName(userSettingsFilePath)!);
         }
 
-        configurationBuilder.SetBasePath(Environment.CurrentDirectory)
-                            .AddJsonFile("appsettings.json", true, true)
-                            .AddJsonFile(userSettingsFilePath, true, true);
+        if(!File.Exists(userSettingsFilePath))
+            File.WriteAllText(userSettingsFilePath, $"{{{Environment.NewLine}}}");
+
+        containerBuilder.RegisterModule(new ConfigurationModule { UserAppsettingFilePath = userSettingsFilePath });
 
         return this;
     }
@@ -115,14 +115,7 @@ public sealed class ShellAppBuilder
 
     public void Start(Action<IWindowViewModel>? mainWindowOptions = null)
     {
-        var configuration = configurationBuilder.Build();
-        containerBuilder.RegisterInstance(configuration).As<IConfiguration>().SingleInstance();
-
-        var serviceCollection = new ServiceCollection().AddOptions();
-        containerBuilder.Populate(serviceCollection);
-
-
-        container = containerBuilder.Build();
+         container = containerBuilder.Build();
 
         var csl = new AutofacServiceLocator(container);
         ServiceLocator.SetLocatorProvider(() => csl);

@@ -27,6 +27,7 @@ class Program
                 ProductName = "Example Application"
             })
             .AddDefaultConfiguration()
+            //.Configure(c => c.AddJsonFile("custom.json", true, true))
             .RegisterDefaultModules()
             .RegisterAllAppModels()
             .Startup((IShell shell, IConfiguration configuration, IContainer container) =>

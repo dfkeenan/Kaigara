@@ -7,6 +7,14 @@
     <ProductName>Example Application</ProductName>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="custom.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="custom.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Application.ico" />
   </ItemGroup>
   <ItemGroup>
