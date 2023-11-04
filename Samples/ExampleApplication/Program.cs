@@ -4,6 +4,7 @@ using Autofac;
 using Avalonia;
 using Avalonia.ReactiveUI;
 using ExampleApplication.Documents.ViewModels;
+using Kaigara.Configuration;
 using Kaigara.Hosting;
 using Kaigara.Menus;
 using Kaigara.Reactive;
@@ -67,7 +68,6 @@ class Program
 
                 shell.Documents.Open<ExampleDocumentViewModel>();
                 shell.Documents.Open<OtherDocumentViewModel>();
-
 
             })
             .Start(size: new Size(1920, 1080));

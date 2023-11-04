@@ -115,17 +115,17 @@ public sealed class ShellAppBuilder
 
     public void Start(Action<IWindowViewModel>? mainWindowOptions = null)
     {
-         container = containerBuilder.Build();
-
-        var csl = new AutofacServiceLocator(container);
-        ServiceLocator.SetLocatorProvider(() => csl);
-
-        startupFactory?.Invoke(container.Resolve<IShell>(), container.Resolve<IConfiguration>(), container)?.Start();
-
         appBuilder.Start(StartApplication, args);
 
         void StartApplication(Application app, string[] args)
         {
+            container = containerBuilder.Build();
+
+            var csl = new AutofacServiceLocator(container);
+            ServiceLocator.SetLocatorProvider(() => csl);
+
+            startupFactory?.Invoke(container.Resolve<IShell>(), container.Resolve<IConfiguration>(), container)?.Start();
+
             var window = container.Resolve<MainWindowView>();
             mainWindowOptions?.Invoke(window.ViewModel!);
             app.Run(window);
