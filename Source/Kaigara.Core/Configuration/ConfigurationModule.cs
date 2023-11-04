@@ -34,5 +34,9 @@ public class ConfigurationModule : Module
         var serviceCollection = new ServiceCollection().AddOptions();
         builder.Populate(serviceCollection);
 
+
+        builder.RegisterType<ConfigurationModel>()
+            .AsSelf()
+            .InstancePerDependency();
     }
 }

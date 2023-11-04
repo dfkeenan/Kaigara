@@ -58,6 +58,13 @@ public static class ContainerBuilderExtensions
                .As<IConfigureOptions<TOptions>>()
                .SingleInstance();
 
+        if (typeof(TOptions).IsAssignableTo<IOptionsModel>())
+        {
+            builder.Register((IOptionsSnapshot<TOptions> options) => options.Value)
+            .As<IOptionsModel>()
+            .InstancePerDependency();
+        }
+
         return builder;
     }
 
