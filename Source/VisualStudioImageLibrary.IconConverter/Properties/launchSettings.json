@@ -2,7 +2,7 @@
   "profiles": {
     "IconComverter": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\dfkee\\Downloads\\Visual Studio 2022 Image Library\"\r\n\"D:\\TEMP\\IconTest\\VisualStudioImageLibrary.Avalonia\\Assets\\Icons.axaml\"\r\n\"#FF282828\""
+      "commandLineArgs": "\"$(ProjectDir)Visual Studio 2022 Image Library\"\r\n\"$(SolutionDir)VisualStudioImageLibrary.Avalonia\\Assets\\Icons.axaml\"\r\n\"#FF282828\""
     }
   }
 }
