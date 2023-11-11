@@ -28,7 +28,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Extensions", "Kaiga
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Reactive", "Kaigara.Reactive\Kaigara.Reactive.csproj", "{BBB38BD5-7233-468D-838F-749DB510D3A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaigara.Avalonia.Controls.Inspector", "Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj", "{77CAE9B9-2F4C-473D-A888-0A090F393DA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Avalonia.Controls.Inspector", "Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj", "{77CAE9B9-2F4C-473D-A888-0A090F393DA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudioImageLibrary.Avalonia", "VisualStudioImageLibrary.Avalonia\VisualStudioImageLibrary.Avalonia.csproj", "{43E04B8F-09F3-44AC-B070-DD905EDA60E1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudioImageLibrary.IconConverter", "VisualStudioImageLibrary.IconConverter\VisualStudioImageLibrary.IconConverter.csproj", "{42797FCD-214A-4E60-BEF2-B82D6380FBA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +76,14 @@ Global
 		{77CAE9B9-2F4C-473D-A888-0A090F393DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77CAE9B9-2F4C-473D-A888-0A090F393DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77CAE9B9-2F4C-473D-A888-0A090F393DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43E04B8F-09F3-44AC-B070-DD905EDA60E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43E04B8F-09F3-44AC-B070-DD905EDA60E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43E04B8F-09F3-44AC-B070-DD905EDA60E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43E04B8F-09F3-44AC-B070-DD905EDA60E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

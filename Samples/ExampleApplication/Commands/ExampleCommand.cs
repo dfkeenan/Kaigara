@@ -9,7 +9,7 @@ namespace ExampleApplication.Commands;
 
 [MenuItemDefinition("Example1", "MainMenu/Example")]
 [ToolbarItemDefinition("Example1", "MainToolbarTray/Example")]
-[CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "ExampleIcon")]
+[CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "Run")]
 public class ExampleCommand : RegisteredCommand
 {
     private readonly IShell shell;

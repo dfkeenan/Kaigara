@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\Source\Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Hosting\Kaigara.Hosting.csproj" />
+    <ProjectReference Include="..\..\Source\VisualStudioImageLibrary.Avalonia\VisualStudioImageLibrary.Avalonia.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
