@@ -33,7 +33,6 @@ public class MainWindowModule : Module
             {
                 DataContext = vm
             };
-            ShellViewLocator.RegisterShell(vm.Shell, result);
             return result;
         })
         .SingleInstance();

@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
 using Kaigara.Commands;
 using Kaigara.MainWindow.ViewModels;
+using Kaigara.Services;
 using ReactiveUI;
 
 namespace Kaigara.MainWindow.Views;
@@ -17,6 +18,11 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
         this.WhenActivated(d =>
         {
             ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
+
+            if(ViewModel?.Shell is IRequireStorageProvider shell)
+            {
+                this.BindStorageProvider(shell).DisposeWith(d);
+            }
         });
 
     }
