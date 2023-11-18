@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Autofac.Features.AttributeFilters;
+using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Kaigara.Commands;
 using Kaigara.Dialogs;
@@ -21,12 +23,42 @@ public class MainWindowModule : Module
             .DependsOnModule<ShellModule>()
             .DependsOnModule<CommandModule>()
             .DependsOnModule<DialogsModule>()
-            .RegisterMenus<MainWindowModule>()
+            //.RegisterMenus<MainWindowModule>()
             .RegisterToolbars<MainWindowModule>()
             .RegisterCommands<MainWindowModule>();
 
+
+        int order = 0;
+
+        builder.RegisterMenu(
+
+         new MenuDefinition("MainMenu")
+        {
+                new MenuItemDefinition("File", "_File", displayOrder: order += 100)
+                {
+                    new MenuItemGroupDefinition("ExitGroup", displayOrder: int.MaxValue)
+                    {
+                    }
+                },
+                //new MenuItemDefinition("Edit", "_Edit", displayOrder: order += 100)
+                //{
+
+                //},
+                //new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
+                //{
+
+                //},
+                //new MenuItemDefinition("Help", "_Help", displayOrder : order += 100)
+                //{
+
+                //}
+        });
+
+
         builder.RegisterType<MainWindowViewModel>()
-        .SingleInstance().AsSelf();
+        .SingleInstance()
+        .AsSelf()
+        .WithAttributeFiltering();
 
         builder.Register((MainWindowViewModel vm) => 
         {

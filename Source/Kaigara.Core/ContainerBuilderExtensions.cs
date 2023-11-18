@@ -183,6 +183,33 @@ public static class ContainerBuilderExtensions
         return builder;
     }
 
+    public static ContainerBuilder RegisterMenu(this ContainerBuilder builder, MenuDefinition definition)
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (definition is null)
+        {
+            throw new ArgumentNullException(nameof(definition));
+        }
+
+        builder.Register(c => new MenuViewModel(definition))
+            .OnActivating(e =>
+            {
+                if (e.Instance is MenuViewModel m)
+                {
+                    e.Context.Resolve<IMenuManager>().Register(m.Definition);
+                }
+            })
+            .AsSelf()
+            .SingleInstance()
+            .Keyed<MenuViewModel>(definition.Name);
+
+        return builder;
+    }
+
     public static ContainerBuilder RegisterMenus<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
         where TModule : IModule
     {
