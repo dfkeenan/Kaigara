@@ -1,3 +1,4 @@
+using System.Reactive;
 using System.Reactive.Disposables;
 using Avalonia;
 using Avalonia.Controls;
@@ -19,6 +20,12 @@ public partial class DialogView : ReactiveChromeWindow<DialogViewModel>
         this.WhenActivated(d =>
         {
             this.TryBindStorageProvider(ViewModel)?.DisposeWith(d);
+
+            ViewModel?.CloseInteraction.RegisterHandler(c => 
+            {
+                this.Close(c.Input);
+                c.SetOutput(Unit.Default);
+            }).DisposeWith(d);
         });
     }
 

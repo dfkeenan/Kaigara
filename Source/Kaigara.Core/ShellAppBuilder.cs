@@ -40,7 +40,7 @@ public sealed class ShellAppBuilder
         containerBuilder
             .RegisterInstance(application)
             .ExternallyOwned()
-            .AsSelf()
+            .As<Application>()
             .SingleInstance();
     }
 

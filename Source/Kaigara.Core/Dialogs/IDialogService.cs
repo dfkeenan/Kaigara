@@ -1,5 +1,10 @@
-﻿namespace Kaigara.Dialogs;
+﻿using Kaigara.Dialogs.ViewModels;
+
+namespace Kaigara.Dialogs;
 public interface IDialogService
 {
-   
+    Task ShowModal<TDialogViewModel>() where TDialogViewModel : class, IDialogViewModel;
+    Task<TResult> ShowModal<TDialogViewModel, TResult>() where TDialogViewModel : class, IDialogViewModel<TResult>;
+    Task ShowModal(IDialogViewModel viewModel);
+    Task<TResult> ShowModal<TResult>(IDialogViewModel<TResult> viewModel);
 }

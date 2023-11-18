@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Kaigara.Dialogs;
 using Kaigara.MainWindow;
 
 namespace Kaigara;
@@ -9,6 +10,8 @@ public sealed class CoreModule : Module
     {
         base.Load(builder);
         builder
-            .DependsOnModule<MainWindowModule>();
+            .DependsOnModule<MainWindowModule>()
+            .DependsOnModule<DialogsModule>();
+
     }
 }
