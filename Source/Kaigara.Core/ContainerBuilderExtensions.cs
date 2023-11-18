@@ -252,6 +252,33 @@ public static class ContainerBuilderExtensions
         return builder;
     }
 
+    public static ContainerBuilder RegisterToolbarTray(this ContainerBuilder builder, ToolbarTrayDefinition definition)
+    {
+        if (builder is null)
+        {
+            throw new ArgumentNullException(nameof(builder));
+        }
+
+        if (definition is null)
+        {
+            throw new ArgumentNullException(nameof(definition));
+        }
+
+        builder.Register(c => new ToolbarTrayViewModel(definition))
+            .OnActivating(e =>
+            {
+                if (e.Instance is ToolbarTrayViewModel m)
+                {
+                    e.Context.Resolve<IToolbarManager>().Register(m.Definition);
+                }
+            })
+            .AsSelf()
+            .SingleInstance()
+            .Keyed<ToolbarTrayViewModel>(definition.Name);
+
+        return builder;
+    }
+
     public static ContainerBuilder RegisterToolbars<TModule>(this ContainerBuilder builder, NamespaceRule namespaceRule = NamespaceRule.StartsWith)
        where TModule : IModule
     {

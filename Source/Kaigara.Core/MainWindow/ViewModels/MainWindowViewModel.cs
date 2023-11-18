@@ -8,7 +8,7 @@ using Kaigara.ViewModels;
 
 namespace Kaigara.MainWindow.ViewModels;
 
-public class MainWindowViewModel(IShell shell, ICommandManager commandManager, [KeyFilter("MainMenu")]MenuViewModel mainMenu, MainToolbarTrayViewModel toolBarTray) : WindowViewModel
+public class MainWindowViewModel(IShell shell, ICommandManager commandManager, [KeyFilter("MainMenu")]MenuViewModel mainMenu, [KeyFilter("MainToolbarTray")] ToolbarTrayViewModel toolBarTray) : WindowViewModel
 {
     public MenuViewModel MainMenu { get; } = mainMenu ?? throw new ArgumentNullException(nameof(mainMenu));
     public ToolbarTrayViewModel ToolbarTray { get; } = toolBarTray ?? throw new ArgumentNullException(nameof(toolBarTray));

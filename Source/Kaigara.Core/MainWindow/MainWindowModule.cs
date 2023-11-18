@@ -23,22 +23,25 @@ public class MainWindowModule : Module
             .DependsOnModule<ShellModule>()
             .DependsOnModule<CommandModule>()
             .DependsOnModule<DialogsModule>()
-            .RegisterToolbars<MainWindowModule>()
             .RegisterCommands<MainWindowModule>();
 
 
         int order = 0;
 
         builder.RegisterMenu(
-
-         new MenuDefinition("MainMenu")
-        {
-                new MenuItemDefinition("File", "_File", displayOrder: order += 100)
-                {
-                    new MenuItemGroupDefinition("ExitGroup", displayOrder: int.MaxValue)
+             new MenuDefinition("MainMenu")
+            {
+                    new MenuItemDefinition("File", "_File", displayOrder: order += 100)
                     {
-                    }
-                },
+                        new MenuItemGroupDefinition("ExitGroup", displayOrder: int.MaxValue)
+                        {
+                        }
+                    },
+            });
+
+        builder.RegisterToolbarTray(new ToolbarTrayDefinition("MainToolbarTray")
+        {
+
         });
 
 
