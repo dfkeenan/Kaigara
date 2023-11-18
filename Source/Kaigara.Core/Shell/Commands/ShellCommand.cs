@@ -18,7 +18,7 @@ public abstract class ShellAsyncCommand : RegisteredAsyncCommand
 public abstract class ActiveDocumentCommand<TDocument> : ShellCommand
         where TDocument : Document
 {
-    protected override IObservable<bool>? GetCanExecute()
+    protected override IObservable<bool> GetCanExecute()
     {
         return Shell.Documents.Active.Is<TDocument>(GetCanExecute);
     }
@@ -40,7 +40,7 @@ public abstract class ActiveDocumentCommand<TDocument> : ShellCommand
 public abstract class ActiveDocumentAsyncCommand<TDocument> : ShellAsyncCommand
         where TDocument : Document
 {
-    protected override IObservable<bool>? GetCanExecute()
+    protected override IObservable<bool> GetCanExecute()
     {
         return Shell.Documents.Active.Is<TDocument>(GetCanExecute);
     }

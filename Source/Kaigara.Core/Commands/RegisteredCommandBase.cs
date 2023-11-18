@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Reactive.Linq;
+using System.Reflection;
 using System.Windows.Input;
 using Avalonia.Input;
 using ReactiveUI;
@@ -24,7 +25,6 @@ public abstract class RegisteredCommandBase : ReactiveObject
             Label = attribute.Label;
             IconName = attribute.IconName;
         }
-        Command = CreateCommand();
     }
 
     protected RegisteredCommandBase(string name, string label, KeyGesture? keyGesture, string? iconName)
@@ -33,7 +33,6 @@ public abstract class RegisteredCommandBase : ReactiveObject
         this.label = label ?? throw new ArgumentNullException(nameof(label));
         this.iconName = iconName;
         this.keyGesture = keyGesture;
-        Command = CreateCommand();
     }
 
     public string Name { get; }
@@ -52,6 +51,7 @@ public abstract class RegisteredCommandBase : ReactiveObject
     }
 
     private KeyGesture? keyGesture;
+    private ICommand? command;
 
     public KeyGesture? InputGesture
     {
@@ -59,11 +59,10 @@ public abstract class RegisteredCommandBase : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref keyGesture, value);
     }
 
-    public ICommand Command { get; }
+    public ICommand Command => command ??= CreateCommand();
 
-    
     public IObservable<bool>? CanExecute { get; protected set; }
 
-    protected virtual IObservable<bool>? GetCanExecute() => null;
+    protected virtual IObservable<bool> GetCanExecute() => Observable.Return(true);
     protected abstract ICommand CreateCommand();
 }
