@@ -11,7 +11,7 @@ public static class ApplicationExtensions
             throw new ArgumentException($"Invalid ApplicationLifeTime. Only {nameof(IClassicDesktopStyleApplicationLifetime)} is supported",nameof(application));
 
 
-        var appInfo = ApplicationInfo.FromEntryAssembly();
+        var appInfo = ApplicationInfo.FromAssembly(application.GetType().Assembly);
 
         appInfo = option?.Invoke(appInfo) ?? appInfo;
 
