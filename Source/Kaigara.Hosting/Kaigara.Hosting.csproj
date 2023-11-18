@@ -17,5 +17,9 @@
     <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\Kaigara.Core\Kaigara.Core.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Hosting\" />
+  </ItemGroup>
 
 </Project>

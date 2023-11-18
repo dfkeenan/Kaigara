@@ -1,6 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Application.ico</ApplicationIcon>
@@ -19,14 +18,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="11.0.5" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
     <PackageReference Include="Avalonia.Diagnostics" Version="11.0.5" />
     <PackageReference Include="Avalonia.Themes.Simple" Version="11.0.5" />
    </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
-    <ProjectReference Include="..\..\Source\Kaigara.Hosting\Kaigara.Hosting.csproj" />
+    <ProjectReference Include="..\..\Source\Kaigara.Core\Kaigara.Core.csproj" />
     <ProjectReference Include="..\..\Source\VisualStudioImageLibrary.Avalonia\VisualStudioImageLibrary.Avalonia.csproj" />
   </ItemGroup>
   <ItemGroup>

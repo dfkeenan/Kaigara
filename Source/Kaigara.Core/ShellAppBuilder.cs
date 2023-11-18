@@ -4,6 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommonServiceLocator;
 using Kaigara.Configuration;
 using Kaigara.MainWindow.ViewModels;
@@ -13,11 +14,11 @@ using Kaigara.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Kaigara.Hosting;
+namespace Kaigara;
 
 public sealed class ShellAppBuilder
 {
-    private readonly AppBuilder appBuilder;
+    private readonly Application application;
     private readonly string[] args;
     private ContainerBuilder containerBuilder;
     private ApplicationInfo appInfo;
@@ -25,11 +26,15 @@ public sealed class ShellAppBuilder
 
     private Func<IShell, IConfiguration, IContainer, Startup>? startupFactory;
 
-    public ShellAppBuilder(AppBuilder appBuilder, ApplicationInfo appInfo, string[] args)
+    public ShellAppBuilder(Application application, ApplicationInfo appInfo)
     {
-        this.appBuilder = appBuilder ?? throw new ArgumentNullException(nameof(appBuilder));
+        if (application?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime lifeTime)
+            throw new ArgumentException($"Invalid ApplicationLifeTime. Only {nameof(IClassicDesktopStyleApplicationLifetime)} is supported", nameof(application));
+
+
+        this.application = application ?? throw new ArgumentNullException(nameof(application));
         this.appInfo = appInfo;
-        this.args = args;
+        this.args = lifeTime.Args ?? [];
         containerBuilder = new ContainerBuilder();
     }
 
@@ -80,18 +85,17 @@ public sealed class ShellAppBuilder
         return this;
     }
 
-    public ShellAppBuilder RegisterDefaultModules()
+    public ShellAppBuilder RegisterCoreModules()
     {
-        containerBuilder.RegisterModule<DefaultsModule>();
+        containerBuilder.RegisterModule<CoreModule>();
         return this;
     }
 
     public ShellAppBuilder RegisterAllAppModels(NamespaceRule namespaceRule = NamespaceRule.StartsWith)
     {
-        if (appBuilder.ApplicationType is Type appType)
-        {
-            containerBuilder.RegisterAllModels(appType.Assembly, appType.Namespace!, namespaceRule);
-        }
+       
+        var appType = application.GetType();
+        containerBuilder.RegisterAllModels(appType.Assembly, appType.Namespace!, namespaceRule);
 
         return this;
     }
@@ -113,11 +117,9 @@ public sealed class ShellAppBuilder
         return this;
     }
 
-    public void Start(Action<IWindowViewModel>? mainWindowOptions = null)
+    public ShellApplication? Start(Action<IWindowViewModel>? mainWindowOptions = null)
     {
-        appBuilder.Start(StartApplication, args);
-
-        void StartApplication(Application app, string[] args)
+        if (application.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
         {
             container = containerBuilder.Build();
 
@@ -128,16 +130,21 @@ public sealed class ShellAppBuilder
 
             var window = container.Resolve<MainWindowView>();
             mainWindowOptions?.Invoke(window.ViewModel!);
-            app.Run(window);
+
+            lifetime.MainWindow = window;
+
+            return new ShellApplication(container);
         }
+
+        return null;
     }
 
-    public void Start(string? title = null, Uri? iconUri = null, Size? size = null, WindowStartupLocation startLocation = WindowStartupLocation.CenterScreen)
+    public ShellApplication? Start(string? title = null, Uri? iconUri = null, Size? size = null, WindowStartupLocation startLocation = WindowStartupLocation.CenterScreen)
     {
         title ??= appInfo.ProductName;
         iconUri ??= appInfo.IconUri;
 
-        Start(w =>
+        return Start(w =>
         {
             w.Title = title;
             w.IconUri = iconUri;
@@ -147,3 +154,5 @@ public sealed class ShellAppBuilder
         });
     }
 }
+
+public record class ShellApplication(IContainer Container);

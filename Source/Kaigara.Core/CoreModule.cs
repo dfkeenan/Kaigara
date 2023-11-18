@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Kaigara.MainWindow;
 
-namespace Kaigara.Hosting;
+namespace Kaigara;
 
-public sealed class DefaultsModule : Module
+public sealed class CoreModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {

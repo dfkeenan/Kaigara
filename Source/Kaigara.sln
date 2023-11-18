@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{32B7F8ED
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Hosting", "Kaigara.Hosting\Kaigara.Hosting.csproj", "{CF459362-AEDE-4A9E-9D97-83858EC81397}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Avalonia", "Kaigara.Avalonia\Kaigara.Avalonia.csproj", "{2B7F45A0-6E04-401B-9AAC-D3A7B4E662B9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kaigara.Avalonia.ReactiveUI", "Kaigara.Avalonia.ReactiveUI\Kaigara.Avalonia.ReactiveUI.csproj", "{E13A90E7-FEE0-4F1F-B081-AC4D2B1A7C1F}"
@@ -34,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudioImageLibrary.Av
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudioImageLibrary.IconConverter", "VisualStudioImageLibrary.IconConverter\VisualStudioImageLibrary.IconConverter.csproj", "{42797FCD-214A-4E60-BEF2-B82D6380FBA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApplication.Desktop", "..\Samples\ExampleApplication.Desktop\ExampleApplication.Desktop.csproj", "{6455AC2C-B9FA-4BED-B991-F1C95B650722}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,10 +48,6 @@ Global
 		{152FFCB3-E117-4F2C-BD85-1FFC4152F5E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{152FFCB3-E117-4F2C-BD85-1FFC4152F5E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{152FFCB3-E117-4F2C-BD85-1FFC4152F5E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CF459362-AEDE-4A9E-9D97-83858EC81397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF459362-AEDE-4A9E-9D97-83858EC81397}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF459362-AEDE-4A9E-9D97-83858EC81397}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF459362-AEDE-4A9E-9D97-83858EC81397}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B7F45A0-6E04-401B-9AAC-D3A7B4E662B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B7F45A0-6E04-401B-9AAC-D3A7B4E662B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B7F45A0-6E04-401B-9AAC-D3A7B4E662B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,12 +80,17 @@ Global
 		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42797FCD-214A-4E60-BEF2-B82D6380FBA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{152FFCB3-E117-4F2C-BD85-1FFC4152F5E7} = {DA911C7C-17F8-4E18-81F4-294AAA115251}
+		{6455AC2C-B9FA-4BED-B991-F1C95B650722} = {DA911C7C-17F8-4E18-81F4-294AAA115251}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13AAC4D4-1D94-49E3-B085-4D8FCA400F31}

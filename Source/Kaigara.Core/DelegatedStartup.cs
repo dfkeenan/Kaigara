@@ -2,7 +2,7 @@
 using Kaigara.Shell;
 using Microsoft.Extensions.Configuration;
 
-namespace Kaigara.Hosting;
+namespace Kaigara;
 
 public delegate void StartupDelegate(IShell shell, IConfiguration configuration, IContainer container);
 
