@@ -86,6 +86,27 @@ public class MenuManager : IMenuManager
         return definitionRegistrations.Add(location, definition);
     }
 
+    public IDisposable Register(MenuItemLocation location, params MenuItemDefinition[] definitions)
+    {
+        if (location is null)
+        {
+            throw new ArgumentNullException(nameof(location));
+        }
+
+        if (definitions is null)
+        {
+            throw new ArgumentNullException(nameof(definitions));
+        }
+
+        var disposables = from definition in definitions
+                          select definitionRegistrations.Add(location, definition);
+
+        var disposablesList = disposables.ToList();
+
+
+        return Disposable.Create(() => disposablesList.ForEach(d => d.Dispose()));
+    }
+
     public IDisposable Register(MenuDefinition definition)
     {
         if (definition is null)

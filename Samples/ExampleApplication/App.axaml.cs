@@ -32,7 +32,7 @@ public partial class App : Application
             })
             .AddDefaultConfiguration()
             //.Configure(c => c.AddJsonFile("custom.json", true, true))
-            .RegisterCoreModules()
+            .RegisterModule<DefaultModule>()
             .RegisterAllAppModels()
             .Startup((IShell shell, IConfiguration configuration, IContainer container) =>
             {

@@ -36,6 +36,12 @@ public sealed class ShellAppBuilder
         this.appInfo = appInfo;
         this.args = lifeTime.Args ?? [];
         containerBuilder = new ContainerBuilder();
+
+        containerBuilder
+            .RegisterInstance(application)
+            .ExternallyOwned()
+            .AsSelf()
+            .SingleInstance();
     }
 
     public ShellAppBuilder Configure(Action<ConfigurationBuilder> builderCallback)

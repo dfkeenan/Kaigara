@@ -34,6 +34,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VisualStudioImageLibrary.Ic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApplication.Desktop", "..\Samples\ExampleApplication.Desktop\ExampleApplication.Desktop.csproj", "{6455AC2C-B9FA-4BED-B991-F1C95B650722}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kaigara", "Kaigara\Kaigara.csproj", "{B180B7CB-4C45-42E8-BC5E-0769433C05B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6455AC2C-B9FA-4BED-B991-F1C95B650722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B180B7CB-4C45-42E8-BC5E-0769433C05B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B180B7CB-4C45-42E8-BC5E-0769433C05B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B180B7CB-4C45-42E8-BC5E-0769433C05B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B180B7CB-4C45-42E8-BC5E-0769433C05B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

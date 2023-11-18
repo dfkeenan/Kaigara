@@ -23,7 +23,6 @@ public class MainWindowModule : Module
             .DependsOnModule<ShellModule>()
             .DependsOnModule<CommandModule>()
             .DependsOnModule<DialogsModule>()
-            //.RegisterMenus<MainWindowModule>()
             .RegisterToolbars<MainWindowModule>()
             .RegisterCommands<MainWindowModule>();
 
@@ -40,18 +39,6 @@ public class MainWindowModule : Module
                     {
                     }
                 },
-                //new MenuItemDefinition("Edit", "_Edit", displayOrder: order += 100)
-                //{
-
-                //},
-                //new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
-                //{
-
-                //},
-                //new MenuItemDefinition("Help", "_Help", displayOrder : order += 100)
-                //{
-
-                //}
         });
 
 
@@ -68,7 +55,8 @@ public class MainWindowModule : Module
             };
             return result;
         })
-        .SingleInstance();
+        .SingleInstance()
+        .ExternallyOwned();
     }
 
 }
