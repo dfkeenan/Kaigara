@@ -81,7 +81,7 @@ public static class StorageProviderExtensions
         return storageProviderProxy;
     }
 
-    public static IDisposable? TryBindStorageProvider(this Visual visual, object viewModel)
+    public static IDisposable? TryBindStorageProvider(this Visual visual, object? viewModel)
     {
         if (viewModel is IRequireStorageProvider storageProvider)
         {

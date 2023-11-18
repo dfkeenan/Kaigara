@@ -20,21 +20,20 @@ public class MainMenuViewModel : MenuViewModel
                 {
                     new MenuItemGroupDefinition("ExitGroup", displayOrder: int.MaxValue)
                     {
-                        new MenuItemDefinition("Exit", "E_xit")
                     }
                 },
-                new MenuItemDefinition("Edit", "_Edit", displayOrder: order += 100)
-                {
+                //new MenuItemDefinition("Edit", "_Edit", displayOrder: order += 100)
+                //{
 
-                },
-                new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
-                {
+                //},
+                //new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
+                //{
 
-                },
-                new MenuItemDefinition("Help", "_Help", displayOrder : order += 100)
-                {
+                //},
+                //new MenuItemDefinition("Help", "_Help", displayOrder : order += 100)
+                //{
 
-                }
+                //}
         };
     }
 }

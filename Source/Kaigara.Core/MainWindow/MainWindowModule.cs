@@ -22,7 +22,8 @@ public class MainWindowModule : Module
             .DependsOnModule<CommandModule>()
             .DependsOnModule<DialogsModule>()
             .RegisterMenus<MainWindowModule>()
-            .RegisterToolbars<MainWindowModule>();
+            .RegisterToolbars<MainWindowModule>()
+            .RegisterCommands<MainWindowModule>();
 
         builder.RegisterType<MainWindowViewModel>()
         .SingleInstance().AsSelf();

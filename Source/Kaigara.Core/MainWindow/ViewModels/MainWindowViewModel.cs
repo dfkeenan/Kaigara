@@ -7,21 +7,12 @@ using Kaigara.ViewModels;
 
 namespace Kaigara.MainWindow.ViewModels;
 
-public class MainWindowViewModel : WindowViewModel
+public class MainWindowViewModel(IShell shell, ICommandManager commandManager, MainMenuViewModel mainMenu, MainToolbarTrayViewModel toolBarTray) : WindowViewModel
 {
-    public MenuViewModel MainMenu { get; }
-    public ToolbarTrayViewModel ToolbarTray { get; }
+    public MenuViewModel MainMenu { get; } = mainMenu ?? throw new ArgumentNullException(nameof(mainMenu));
+    public ToolbarTrayViewModel ToolbarTray { get; } = toolBarTray ?? throw new ArgumentNullException(nameof(toolBarTray));
 
-    public IShell Shell { get; }
-    public ICommandManager CommandManager { get; }
+    public IShell Shell { get; } = shell ?? throw new ArgumentNullException(nameof(shell));
+    public ICommandManager CommandManager { get; } = commandManager ?? throw new ArgumentNullException(nameof(commandManager));
     public MainWindowView? View { get; internal set; }
-
-    public MainWindowViewModel(IShell shell, ICommandManager commandManager, MainMenuViewModel mainMenu, MainToolbarTrayViewModel toolBarTray)
-    {
-        this.MainMenu = mainMenu ?? throw new ArgumentNullException(nameof(mainMenu));
-        this.Shell = shell ?? throw new ArgumentNullException(nameof(shell));
-        CommandManager = commandManager ?? throw new ArgumentNullException(nameof(commandManager));
-        ToolbarTray = toolBarTray ?? throw new ArgumentNullException(nameof(toolBarTray));
-    }
-
 }

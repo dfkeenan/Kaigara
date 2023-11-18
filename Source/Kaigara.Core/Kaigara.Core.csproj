@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\Kaigara.Avalonia.ReactiveUI\Kaigara.Avalonia.ReactiveUI.csproj" />
     <ProjectReference Include="..\Kaigara.Extensions\Kaigara.Extensions.csproj" />

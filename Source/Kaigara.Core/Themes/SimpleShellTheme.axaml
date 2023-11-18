@@ -10,7 +10,6 @@
     <!-- Add Styles Here -->
   <StyleInclude Source="avares://Dock.Avalonia/Themes/DockSimpleTheme.axaml"/>
   <StyleInclude Source="avares://Kaigara.Avalonia/Themes/Simple.axaml"/>
-  <StyleInclude Source="avares://Kaigara.Avalonia.Controls.Inspector/Themes/Simple.axaml"/>
   <StyleInclude Source="avares://Kaigara.Core/Menus/Controls/Menu.axaml"/>
   <StyleInclude Source="avares://Kaigara.Core/Toolbars/Controls/Toolbar.axaml"/>
   <StyleInclude Source="avares://Kaigara.Core/Shell/Controls/Dock.axaml"/>
