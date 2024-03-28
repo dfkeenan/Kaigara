@@ -67,27 +67,27 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
         }
     }
 
-    public virtual T BindCommand<TCommand>()
-       where TCommand : RegisteredCommandBase
-    {
-        return BindCommand(typeof(TCommand));
-    }
+    //public virtual T BindCommand<TCommand>()
+    //   where TCommand : RegisteredCommandBase
+    //{
+    //    return BindCommand(typeof(TCommand));
+    //}
 
-    public virtual T BindCommand(Type type)
-    {
-        if (!typeof(RegisteredCommandBase).IsAssignableFrom(type))
-        {
-            throw new ArgumentOutOfRangeException(nameof(type), $"The Type must derive from {nameof(RegisteredCommandBase)}");
-        }
+    //public virtual T BindCommand(Type type)
+    //{
+    //    if (!typeof(RegisteredCommandBase).IsAssignableFrom(type))
+    //    {
+    //        throw new ArgumentOutOfRangeException(nameof(type), $"The Type must derive from {nameof(RegisteredCommandBase)}");
+    //    }
 
 
-        Bindings.Add(context =>
-        {
-            RegisteredCommand ??= (RegisteredCommandBase)context.Resolve(type);
-        });
+    //    Bindings.Add(context =>
+    //    {
+    //        RegisteredCommand ??= (RegisteredCommandBase)context.Resolve(type);
+    //    });
 
-        return (T)this;
-    }
+    //    return (T)this;
+    //}
 
     public virtual T VisibleWhen<TSource>(Func<TSource, IObservable<bool>> selector)
          where TSource : notnull
