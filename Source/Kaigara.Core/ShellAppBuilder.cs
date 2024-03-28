@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Kaigara;
 
-public sealed class ShellAppBuilder
+public sealed class ShellAppBuilder : IShellAppBuilder
 {
     private readonly Application application;
     private readonly string[] args;
@@ -44,7 +44,7 @@ public sealed class ShellAppBuilder
             .SingleInstance();
     }
 
-    public ShellAppBuilder Configure(Action<ConfigurationBuilder> builderCallback)
+    public IShellAppBuilder Configure(Action<ConfigurationBuilder> builderCallback)
     {
         if (builderCallback is null)
         {
@@ -56,7 +56,7 @@ public sealed class ShellAppBuilder
         return this;
     }
 
-    public ShellAppBuilder AddDefaultConfiguration()
+    public IShellAppBuilder AddDefaultConfiguration()
     {
         string userSettingsFilePath = Path.Combine(appInfo.ApplicationDataPath, "settings.json");
 
@@ -65,7 +65,7 @@ public sealed class ShellAppBuilder
             Directory.CreateDirectory(Path.GetDirectoryName(userSettingsFilePath)!);
         }
 
-        if(!File.Exists(userSettingsFilePath))
+        if (!File.Exists(userSettingsFilePath))
             File.WriteAllText(userSettingsFilePath, $"{{{Environment.NewLine}}}");
 
         containerBuilder.RegisterModule(new ConfigurationModule { UserAppsettingFilePath = userSettingsFilePath });
@@ -73,7 +73,7 @@ public sealed class ShellAppBuilder
         return this;
     }
 
-    public ShellAppBuilder Register(Action<ContainerBuilder> builderCallback)
+    public IShellAppBuilder Register(Action<ContainerBuilder> builderCallback)
     {
         if (builderCallback is null)
         {
@@ -85,28 +85,28 @@ public sealed class ShellAppBuilder
         return this;
     }
 
-    public ShellAppBuilder RegisterModule<TModule>() where TModule : IModule, new()
+    public IShellAppBuilder RegisterModule<TModule>() where TModule : IModule, new()
     {
         containerBuilder.RegisterModule<TModule>();
         return this;
     }
 
-    public ShellAppBuilder RegisterCoreModules()
+    public IShellAppBuilder RegisterCoreModules()
     {
         containerBuilder.RegisterModule<CoreModule>();
         return this;
     }
 
-    public ShellAppBuilder RegisterAllAppModels(NamespaceRule namespaceRule = NamespaceRule.StartsWith)
+    public IShellAppBuilder RegisterAllAppModels(NamespaceRule namespaceRule = NamespaceRule.StartsWith)
     {
-       
+
         var appType = application.GetType();
         containerBuilder.RegisterAllModels(appType.Assembly, appType.Namespace!, namespaceRule);
 
         return this;
     }
 
-    public ShellAppBuilder Startup(StartupDelegate startup)
+    public IShellAppBuilder Startup(StartupDelegate startup)
     {
         startupFactory = (IShell shell, IConfiguration configuration, IContainer container)
             => new DelegatedStartup(shell, configuration, container, startup);
@@ -114,7 +114,7 @@ public sealed class ShellAppBuilder
         return this;
     }
 
-    public ShellAppBuilder Startup<TStartup>()
+    public IShellAppBuilder Startup<TStartup>()
         where TStartup : Startup
     {
         startupFactory = (IShell shell, IConfiguration configuration, IContainer container)
