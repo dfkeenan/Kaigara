@@ -57,14 +57,14 @@ internal class UIComponentNode
             return true;
         }
 
-        if(children != null)
+        if (children != null)
         {
             if (children.TryGetValue(name, out node))
                 return true;
 
             foreach (var child in children.Values)
             {
-                if(child.TryFind(name, out node))
+                if (child.TryFind(name, out node))
                     return true;
 
             }
@@ -115,12 +115,12 @@ internal class UIComponentNode
     {
         children ??= new Dictionary<string, UIComponentNode>();
 
-        if(node.children != null)
+        if (node.children != null)
         {
             foreach (var child in node.children)
             {
                 children.Add(child.Key, child.Value);
-                if(definition is not null)
+                if (definition is not null)
                 {
 
                     child.Value.definition?.OnParentDefined(definition);

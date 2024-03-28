@@ -21,7 +21,7 @@ internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
 
         foreach (var item in items)
         {
-            if(item is DefinedMenuItemGroupViewModel group)
+            if (item is DefinedMenuItemGroupViewModel group)
             {
                 group.ItemsChanged += CallItemsChanged;
                 group.PropertyChanged += Group_PropertyChanged;
@@ -42,7 +42,7 @@ internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
 
     private void DefinedMenuItemViewModel_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        if(e.OldItems is IList old)
+        if (e.OldItems is IList old)
         {
             foreach (var item in old)
             {
@@ -101,7 +101,7 @@ internal class DefinedMenuItemViewModel : DefinedMenuItemViewModelBase
                         if (i < items.Count - 1 && last != MenuItemSeparatorViewModel.Instance)
                         {
                             yield return last = MenuItemSeparatorViewModel.Instance;
-                        } 
+                        }
                     }
                 }
                 else

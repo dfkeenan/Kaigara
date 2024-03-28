@@ -25,12 +25,12 @@ public class ObjectInspectorNode : ObjectInspectorNodeBase, IWeakEventSubscriber
 
         var members = Members.ToLookup(m => m.MemberInfo.GetCustomAttribute<CategoryAttribute>()?.Category ?? "Misc");
 
-        if(members.Count > 1 )
+        if (members.Count > 1)
         {
-           Categories =  members.Select(m => new CategoryInspectorNode(Context, provider, this, m.Key, m.ToList())).ToList();
+            Categories = members.Select(m => new CategoryInspectorNode(Context, provider, this, m.Key, m.ToList())).ToList();
         }
 
-        if(instance is INotifyPropertyChanged propertyChanged)
+        if (instance is INotifyPropertyChanged propertyChanged)
         {
             WeakEvents.ThreadSafePropertyChanged.Subscribe(propertyChanged, this);
         }

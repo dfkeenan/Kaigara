@@ -22,7 +22,7 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
         itemProperty = Type.GetProperty("Item")!;
 
-        itemNodeProvider = Context.GetNodeProvider(itemProperty) ?? throw new ArgumentException($"No NodePRovider found for '{itemProperty}'",nameof(itemProperty));
+        itemNodeProvider = Context.GetNodeProvider(itemProperty) ?? throw new ArgumentException($"No NodePRovider found for '{itemProperty}'", nameof(itemProperty));
 
         items = new ObservableCollection<MemberInspectorNode>();
 
@@ -49,7 +49,7 @@ public class CollectionInspectorNode : ObjectInspectorNodeBase
 
     public ReadOnlyObservableCollection<MemberInspectorNode> Items { get; }
 
-    public ReactiveCommand<Unit, Unit> AddNewItem { get; }    
+    public ReactiveCommand<Unit, Unit> AddNewItem { get; }
 
     internal void RemoveListItem(MemberInspectorNode item)
     {

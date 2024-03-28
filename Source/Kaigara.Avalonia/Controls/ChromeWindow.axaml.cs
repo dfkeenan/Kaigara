@@ -62,7 +62,7 @@ public class ChromeWindow : Window
         if (e.NameScope.Find<Control>("PART_TitleBar") is Control titleBar)
         {
             titleBar.PointerPressed += TitleBar_PointerPressed;
-            titleBar.DoubleTapped += TitleBar_DoubleTapped; 
+            titleBar.DoubleTapped += TitleBar_DoubleTapped;
         }
     }
 

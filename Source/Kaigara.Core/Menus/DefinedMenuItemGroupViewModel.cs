@@ -1,5 +1,5 @@
-﻿using Avalonia.Input;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using Avalonia.Input;
 
 namespace Kaigara.Menus;
 
@@ -13,7 +13,7 @@ internal class DefinedMenuItemGroupViewModel : DefinedMenuItemViewModel
 
 internal class MenuItemSeparatorViewModel : IMenuItemViewModel
 {
-    public static MenuItemSeparatorViewModel Instance { get;} = new MenuItemSeparatorViewModel();
+    public static MenuItemSeparatorViewModel Instance { get; } = new MenuItemSeparatorViewModel();
 
 
     public string Name => "Separator";
@@ -32,6 +32,6 @@ internal class MenuItemSeparatorViewModel : IMenuItemViewModel
 
     public void Dispose()
     {
-        
+
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Autofac;
 using Autofac.Features.AttributeFilters;
-using Avalonia.Controls;
-using Avalonia.Platform.Storage;
 using Kaigara.Commands;
 using Kaigara.Dialogs;
 using Kaigara.MainWindow.ViewModels;
@@ -50,7 +48,7 @@ public class MainWindowModule : Module
         .AsSelf()
         .WithAttributeFiltering();
 
-        builder.Register((MainWindowViewModel vm) => 
+        builder.Register((MainWindowViewModel vm) =>
         {
             var result = new MainWindowView()
             {

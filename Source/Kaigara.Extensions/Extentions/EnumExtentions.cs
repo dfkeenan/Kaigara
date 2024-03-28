@@ -22,7 +22,7 @@ public static class EnumExtentions
         {
             var value = Convert.ToInt64(item);
 
-            if(IsPowerOfTwo(value))
+            if (IsPowerOfTwo(value))
             {
                 yield return Enum.ToObject(enumType, value);
             }

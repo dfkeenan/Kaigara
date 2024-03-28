@@ -1,14 +1,9 @@
 using System.Reactive;
 using System.Reactive.Disposables;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Kaigara.Avalonia.Controls;
 using Kaigara.Avalonia.ReactiveUI;
 using Kaigara.Dialogs.ViewModels;
-using Kaigara.MainWindow.ViewModels;
 using Kaigara.Services;
-using Kaigara.Shell;
 using ReactiveUI;
 
 namespace Kaigara.Dialogs.Views;
@@ -21,7 +16,7 @@ public partial class DialogView : ReactiveChromeWindow<DialogViewModel>
         {
             this.TryBindStorageProvider(ViewModel)?.DisposeWith(d);
 
-            ViewModel?.CloseInteraction.RegisterHandler(c => 
+            ViewModel?.CloseInteraction.RegisterHandler(c =>
             {
                 this.Close(c.Input);
                 c.SetOutput(Unit.Default);

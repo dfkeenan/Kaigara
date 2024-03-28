@@ -36,7 +36,7 @@ public class InspectorContext
     private InspectorNodeProvider? FindNodeProvider(Func<InspectorNodeProvider, bool> predicate)
     {
 
-        if(TryGetNodeProvider(inspector, predicate, out var nodeProvider))
+        if (TryGetNodeProvider(inspector, predicate, out var nodeProvider))
         {
             return nodeProvider;
         }
@@ -45,7 +45,7 @@ public class InspectorContext
         {
             return nodeProvider;
         }
-        
+
         IGlobalDataTemplates? global = Application.Current as IGlobalDataTemplates;
 
         if (global != null && global.IsDataTemplatesInitialized)

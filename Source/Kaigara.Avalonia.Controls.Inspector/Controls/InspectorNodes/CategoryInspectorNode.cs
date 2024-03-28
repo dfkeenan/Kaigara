@@ -1,7 +1,7 @@
 ﻿namespace Kaigara.Avalonia.Controls.InspectorNodes;
 public class CategoryInspectorNode : InspectorNode
 {
-    public CategoryInspectorNode(InspectorContext context, InspectorNodeProvider provider, InspectorNode? parent, string displayName, IEnumerable<MemberInspectorNode> members) 
+    public CategoryInspectorNode(InspectorContext context, InspectorNodeProvider provider, InspectorNode? parent, string displayName, IEnumerable<MemberInspectorNode> members)
         : base(context, provider, parent, displayName)
     {
         Members = members;
@@ -14,6 +14,6 @@ public class CategoryInspectorNode : InspectorNode
 
     public override void Invalidate()
     {
-        
+
     }
 }

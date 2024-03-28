@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Templates;
 using Kaigara.Dialogs.ViewModels;
 using Kaigara.Dialogs.Views;
 
@@ -10,7 +8,7 @@ namespace Kaigara.Dialogs;
 public class DialogService(Application application, ILifetimeScope container) : IDialogService
 {
     private readonly ILifetimeScope container = container ?? throw new ArgumentNullException(nameof(container));
-    private readonly IClassicDesktopStyleApplicationLifetime lifeTime 
+    private readonly IClassicDesktopStyleApplicationLifetime lifeTime
         = (application.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime) ?? throw new ArgumentException(nameof(application));
 
     public Task ShowModal<TDialogViewModel>()

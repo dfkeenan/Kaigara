@@ -45,7 +45,7 @@ public class OtherDocumentViewModel : Document
         public List<InspectorTestObject> TestObjects { get; set; }
         [Category("Lists")]
 
-        public List<int> TestNumbers { get; set; }  
+        public List<int> TestNumbers { get; set; }
     }
 
 

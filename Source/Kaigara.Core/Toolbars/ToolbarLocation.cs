@@ -5,7 +5,7 @@ public class ToolbarLocation : UIComponentLocation
     public ToolbarLocation(string trayName)
         : base(trayName)
     {
-        if(IsRelative)
-            throw new ArgumentException("Must not be relative path",nameof(trayName));
+        if (IsRelative)
+            throw new ArgumentException("Must not be relative path", nameof(trayName));
     }
 }

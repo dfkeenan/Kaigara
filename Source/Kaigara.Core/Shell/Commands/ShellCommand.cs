@@ -2,12 +2,11 @@
 using Dock.Model.ReactiveUI.Controls;
 using Kaigara.Commands;
 using Kaigara.Reactive;
-using ReactiveUI;
 
 namespace Kaigara.Shell.Commands;
 public abstract class ShellCommand : RegisteredCommand
 {
-    public required IShell Shell { get ; init; }
+    public required IShell Shell { get; init; }
 }
 
 public abstract class ShellAsyncCommand : RegisteredAsyncCommand
@@ -33,7 +32,7 @@ public abstract class ActiveDocumentCommand<TDocument> : ShellCommand
 
     protected virtual void OnExecute(TDocument document)
     {
-        
+
     }
 }
 

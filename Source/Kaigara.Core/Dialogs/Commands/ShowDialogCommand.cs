@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kaigara.Commands;
+﻿using Kaigara.Commands;
 using Kaigara.Dialogs.ViewModels;
 using Kaigara.Menus;
 using Kaigara.Toolbars;
@@ -17,15 +12,15 @@ public class ShowDialogCommand : RegisteredAsyncCommand, IToolbarItemDefinitionS
     private readonly IMenuItemDefinitionSource? menuItemDefinitionSource;
 
     public ShowDialogCommand(IDialogService dialogService, Func<IDialogViewModel> dialogFactory, IEnumerable<Attribute>? attributes)
-        :base(attributes?.OfType<CommandDefinitionAttribute>()?.FirstOrDefault())
+        : base(attributes?.OfType<CommandDefinitionAttribute>()?.FirstOrDefault())
     {
         this.dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
         this.dialogFactory = dialogFactory ?? throw new ArgumentNullException(nameof(dialogFactory));
 
         if (attributes is not null)
         {
-            foreach (var attribute in attributes) 
-            { 
+            foreach (var attribute in attributes)
+            {
                 switch (attribute)
                 {
                     case IToolbarItemDefinitionSource toolbarItemDefinitionAttribute:
@@ -43,14 +38,14 @@ public class ShowDialogCommand : RegisteredAsyncCommand, IToolbarItemDefinitionS
 
     ToolbarItemLocation? IToolbarItemDefinitionSource.Location => toolbarItemDefinitionSource?.Location;
 
-    ToolbarItemDefinition? IToolbarItemDefinitionSource.GetDefinition(RegisteredCommandBase? command) 
+    ToolbarItemDefinition? IToolbarItemDefinitionSource.GetDefinition(RegisteredCommandBase? command)
         => toolbarItemDefinitionSource?.GetDefinition(command);
 
     bool IMenuItemDefinitionSource.IsDefined => menuItemDefinitionSource?.IsDefined ?? false;
 
     MenuItemLocation? IMenuItemDefinitionSource.Location => menuItemDefinitionSource?.Location;
 
-    MenuItemDefinition? IMenuItemDefinitionSource.GetDefinition(RegisteredCommandBase? command) 
+    MenuItemDefinition? IMenuItemDefinitionSource.GetDefinition(RegisteredCommandBase? command)
         => menuItemDefinitionSource?.GetDefinition(command);
 
     protected override async Task OnExecuteAsync()

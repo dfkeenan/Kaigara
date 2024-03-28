@@ -1,6 +1,5 @@
 using System.Reactive.Disposables;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
 using Kaigara.Commands;
@@ -19,7 +18,7 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
         {
             ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
 
-            if(ViewModel?.Shell is IRequireStorageProvider shell)
+            if (ViewModel?.Shell is IRequireStorageProvider shell)
             {
                 this.BindStorageProvider(shell).DisposeWith(d);
             }

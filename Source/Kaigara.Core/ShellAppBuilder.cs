@@ -1,18 +1,15 @@
 ﻿using Autofac;
 using Autofac.Core;
-using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.CommonServiceLocator;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommonServiceLocator;
 using Kaigara.Configuration;
-using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
 using Kaigara.Shell;
 using Kaigara.ViewModels;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Kaigara;
 

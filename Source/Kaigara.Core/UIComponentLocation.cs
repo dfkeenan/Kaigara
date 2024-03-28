@@ -8,7 +8,7 @@ public class UIComponentLocation
 
     public UIComponentLocation(string path)
     {
-        if(string.IsNullOrWhiteSpace(path))
+        if (string.IsNullOrWhiteSpace(path))
             throw new ArgumentNullException(nameof(path));
 
 
@@ -17,7 +17,7 @@ public class UIComponentLocation
         pathSegments = path.Split(pathSeparators, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         IsRelative = pathSeparators.Contains(path[0]);
     }
-    
+
     public IReadOnlyList<string> PathSegments => pathSegments;
 
     public bool IsRelative { get; }

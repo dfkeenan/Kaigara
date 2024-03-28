@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Dock.Model.ReactiveUI.Controls;
-using Kaigara.Configuration;
+﻿using Kaigara.Configuration;
 using Kaigara.Menus;
 using Kaigara.Shell.ViewModels;
 using Microsoft.Extensions.Options;

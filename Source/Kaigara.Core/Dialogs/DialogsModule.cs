@@ -15,12 +15,12 @@ public class DialogsModule : Module
             .SingleInstance()
             .As<IDialogService>();
 
-        builder.RegisterAdapter<Meta<Func<IDialogViewModel>>, RegisteredCommandBase>((c, f) 
+        builder.RegisterAdapter<Meta<Func<IDialogViewModel>>, RegisteredCommandBase>((c, f)
             =>
             {
-                var attributes 
-                    = f.Metadata.TryGetValue(MetadataName, out var a) 
-                        ? a as IEnumerable<Attribute> 
+                var attributes
+                    = f.Metadata.TryGetValue(MetadataName, out var a)
+                        ? a as IEnumerable<Attribute>
                         : Enumerable.Empty<Attribute>();
                 return new ShowDialogCommand(c.Resolve<IDialogService>(), f.Value, attributes);
             });

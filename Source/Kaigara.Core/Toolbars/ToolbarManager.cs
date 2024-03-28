@@ -50,7 +50,7 @@ public class ToolbarManager : IToolbarManager
         if (definitionAttribute is not null)
         {
             var definition = definitionAttribute.GetDefinition(command)!;
-            
+
             Register(definitionAttribute.Location, definition);
         }
         else if (command is IToolbarItemDefinitionSource source && source.IsDefined)

@@ -13,7 +13,6 @@ using Kaigara.Reflection;
 using Kaigara.Toolbars;
 using Kaigara.ViewModels;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Kaigara;
@@ -44,7 +43,7 @@ public static class ContainerBuilderExtensions
         return builder;
     }
 
-    public static ContainerBuilder Configure<TOptions>(this ContainerBuilder builder, string? name = null) 
+    public static ContainerBuilder Configure<TOptions>(this ContainerBuilder builder, string? name = null)
         where TOptions : class
     {
         if (builder is null)
@@ -109,7 +108,7 @@ public static class ContainerBuilderExtensions
         {
             builder.Configure(type);
         }
-        
+
         return builder;
     }
 

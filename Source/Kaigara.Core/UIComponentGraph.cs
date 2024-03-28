@@ -46,7 +46,7 @@ internal class RootUIComponentNode : UIComponentNode
     private Dictionary<string, UIComponentNode> nonRootedNodes = new Dictionary<string, UIComponentNode>();
 
 
-    public RootUIComponentNode(UIComponentGraph graph, string name) 
+    public RootUIComponentNode(UIComponentGraph graph, string name)
         : base(graph, name)
     {
     }
@@ -72,7 +72,7 @@ internal class RootUIComponentNode : UIComponentNode
     {
         UIComponentNode? node;
 
-        if(location.IsRelative)
+        if (location.IsRelative)
         {
             if (TryFind(location.PathSegments[0], out node))
             {

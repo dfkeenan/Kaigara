@@ -38,7 +38,7 @@ public class NameToResourceConverterExtension
 {
     public NameToResourceConverterExtension()
     {
-        
+
     }
 
     public IValueConverter ProvideValue(IServiceProvider serviceProvider)

@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using ReactiveUI;
-using System.Collections;
 
 namespace Kaigara.Toolbars;
 
@@ -136,7 +136,7 @@ internal class DefinedToolbarViewModel : ReactiveObject, IToolbarViewModel
                 }
 
                 item.Dispose();
-            } 
+            }
         }
     }
 }

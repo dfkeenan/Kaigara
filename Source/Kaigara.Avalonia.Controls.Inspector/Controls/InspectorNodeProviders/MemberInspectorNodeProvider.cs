@@ -25,7 +25,7 @@ public class MemberInspectorNodeProvider : InspectorNodeProvider
     public override bool MatchNodeMemberInfo(MemberInfo memberInfo)
     {
         return MemberType is object
-            && memberInfo.TryGetMemberType(out var memberType) 
+            && memberInfo.TryGetMemberType(out var memberType)
             && memberType.EnsureRuntimeType() is Type runTimeMemberType
             && (MemberType.IsAssignableFrom(runTimeMemberType) || (Nullable.GetUnderlyingType(runTimeMemberType)?.IsAssignableFrom(MemberType) == true));
     }

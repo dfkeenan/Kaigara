@@ -28,7 +28,7 @@ public class ConfigurationModule : Module
             var configuration = configurationBuilder.Build();
             return configuration;
 
-            
+
         }).As<IConfiguration>().SingleInstance();
 
         var serviceCollection = new ServiceCollection().AddOptions();

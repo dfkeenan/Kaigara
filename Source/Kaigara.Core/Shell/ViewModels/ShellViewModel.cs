@@ -32,12 +32,12 @@ public class ShellViewModel : ViewModel, IShell
         private set => this.RaiseAndSetIfChanged(ref layout, value);
     }
 
-    
+
 
     public DockableCollection<Document> Documents { get; }
     public DockableCollection<Tool> Tools { get; }
     public ReadOnlyDockableCollection<IDockable> Dockables { get; }
-    public IStorageProvider? StorageProvider { get ; set; }
+    public IStorageProvider? StorageProvider { get; set; }
 
     public ShellViewModel(IFactory factory, ILifetimeScope lifetimeScope)
     {

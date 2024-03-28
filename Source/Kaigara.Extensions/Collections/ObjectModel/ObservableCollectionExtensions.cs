@@ -80,7 +80,7 @@ public static class ObservableCollectionExtensions
                 if (e.NewItems is not null)
                 {
                     for (int i = 0; i < e.NewItems.Count; i++)
-                        destination.Add(map((TSourceItem)e.NewItems[i]!)); 
+                        destination.Add(map((TSourceItem)e.NewItems[i]!));
                 }
                 break;
 

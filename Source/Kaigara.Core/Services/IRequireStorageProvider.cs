@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 
@@ -87,7 +82,7 @@ public static class StorageProviderExtensions
         {
             var storageProviderProxy = new StorageProviderProxy(visual, storageProvider);
             storageProvider.StorageProvider = storageProviderProxy;
-            return storageProviderProxy; 
+            return storageProviderProxy;
         }
 
         return null;

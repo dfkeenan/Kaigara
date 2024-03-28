@@ -40,7 +40,7 @@ public abstract class InspectorNodeProvider : ITreeDataTemplate
     {
         if (item is InspectorNode node)
         {
-          return node.Provider.template.ItemsSelector(item);
+            return node.Provider.template.ItemsSelector(item);
         }
 
         return null;

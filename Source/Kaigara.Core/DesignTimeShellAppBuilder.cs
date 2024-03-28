@@ -33,7 +33,7 @@ internal sealed class DesignTimeShellAppBuilder : IShellAppBuilder
     public IShellAppBuilder RegisterCoreModules()
         => this;
 
-    public IShellAppBuilder RegisterModule<TModule>() 
+    public IShellAppBuilder RegisterModule<TModule>()
         where TModule : IModule, new()
         => this;
 
@@ -46,7 +46,7 @@ internal sealed class DesignTimeShellAppBuilder : IShellAppBuilder
     public IShellAppBuilder Startup(StartupDelegate startup)
         => this;
 
-    public IShellAppBuilder Startup<TStartup>() 
+    public IShellAppBuilder Startup<TStartup>()
         where TStartup : Startup
         => this;
 }

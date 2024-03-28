@@ -155,7 +155,7 @@ public class MemberInspectorNode : InspectorNode
             SetValue(DefaultValue);
             IsExpanded = false;
         }
-        
+
     }
 
     public object GetIndex(int i = 0)
@@ -223,7 +223,7 @@ public class MemberInspectorNode : InspectorNode
 
     private void UpdateValueNode()
     {
-        if(ValueNode is IDisposable disposable) disposable.Dispose();
+        if (ValueNode is IDisposable disposable) disposable.Dispose();
 
         ValueNode = HasValue ? valueNodeProvider?.CreateNode(Context, this, ValueType, index) : null;
         this.RaisePropertyChanged(nameof(HasValue));

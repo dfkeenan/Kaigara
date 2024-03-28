@@ -25,7 +25,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        shellApplication = 
+        shellApplication =
             this.ConfigureShellApp(info => info with
             {
                 ProductName = "Example Application"

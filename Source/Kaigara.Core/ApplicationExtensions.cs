@@ -6,13 +6,13 @@ namespace Kaigara;
 
 public static class ApplicationExtensions
 {
-    public static IShellAppBuilder ConfigureShellApp(this Application application,Func<ApplicationInfo, ApplicationInfo>? option = null)
+    public static IShellAppBuilder ConfigureShellApp(this Application application, Func<ApplicationInfo, ApplicationInfo>? option = null)
     {
         var appInfo = ApplicationInfo.FromAssembly(application.GetType().Assembly);
 
         appInfo = option?.Invoke(appInfo) ?? appInfo;
 
-        if(Design.IsDesignMode)
+        if (Design.IsDesignMode)
         {
             return new DesignTimeShellAppBuilder(application, appInfo);
         }

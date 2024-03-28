@@ -103,7 +103,7 @@ public static class ReflectionExtenstions
         return memberType ?? throw new ArgumentException($"'{nameof(member)}' is not a PropertyInfo or FieldInfo", nameof(member));
     }
 
-    public static bool TryGetMemberType(this MemberInfo member, [NotNullWhen(true)]out Type? memberType)
+    public static bool TryGetMemberType(this MemberInfo member, [NotNullWhen(true)] out Type? memberType)
     {
         memberType = null;
 

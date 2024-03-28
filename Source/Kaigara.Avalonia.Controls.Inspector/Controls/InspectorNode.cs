@@ -9,14 +9,14 @@ public abstract class InspectorNode : ReactiveObject
         Context = context ?? throw new ArgumentNullException(nameof(context));
         Provider = provider ?? throw new ArgumentNullException(nameof(provider));
         Parent = parent;
-        
+
         DisplayName = displayName;
     }
 
     public InspectorContext Context { get; }
     public InspectorNodeProvider Provider { get; }
     public InspectorNode? Parent { get; }
-    
+
     public string? DisplayName { get; }
 
     public virtual bool CanRemove => false;

@@ -6,7 +6,7 @@ namespace Kaigara.Toolbars;
 public interface IToolbarItemDefinitionSource
 {
     bool IsDefined { get; }
-   
+
     [MemberNotNullWhen(returnValue: true, nameof(IsDefined))]
     ToolbarItemLocation? Location { get; }
 

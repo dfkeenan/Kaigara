@@ -1,6 +1,4 @@
-﻿using System.Reactive.Linq;
-using Avalonia;
-using Kaigara.Avalonia.Controls;
+﻿using Kaigara.Avalonia.Controls;
 using ReactiveUI;
 
 namespace Kaigara.Avalonia.ReactiveUI;

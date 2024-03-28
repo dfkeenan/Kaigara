@@ -1,13 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using SkiaSharp;
 
 
-if (args is not [string inputPath, string outputFilePath, string backgroundColorHex] 
+if (args is not [string inputPath, string outputFilePath, string backgroundColorHex]
     || Directory.Exists(inputPath) is false
     || SKColor.TryParse(backgroundColorHex, out var backgroundColor) is false) return;
 
@@ -34,12 +31,12 @@ foreach (var (name, content) in icons)
 
     ChangeNamespace(root, avons);
 
-    if(GetIconDrawing(root, name) is not XElement drawing) continue;
+    if (GetIconDrawing(root, name) is not XElement drawing) continue;
     drawings.Add(drawing);
 
-    var drawingResources= root.Descendants().FirstOrDefault(e => e.Name.LocalName == "Rectangle.Resources")?.Elements();
+    var drawingResources = root.Descendants().FirstOrDefault(e => e.Name.LocalName == "Rectangle.Resources")?.Elements();
 
-    if(drawingResources is null) continue;
+    if (drawingResources is null) continue;
 
     foreach (var resource in drawingResources)
     {
@@ -86,9 +83,9 @@ void ChangeNamespace(XElement element, XNamespace ns)
 {
     var dns = element.GetDefaultNamespace();
 
-    foreach(var el in element.DescendantsAndSelf())
+    foreach (var el in element.DescendantsAndSelf())
     {
-        if(el.Name.Namespace == dns)
+        if (el.Name.Namespace == dns)
         {
             el.Name = ns.GetName(el.Name.LocalName);
             var attr = el.Attributes().ToList();
@@ -96,7 +93,7 @@ void ChangeNamespace(XElement element, XNamespace ns)
 
             foreach (var at in attr)
             {
-                if(at.Name.Namespace == dns)
+                if (at.Name.Namespace == dns)
                 {
                     el.Add(new XAttribute(ns.GetName(at.Name.LocalName), at.Value));
                 }
@@ -125,8 +122,8 @@ XElement? GetIconDrawing(XElement element, string key)
         el.Attribute(nameAttr)?.Remove();
     }
 
-    var result =  new XElement(XName.Get("DrawingImage", avons), drawing);
-    result.Add(new XAttribute(keyAttr, key));   
+    var result = new XElement(XName.Get("DrawingImage", avons), drawing);
+    result.Add(new XAttribute(keyAttr, key));
 
 
     return result;
@@ -166,11 +163,11 @@ IEnumerable<XElement> ChangeThemeColors(IEnumerable<XElement> resource)
     backgroundColor.ToHsl(out var _, out var _, out var backgroundLuminosity);
 
 
-    foreach ( var e in resource)
+    foreach (var e in resource)
     {
         var clone = new XElement(e);
 
-        foreach ( var colorAttr in clone.DescendantsAndSelf().SelectMany(e => e.Attributes().Where(a => a.Name.LocalName == "Color")))
+        foreach (var colorAttr in clone.DescendantsAndSelf().SelectMany(e => e.Attributes().Where(a => a.Name.LocalName == "Color")))
         {
             if (SKColor.TryParse(colorAttr.Value, out var color) is false) continue;
 

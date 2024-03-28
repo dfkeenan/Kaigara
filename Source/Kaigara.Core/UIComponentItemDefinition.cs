@@ -116,5 +116,5 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     }
 
     public static Comparer<T> DisplayOrderComparer { get; }
-        = Comparer<T>.Create((x,y) => x.DisplayOrder.CompareTo(y.DisplayOrder));
+        = Comparer<T>.Create((x, y) => x.DisplayOrder.CompareTo(y.DisplayOrder));
 }

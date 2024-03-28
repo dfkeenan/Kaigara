@@ -7,12 +7,12 @@ public class ToolbarItemGroupDefinition : ToolbarItemDefinition, IUIComponentDef
 {
     private readonly ObservableCollection<ToolbarItemDefinition> items;
 
-    public ToolbarItemGroupDefinition(string name, string? label = null, int displayOrder = 0) 
+    public ToolbarItemGroupDefinition(string name, string? label = null, int displayOrder = 0)
         : base(name, label, null, displayOrder)
     {
         items = new SortedObservableCollection<ToolbarItemDefinition>(UIComponentItemDefinition<ToolbarItemDefinition>.DisplayOrderComparer); ;
-        Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<ToolbarItemDefinition>(items);       
-    }   
+        Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<ToolbarItemDefinition>(items);
+    }
 
     public ReadOnlyObservableCollection<ToolbarItemDefinition> Items { get; }
 

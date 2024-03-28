@@ -28,7 +28,7 @@ public class ObjectInspectorNodeBase : InspectorNode, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        
+
     }
 
     public override void Invalidate()
