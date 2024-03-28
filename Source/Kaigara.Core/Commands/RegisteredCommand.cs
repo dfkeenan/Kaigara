@@ -14,6 +14,11 @@ public abstract class RegisteredCommand : RegisteredCommandBase
 
     }
 
+    public RegisteredCommand(CommandDefinitionAttribute? attribute)
+        : base(attribute)
+    {
+    }
+
     protected RegisteredCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
         : base(name, label, keyGesture, iconName)
     {
@@ -36,6 +41,11 @@ public abstract class RegisteredCommand<TParam> : RegisteredCommandBase
        : base()
     {
 
+    }
+
+    public RegisteredCommand(CommandDefinitionAttribute? attribute)
+        : base(attribute)
+    {
     }
 
     protected RegisteredCommand(string name, string label, KeyGesture? keyGesture, string? iconName)

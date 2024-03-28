@@ -1,7 +1,9 @@
-﻿namespace Kaigara.Menus;
+﻿using Kaigara.Commands;
+
+namespace Kaigara.Menus;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class MenuItemDefinitionAttribute : Attribute
+public class MenuItemDefinitionAttribute : Attribute, IMenuItemDefinitionSource
 {
     public MenuItemDefinitionAttribute(string name, string locationPath)
     {
@@ -26,4 +28,16 @@ public class MenuItemDefinitionAttribute : Attribute
     public int DisplayOrder { get; set; }
 
     public MenuItemLocation Location { get; }
+
+    bool IMenuItemDefinitionSource.IsDefined => true;
+
+    public MenuItemDefinition? GetDefinition(RegisteredCommandBase? command)
+    {
+        var definition = new MenuItemDefinition(Name, Label, IconName, DisplayOrder)
+        {
+            RegisteredCommand = command
+        };
+
+        return definition;
+    }
 }

@@ -14,6 +14,11 @@ public abstract class RegisteredAsyncCommand : RegisteredCommandBase
 
     }
 
+    public RegisteredAsyncCommand(CommandDefinitionAttribute? attribute)
+        : base(attribute)
+    {
+    }
+
     protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
         : base(name, label, keyGesture, iconName)
     {
@@ -35,6 +40,11 @@ public abstract class RegisteredAsyncCommand<TParam> : RegisteredCommandBase
        : base()
     {
 
+    }
+
+    public RegisteredAsyncCommand(CommandDefinitionAttribute? attribute)
+        : base(attribute)
+    {
     }
 
     protected RegisteredAsyncCommand(string name, string label, KeyGesture? keyGesture, string? iconName)

@@ -1,7 +1,9 @@
-﻿namespace Kaigara.Toolbars;
+﻿using Kaigara.Commands;
+
+namespace Kaigara.Toolbars;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class ToolbarItemDefinitionAttribute : Attribute
+public class ToolbarItemDefinitionAttribute : Attribute, IToolbarItemDefinitionSource
 {
     public ToolbarItemDefinitionAttribute(string name, string locationPath)
     {
@@ -25,4 +27,16 @@ public class ToolbarItemDefinitionAttribute : Attribute
     public string? Label { get; set; }
     public int DisplayOrder { get; set; }
     public ToolbarItemLocation Location { get; }
+
+    bool IToolbarItemDefinitionSource.IsDefined => true;
+
+    public ToolbarItemDefinition? GetDefinition(RegisteredCommandBase? command)
+    {
+        var definition = new ToolbarItemDefinition(Name, Label, IconName, DisplayOrder)
+        {
+            RegisteredCommand = command
+        };
+
+        return definition;
+    }
 }

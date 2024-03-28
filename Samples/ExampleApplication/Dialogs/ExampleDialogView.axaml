@@ -2,10 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="ExampleApplication.Dialogs.ExampleDialogView"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ExampleApplication.Dialogs.ExampleDialogView">
-  <Grid ColumnDefinitions="*,*">
-    <Button Grid.Column="0" Command="{Binding Ok}">Ok</Button>
-    <Button Grid.Column="1" Command="{Binding Cancel}">Cancel</Button>
-  </Grid>
+             MinWidth="600" MinHeight="300"
+             >
+  <DockPanel LastChildFill="True">
+    <Grid ColumnDefinitions="*,*" DockPanel.Dock="Bottom">
+      <Button Grid.Column="0" Command="{Binding Ok}">Ok</Button>
+      <Button Grid.Column="1" Command="{Binding Cancel}">Cancel</Button>
+    </Grid>
+    <Grid>
+      
+    </Grid>
+  </DockPanel>
+  
 </UserControl>

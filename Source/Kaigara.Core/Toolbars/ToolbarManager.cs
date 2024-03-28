@@ -47,11 +47,17 @@ public class ToolbarManager : IToolbarManager
     {
         var definitionAttribute = command.GetType().GetCustomAttribute<ToolbarItemDefinitionAttribute>();
 
-        if (definitionAttribute is { })
+        if (definitionAttribute is not null)
         {
-            var definition = new ToolbarItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName, definitionAttribute.DisplayOrder);
-            definition.RegisteredCommand = command;
+            var definition = definitionAttribute.GetDefinition(command)!;
+            
             Register(definitionAttribute.Location, definition);
+        }
+        else if (command is IToolbarItemDefinitionSource source && source.IsDefined)
+        {
+            var definition = source.GetDefinition(command)!;
+
+            Register(source.Location, definition);
         }
     }
 

@@ -5,7 +5,11 @@ using Dock.Model.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;
 using Kaigara.Configuration;
+using Kaigara.Dialogs;
+using Kaigara.Dialogs.Commands;
+using Kaigara.Dialogs.ViewModels;
 using Kaigara.Menus;
+using Kaigara.Reflection;
 using Kaigara.Toolbars;
 using Kaigara.ViewModels;
 using Microsoft.Extensions.Configuration;
@@ -180,6 +184,14 @@ public static class ContainerBuilderExtensions
                            .Where(t => namespacePredicate(t))
                            .AsSelf()
                            .InstancePerDependency();
+
+        builder.RegisterAssemblyTypes(assembly)
+                           .AssignableTo<IDialogViewModel>()
+                           .Where(t => namespacePredicate(t) && t.HasAttribute<ShowDialogCommandDefinitionAttribute>())
+                           .As<IDialogViewModel>()
+                           .WithMetadata(DialogsModule.MetadataName, t => t.GetCustomAttributes())
+                           .InstancePerDependency();
+
         return builder;
     }
 

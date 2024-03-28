@@ -48,11 +48,17 @@ public class MenuManager : IMenuManager
     {
         var definitionAttribute = command.GetType().GetCustomAttribute<MenuItemDefinitionAttribute>();
 
-        if (definitionAttribute is { })
+        if (definitionAttribute is not null)
         {
-            var definition = new MenuItemDefinition(definitionAttribute.Name, definitionAttribute.Label, definitionAttribute.IconName, definitionAttribute.DisplayOrder);
-            definition.RegisteredCommand = command;
+            var definition = definitionAttribute.GetDefinition(command)!;
+
             Register(definitionAttribute.Location, definition);
+        }
+        else if (command is IMenuItemDefinitionSource source && source.IsDefined)
+        {
+            var definition = source.GetDefinition(command)!;
+
+            Register(source.Location, definition);
         }
     }
 

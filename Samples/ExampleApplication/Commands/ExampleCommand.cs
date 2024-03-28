@@ -7,7 +7,7 @@ using Kaigara.Toolbars;
 
 namespace ExampleApplication.Commands;
 
-[MenuItemDefinition("Example1", "MainMenu/Example")]
+[MenuItemDefinition("Example1", "MainMenu/File/Example")]
 [ToolbarItemDefinition("Example1", "MainToolbarTray/Example")]
 [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "Run")]
 public class ExampleCommand : RegisteredCommand

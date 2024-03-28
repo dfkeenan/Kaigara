@@ -27,6 +27,24 @@ public abstract class RegisteredCommandBase : ReactiveObject
         }
     }
 
+    public RegisteredCommandBase(CommandDefinitionAttribute? attribute)
+    {
+        var thisType = GetType();
+        Name = thisType.FullName!;
+        label = thisType.Name;
+
+        if (attribute is null) return;
+
+        if (attribute.DefaultInputGesture is string gesture)
+        {
+            keyGesture = KeyGesture.Parse(gesture);
+        }
+
+        Name = attribute.Name ?? Name;
+        Label = attribute.Label;
+        IconName = attribute.IconName;
+    }
+
     protected RegisteredCommandBase(string name, string label, KeyGesture? keyGesture, string? iconName)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));

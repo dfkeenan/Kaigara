@@ -10,6 +10,7 @@
         WindowStartupLocation="{Binding StartupLocation}"
         Width="{Binding Width}"
         Height="{Binding Height}"
+        SizeToContent="WidthAndHeight"
         IconSize="24">
   <ContentPresenter Content="{Binding }">
     
