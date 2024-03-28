@@ -30,11 +30,14 @@ public class ChromeWindow : Window
 
     public ChromeWindow()
     {
-
-
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             PseudoClasses.Add(":platformWindows");
+            if(Environment.OSVersion.Version.Build >= 22000)
+            {
+                //HACK: Win 11 has rounded corners.
+                CornerRadius = new CornerRadius(8);
+            }
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {

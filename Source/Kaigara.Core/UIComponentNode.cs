@@ -86,15 +86,21 @@ internal class UIComponentNode
         return node;
     }
 
-    public IDisposable AddConfiguration(Action<IUIComponentDefinition> options)
+    public IDisposable AddConfiguration(Action<IUIComponentDefinition> option)
     {
-        this.options ??= new List<Action<IUIComponentDefinition>>();
+        options ??= new List<Action<IUIComponentDefinition>>();
 
-        this.options.Add(options);
+        if(definition is not null)
+        {
+            option(definition);
+            definition.UpdateBindings(Graph.ComponentContext);
+        }
+
+        options.Add(option);
 
         return Disposable.Create(() =>
         {
-            this.options.Remove(options);
+            this.options.Remove(option);
         });
     }
 

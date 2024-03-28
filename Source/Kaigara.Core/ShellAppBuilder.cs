@@ -39,6 +39,12 @@ public sealed class ShellAppBuilder : IShellAppBuilder
             .ExternallyOwned()
             .As<Application>()
             .SingleInstance();
+
+        containerBuilder
+            .RegisterInstance(appInfo)
+            .ExternallyOwned()
+            .AsSelf()
+            .SingleInstance();
     }
 
     public IShellAppBuilder Configure(Action<ConfigurationBuilder> builderCallback)

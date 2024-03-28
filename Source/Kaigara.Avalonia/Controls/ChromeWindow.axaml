@@ -65,6 +65,7 @@
             </VisualLayerManager>
             <Border Name="Window_Border"
                     BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     IsHitTestVisible="False" />
           </Panel>
         </ControlTemplate>

@@ -59,16 +59,16 @@ public class ShellViewModel : ViewModel, IShell
 
         factory.WindowClosing += OnDockWindowClosing;
 
-
+        //var fo = new ReactiveDockFactory(factory);
 
         //fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
         //{
-        //    Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
         //});
 
         //fo.FocusedDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
         //{
-        //    Debug.WriteLine($"Focus {d?.Id ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"Focus {d?.Id ?? "NULL"}");
         //});
 
         //fo.DockableClosed.Select(e => e.EventArgs.Dockable).Subscribe(d =>

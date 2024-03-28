@@ -12,6 +12,7 @@ public class ToolbarDefinition : ReactiveObject, IEnumerable<ToolbarItemDefiniti
     private readonly ObservableCollection<ToolbarItemDefinition> items;
     private List<Action<IComponentContext>>? bindings;
     private CompositeDisposable disposables;
+    private CompositeDisposable bindingDisposables;
     private bool isVisible;
     public ToolbarDefinition(string name)
     {
@@ -19,6 +20,7 @@ public class ToolbarDefinition : ReactiveObject, IEnumerable<ToolbarItemDefiniti
         items = new SortedObservableCollection<ToolbarItemDefinition>(UIComponentItemDefinition<ToolbarItemDefinition>.DisplayOrderComparer); ;
         Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<ToolbarItemDefinition>(items);
         disposables = new CompositeDisposable();
+        bindingDisposables = new CompositeDisposable();
         isVisible = true;
     }
 
@@ -75,8 +77,10 @@ public class ToolbarDefinition : ReactiveObject, IEnumerable<ToolbarItemDefiniti
         Bindings.Add(context =>
         {
             var source = context.Resolve<TSource>();
-            selector(source).BindTo(this, o => o.IsVisible).DisposeWith(disposables);
-            this.RaisePropertyChanged(nameof(isVisible));
+            selector(source)
+                .BindTo(this, o => o.IsVisible)
+                .DisposeWith(bindingDisposables);
+            this.RaisePropertyChanged(nameof(IsVisible));
         });
 
         return this;
@@ -84,6 +88,8 @@ public class ToolbarDefinition : ReactiveObject, IEnumerable<ToolbarItemDefiniti
 
     public void UpdateBindings(IComponentContext context)
     {
+        bindingDisposables.Dispose();
+        bindingDisposables = new CompositeDisposable();
         bindings?.ForEach(a => a(context));
     }
 
@@ -95,6 +101,6 @@ public class ToolbarDefinition : ReactiveObject, IEnumerable<ToolbarItemDefiniti
     protected virtual void Dispose(bool disposing)
     {
         disposables.Dispose();
-
+        bindingDisposables.Dispose();
     }
 }

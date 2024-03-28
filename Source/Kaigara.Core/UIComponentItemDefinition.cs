@@ -16,6 +16,7 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     private RegisteredCommandBase? registeredCommand;
     private List<Action<IComponentContext>>? bindings;
     private CompositeDisposable disposables;
+    private CompositeDisposable bindingDisposables;
 
     public UIComponentItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
     {
@@ -23,6 +24,7 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
         this.label = label;
         this.iconName = iconName;
         disposables = new CompositeDisposable();
+        bindingDisposables = new CompositeDisposable();
         isVisible = true;
         DisplayOrder = displayOrder;
     }
@@ -93,7 +95,9 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
         Bindings.Add(context =>
         {
             var source = context.Resolve<TSource>();
-            selector(source).BindTo(this, o => o.IsVisible).DisposeWith(disposables);
+            selector(source)
+                .BindTo(this, o => o.IsVisible)
+                .DisposeWith(bindingDisposables);
             this.RaisePropertyChanged(nameof(IsVisible));
         });
 
@@ -102,6 +106,8 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
 
     public void UpdateBindings(IComponentContext context)
     {
+        bindingDisposables.Dispose();
+        bindingDisposables = new CompositeDisposable();
         bindings?.ForEach(a => a(context));
     }
 
@@ -113,6 +119,7 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     protected virtual void Dispose(bool disposing)
     {
         disposables.Dispose();
+        bindingDisposables.Dispose();
     }
 
     public static Comparer<T> DisplayOrderComparer { get; }
