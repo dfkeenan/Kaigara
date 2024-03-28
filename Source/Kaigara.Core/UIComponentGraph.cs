@@ -106,21 +106,6 @@ internal class RootUIComponentNode : UIComponentNode
             }
         }
 
-        node = this;
-
-        foreach (var name in location.PathSegments)
-        {
-            if (nonRootedNodes.TryGetValue(name, out var child))
-            {
-                node = child;
-                nonRootedNodes.Remove(name);
-            }
-            else
-            {
-                node = node.GetOrAddNode(name);
-            }            
-        }
-
-        return node;
+        return base.GetNode(location);
     }
 }
