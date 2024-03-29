@@ -6,6 +6,7 @@ using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
 using Kaigara.Menus;
 using Kaigara.Shell;
+using Kaigara.StatusBar;
 using Kaigara.Toolbars;
 
 namespace Kaigara.MainWindow;
@@ -21,6 +22,7 @@ public class MainWindowModule : Module
             .DependsOnModule<ShellModule>()
             .DependsOnModule<CommandModule>()
             .DependsOnModule<DialogsModule>()
+            .DependsOnModule<StatusBarModule>()
             .RegisterCommands<MainWindowModule>();
 
 

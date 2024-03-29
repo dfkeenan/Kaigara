@@ -23,6 +23,7 @@
   <DockPanel LastChildFill="True">
     <Menu Classes="DynamicMenu" ItemsSource="{Binding MainMenu.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
     <k:ToolbarTray Classes="DynamicToolbarTray" ItemsSource="{Binding ToolbarTray.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
+    <ContentControl DockPanel.Dock="Bottom" Margin="-2,2,-2,-2" Content="{Binding StatusBar}"/>
     <ContentControl Content="{Binding Shell}"/>
   </DockPanel>
 </k:ChromeWindow>
