@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Kaigara.About;
+using Kaigara.About.Commands;
 using Kaigara.Menus;
 
 namespace Kaigara;
@@ -8,6 +10,8 @@ public class DefaultModule : Module
     {
         base.Load(builder);
         builder.DependsOnModule<CoreModule>();
+        builder.DependsOnModule<AboutModule>();
+        builder.RegisterAllModels<DefaultModule>();
 
 
         builder.RegisterBuildCallback(c =>
@@ -25,7 +29,7 @@ public class DefaultModule : Module
                 },
                 new MenuItemDefinition("Help", "_Help", displayOrder: order += 100)
                 {
-
+                    menuManager.CreateMenuItemDefinition<ShowAboutDialogCommand>("About", displayOrder: int.MaxValue)
                 }
                 );
         });

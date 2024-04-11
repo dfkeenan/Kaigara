@@ -182,6 +182,7 @@ public static class ContainerBuilderExtensions
                            .AssignableTo<ViewModel>()
                            .Where(t => namespacePredicate(t))
                            .AsSelf()
+                           .AsImplementedInterfaces()
                            .InstancePerDependency();
 
         builder.RegisterAssemblyTypes(assembly)

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Kaigara\Kaigara.csproj" />
     <ProjectReference Include="..\ExampleApplication\ExampleApplication.csproj" />
   </ItemGroup>
 

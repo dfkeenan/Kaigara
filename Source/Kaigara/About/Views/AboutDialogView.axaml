@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:k="https://github.com/dfkeenan/Kaigara"
+             mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="240"
+             x:Class="Kaigara.About.Views.AboutDialogView"
+             MinWidth="320" MinHeight="240"
+             >
+  <k:DialogContentControl>
+    <k:DialogContentControl.Buttons>
+      <Button Command="{Binding Ok}">Ok</Button>
+    </k:DialogContentControl.Buttons>
+    <StackPanel Orientation="Vertical">
+      <Image Source="{Binding Icon}"
+             Stretch="UniformToFill"
+             Width="64" Height="64"
+             HorizontalAlignment="Left"/>
+
+      <TextBlock Text="{Binding ApplicationInfo.ProductName, FallbackValue=Product Name}"
+                 Foreground="{DynamicResource ThemeAccentBrush}"
+                 FontSize="24"/>
+
+      <Label Content="{Binding Version}" />
+      <Label Content="{Binding ApplicationInfo.Copyright}" />
+      <Label Content="{Binding ApplicationInfo.CompanyName}" />
+    </StackPanel>
+  </k:DialogContentControl>
+</UserControl>

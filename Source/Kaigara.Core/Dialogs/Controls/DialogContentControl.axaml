@@ -1,0 +1,44 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:Kaigara.Dialogs.Controls">
+  <Design.PreviewWith>
+    <controls:DialogContentControl />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|DialogContentControl">
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DockPanel LastChildFill="True" Margin="8">
+          <ItemsControl Name="PART_Buttons"
+                        DockPanel.Dock="Bottom" ItemsSource="{TemplateBinding Buttons}">
+            <ItemsControl.Styles>
+              <Style Selector="Button">
+                <Setter Property="MinWidth" Value="80" />
+              </Style>
+            </ItemsControl.Styles>
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel
+                      Orientation="Horizontal"
+                      HorizontalAlignment="Right"
+                      Spacing="4">
+                </StackPanel>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+          </ItemsControl>
+          <ContentPresenter Name="PART_ContentPresenter"
+                          Padding="{TemplateBinding Padding}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Content="{TemplateBinding Content}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          CornerRadius="{TemplateBinding CornerRadius}" />
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

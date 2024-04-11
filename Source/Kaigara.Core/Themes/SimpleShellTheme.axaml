@@ -13,5 +13,6 @@
   <StyleInclude Source="avares://Kaigara.Core/Menus/Controls/Menu.axaml"/>
   <StyleInclude Source="avares://Kaigara.Core/Toolbars/Controls/Toolbar.axaml"/>
   <StyleInclude Source="avares://Kaigara.Core/Shell/Controls/Dock.axaml"/>
+  <StyleInclude Source="avares://Kaigara.Core/Dialogs/Controls/DialogContentControl.axaml"/>
   
 </Styles>

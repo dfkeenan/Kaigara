@@ -54,4 +54,11 @@ public abstract partial class WindowViewModel : ActivatableViewModel, IWindowVie
         set { this.RaiseAndSetIfChanged(ref height, value); }
     }
 
+    private bool canResize = true;
+
+    public bool CanResize
+    {
+        get { return canResize; }
+        set { this.RaiseAndSetIfChanged(ref canResize, value); }
+    }
 }

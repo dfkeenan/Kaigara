@@ -9,4 +9,5 @@ public interface IWindowViewModel
     WindowStartupLocation StartupLocation { get; set; }
     string? Title { get; set; }
     double Width { get; set; }
+    bool CanResize { get; set; }
 }

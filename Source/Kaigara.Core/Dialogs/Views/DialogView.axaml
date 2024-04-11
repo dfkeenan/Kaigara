@@ -11,6 +11,7 @@
         Width="{Binding Width}"
         Height="{Binding Height}"
         SizeToContent="WidthAndHeight"
+        CanResize="{Binding CanResize}"
         IconSize="24">
   <ContentPresenter Content="{Binding }">
     

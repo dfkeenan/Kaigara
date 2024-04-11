@@ -12,11 +12,11 @@ public class DialogService(Application application, ILifetimeScope container) : 
         = (application.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime) ?? throw new ArgumentException(nameof(application));
 
     public Task ShowModal<TDialogViewModel>()
-        where TDialogViewModel : class, IDialogViewModel
+        where TDialogViewModel : IDialogViewModel
         => this.ShowModal(container.Resolve<TDialogViewModel>());
 
     public Task<TResult> ShowModal<TDialogViewModel, TResult>()
-        where TDialogViewModel : class, IDialogViewModel<TResult>
+        where TDialogViewModel : IDialogViewModel<TResult>
         => this.ShowModal(container.Resolve<TDialogViewModel>());
 
 

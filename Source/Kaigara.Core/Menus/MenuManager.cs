@@ -44,6 +44,20 @@ public class MenuManager : IMenuManager
         }
     }
 
+    public MenuItemDefinition CreateMenuItemDefinition<TCommand>(string name, string? label = null, string? iconName = null, int displayOrder = 0)
+        where TCommand : RegisteredCommandBase
+    {
+        return CreateMenuItemDefinition(context.Resolve<TCommand>(), name, label, iconName, displayOrder);
+    }
+
+    public MenuItemDefinition CreateMenuItemDefinition(RegisteredCommandBase command, string name, string? label = null, string? iconName = null, int displayOrder = 0)
+    {
+        return new MenuItemDefinition(name, label, iconName, displayOrder)
+        {
+            RegisteredCommand = command
+        };
+    }
+
     private void RegisterCommand(RegisteredCommandBase command)
     {
         var definitionAttribute = command.GetType().GetCustomAttribute<MenuItemDefinitionAttribute>();
