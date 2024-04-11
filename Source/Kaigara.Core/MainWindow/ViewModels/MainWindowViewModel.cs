@@ -10,9 +10,9 @@ using Kaigara.ViewModels;
 namespace Kaigara.MainWindow.ViewModels;
 
 public class MainWindowViewModel(
-    IShell shell, 
-    ICommandManager commandManager, 
-    [KeyFilter("MainMenu")] MenuViewModel mainMenu, 
+    IShell shell,
+    ICommandManager commandManager,
+    [KeyFilter("MainMenu")] MenuViewModel mainMenu,
     [KeyFilter("MainToolbarTray")] ToolbarTrayViewModel toolBarTray,
     IStatusBar statusBar)
         : WindowViewModel

@@ -99,6 +99,9 @@ public static class ObservableCollectionExtensions
     }
 
     public static IDisposable SyncTo<T>(this INotifyCollectionChanged source, IList<T> destination, bool force = false)
+        => source.SyncTo(destination, (T t) => t, force);
+
+    public static IDisposable SyncTo<TSourceItem, TDestinationItem>(this INotifyCollectionChanged source, IList<TDestinationItem> destination, Func<TSourceItem, TDestinationItem> map, bool force = false)
     {
         if (source is null)
         {
@@ -110,9 +113,9 @@ public static class ObservableCollectionExtensions
             throw new ArgumentNullException(nameof(destination));
         }
 
-        if (!(source is IEnumerable<T> sourceEnumerable))
+        if (!(source is IEnumerable<TSourceItem> sourceEnumerable))
         {
-            throw new ArgumentException($"Must be of type {typeof(IEnumerable<T>).FullName}", nameof(source));
+            throw new ArgumentException($"Must be of type {typeof(IEnumerable<TSourceItem>).FullName}", nameof(source));
         }
 
         if (force || !destination.Any())
@@ -120,12 +123,12 @@ public static class ObservableCollectionExtensions
             destination.Clear();
             foreach (var item in sourceEnumerable)
             {
-                destination.Add(item);
+                destination.Add(map(item));
             }
         }
-        else if (!destination.SequenceEqual(sourceEnumerable))
+        else
         {
-            throw new ArgumentException($"Must be empty or have a sequence equal to source", nameof(destination));
+            throw new ArgumentException($"Must be empty.", nameof(destination));
         }
 
 
@@ -136,62 +139,7 @@ public static class ObservableCollectionExtensions
 
         void OnSourceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    for (int i = 0; i < e.NewItems!.Count; i++)
-                    {
-                        destination.Insert(e.NewStartingIndex + i, (T)e.NewItems[i]!);
-                    }
-                    break;
-
-                case NotifyCollectionChangedAction.Move:
-                    if (e.OldItems!.Count == 1)
-                    {
-                        Move(e.OldStartingIndex, e.NewStartingIndex);
-                    }
-                    else
-                    {
-                        List<T> items = destination.Skip(e.OldStartingIndex).Take(e.OldItems.Count).ToList();
-                        for (int i = 0; i < e.OldItems.Count; i++)
-                            destination.RemoveAt(e.OldStartingIndex);
-
-                        for (int i = 0; i < items.Count; i++)
-                            destination.Insert(e.NewStartingIndex + i, items[i]);
-                    }
-                    break;
-
-                case NotifyCollectionChangedAction.Remove:
-                    for (int i = 0; i < e.OldItems!.Count; i++)
-                        destination.RemoveAt(e.OldStartingIndex);
-                    break;
-
-                case NotifyCollectionChangedAction.Replace:
-                    // remove
-                    for (int i = 0; i < e.OldItems!.Count; i++)
-                        destination.RemoveAt(e.OldStartingIndex);
-
-                    // add
-                    goto case NotifyCollectionChangedAction.Add;
-
-                case NotifyCollectionChangedAction.Reset:
-                    destination.Clear();
-                    for (int i = 0; i < e.NewItems!.Count; i++)
-                        destination.Add((T)e.NewItems[i]!);
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        void Move(int oldIndex, int newIndex)
-        {
-
-            T removedItem = destination[oldIndex];
-
-            destination.RemoveAt(oldIndex);
-            destination.Insert(newIndex, removedItem);
+            destination.MapSourceCollectionChanged(e, map);
         }
     }
 

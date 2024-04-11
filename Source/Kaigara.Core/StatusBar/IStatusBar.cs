@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kaigara.StatusBar;
+﻿namespace Kaigara.StatusBar;
 public interface IStatusBar
 {
+    string? Status { get; }
+    double? Progress { get; }
+    void Ready();
+    void UpdateStatus(string? status, double? progress = null);
 }

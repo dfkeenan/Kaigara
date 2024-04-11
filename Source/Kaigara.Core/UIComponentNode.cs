@@ -90,7 +90,7 @@ internal class UIComponentNode
     {
         options ??= new List<Action<IUIComponentDefinition>>();
 
-        if(definition is not null)
+        if (definition is not null)
         {
             option(definition);
             definition.UpdateBindings(Graph.ComponentContext);

@@ -2,8 +2,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Kaigara.StatusBar.ViewModels"
              x:Class="Kaigara.StatusBar.Views.StatusBarView"
+             
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="25"
              Background="{DynamicResource ThemeBorderLowColor}" Height="25">
-
+  <ItemsControl Name="StatusItemsControl" 
+                ItemsSource="{Binding Items}"
+                Margin="4,0">
+    <ItemsControl.ItemsPanel>
+      <ItemsPanelTemplate>
+        <Grid >
+        </Grid>
+      </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.Styles>
+      <Style Selector="ContentPresenter" x:DataType="vm:StatusBarItemViewModel">
+        <Setter Property="Grid.Column" Value="{Binding Index}"/>
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
+    </ItemsControl.Styles>
+  </ItemsControl>
 </UserControl>

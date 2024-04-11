@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Kaigara.Avalonia.Converters;
 using Kaigara.Dialogs.ViewModels;
@@ -18,7 +13,7 @@ public class AboutDialogViewModel : DialogViewModel, IAboutDialogViewModel
         CanResize = false;
         StartupLocation = WindowStartupLocation.CenterOwner;
 
-        if(applicationInfo.IconUri != null)
+        if (applicationInfo.IconUri != null)
         {
             Icon = UriToAssetConverter.Instance.Convert(applicationInfo.IconUri, typeof(Bitmap), null, Thread.CurrentThread.CurrentCulture) as Bitmap;
         }
