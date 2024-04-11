@@ -7,20 +7,32 @@
              
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="25"
              Background="{DynamicResource ThemeBorderLowColor}" Height="25">
-  <ItemsControl Name="StatusItemsControl" 
+  <Grid ColumnDefinitions="*, auto">
+    <ItemsControl Name="StatusItemsControl"
                 ItemsSource="{Binding Items}"
                 Margin="4,0">
-    <ItemsControl.ItemsPanel>
-      <ItemsPanelTemplate>
-        <Grid >
-        </Grid>
-      </ItemsPanelTemplate>
-    </ItemsControl.ItemsPanel>
-    <ItemsControl.Styles>
-      <Style Selector="ContentPresenter" x:DataType="vm:StatusBarItemViewModel">
-        <Setter Property="Grid.Column" Value="{Binding Index}"/>
-        <Setter Property="VerticalAlignment" Value="Center" />
-      </Style>
-    </ItemsControl.Styles>
-  </ItemsControl>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <Grid >
+          </Grid>
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.Styles>
+        <Style Selector="ContentPresenter" x:DataType="vm:StatusBarItemViewModel">
+          <Setter Property="Grid.Column" Value="{Binding Index}"/>
+          <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+      </ItemsControl.Styles>
+    </ItemsControl>
+
+    <!-- resize grip -->
+    <Grid  Name="ResizeGrip" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="Transparent">
+      <Path Width="12" Height="12" Margin="4"
+            Stroke="{StaticResource ThemeForegroundBrush}"
+            StrokeThickness="1"
+            Stretch="None"
+            Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
+    </Grid>
+  </Grid>
+  
 </UserControl>
