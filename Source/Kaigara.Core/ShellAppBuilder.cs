@@ -71,7 +71,7 @@ public sealed class ShellAppBuilder : IShellAppBuilder
         if (!File.Exists(userSettingsFilePath))
             File.WriteAllText(userSettingsFilePath, $"{{{Environment.NewLine}}}");
 
-        containerBuilder.RegisterModule(new ConfigurationModule { UserAppsettingFilePath = userSettingsFilePath });
+        containerBuilder.RegisterModule(new ConfigurationModule { UserAppsettingFilePath = userSettingsFilePath, IncludeDefaultUI = true });
 
         return this;
     }

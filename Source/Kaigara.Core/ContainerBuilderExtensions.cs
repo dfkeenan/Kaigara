@@ -1,10 +1,12 @@
 ﻿using System.Reflection;
 using Autofac;
 using Autofac.Core;
+using Autofac.Features.Metadata;
 using Dock.Model.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;
 using Kaigara.Configuration;
+using Kaigara.Configuration.UI.ViewModels;
 using Kaigara.Dialogs;
 using Kaigara.Dialogs.Commands;
 using Kaigara.Dialogs.ViewModels;
@@ -192,6 +194,14 @@ public static class ContainerBuilderExtensions
                            .WithMetadata(DialogsModule.MetadataName, t => t.GetCustomAttributes())
                            .InstancePerDependency();
 
+        //TODO : Should this be moved somewhere else
+        builder.RegisterAssemblyTypes(assembly)
+                           .AssignableTo<OptionsPageViewModel>()
+                           .Where(t => namespacePredicate(t))
+                           .As<OptionsPageViewModel>()
+                           .AsSelf()
+                           .InstancePerDependency()
+                           .WithMetadataFrom<OptionsPageAttribute>();
         return builder;
     }
 

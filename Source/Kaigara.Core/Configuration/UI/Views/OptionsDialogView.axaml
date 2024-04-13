@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:k="https://github.com/dfkeenan/Kaigara"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Kaigara.Configuration.UI.Views.OptionsDialogView">
+
+  <Grid RowDefinitions="*, auto">
+    <k:DialogContentControl>
+      <k:DialogContentControl.Buttons>
+        <Button Command="{Binding Ok}">Ok</Button>
+        <Button Command="{Binding Cancel}">Cancel</Button>
+      </k:DialogContentControl.Buttons>
+      <Grid ColumnDefinitions="200,*">
+        <Grid RowDefinitions="auto,*">
+          <TextBox Watermark="Search Options" />
+          <TreeView Grid.Row="1"
+                    SelectionMode="Single"
+                    ItemsSource="{Binding FilteredPages}"
+                    SelectedItem="{Binding CurrentPageItem}">
+            <TreeView.ItemTemplate>
+              <TreeDataTemplate ItemsSource="{Binding Children}">
+                <TextBlock Text="{Binding Label}" />
+              </TreeDataTemplate>
+            </TreeView.ItemTemplate>
+          </TreeView>
+        </Grid>
+        <ScrollViewer Grid.Column="1">
+          <ContentControl Content="{Binding CurrentPage}" />
+        </ScrollViewer>
+      </Grid>
+    </k:DialogContentControl>
+    <k:WindowResizeGrip Grid.Row="1" />
+  </Grid>
+</UserControl>

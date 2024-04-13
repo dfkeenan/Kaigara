@@ -8,6 +8,8 @@ public class ConfigurationModule : Module
 {
     public string? UserAppsettingFilePath { get; set; }
 
+    public bool IncludeDefaultUI { get; set; }
+
     protected override void Load(ContainerBuilder builder)
     {
         base.Load(builder);
@@ -26,10 +28,15 @@ public class ConfigurationModule : Module
                 action.Invoke(configurationBuilder);
 
             var configuration = configurationBuilder.Build();
+
+            //var x = configuration.GetDebugView();
+            
             return configuration;
 
 
-        }).As<IConfiguration>().SingleInstance();
+        }).As<IConfiguration>()
+          .As<IConfigurationRoot>()
+          .SingleInstance();
 
         var serviceCollection = new ServiceCollection().AddOptions();
         builder.Populate(serviceCollection);
@@ -38,5 +45,10 @@ public class ConfigurationModule : Module
         builder.RegisterType<ConfigurationModel>()
             .AsSelf()
             .InstancePerDependency();
+
+        if (IncludeDefaultUI)
+        {
+            builder.RegisterAllModels<ConfigurationModule>();
+        }
     }
 }

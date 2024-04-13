@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Kaigara.About;
 using Kaigara.About.Commands;
+using Kaigara.Configuration.UI.Commands;
 using Kaigara.Menus;
 
 namespace Kaigara;
@@ -26,6 +27,10 @@ public class DefaultModule : Module
                 new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
                 {
 
+                },
+                new MenuItemDefinition("Tools", "_Tools", displayOrder: order += 100)
+                {
+                    menuManager.CreateMenuItemDefinition<ChangeOptionsCommand>("ChangeOptions", displayOrder: int.MaxValue)
                 },
                 new MenuItemDefinition("Help", "_Help", displayOrder: order += 100)
                 {
