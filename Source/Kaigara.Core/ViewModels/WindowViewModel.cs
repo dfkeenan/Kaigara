@@ -11,6 +11,8 @@ public abstract partial class WindowViewModel : ActivatableViewModel, IWindowVie
     {
         Width = double.NaN;
         Height = double.NaN;
+        MinWidth = double.NaN;
+        MinHeight = double.NaN;
     }
 
     private string? title;
@@ -52,6 +54,23 @@ public abstract partial class WindowViewModel : ActivatableViewModel, IWindowVie
     {
         get { return height; }
         set { this.RaiseAndSetIfChanged(ref height, value); }
+    }
+
+
+    private double minWidth;
+
+    public double MinWidth
+    {
+        get { return minWidth; }
+        set { this.RaiseAndSetIfChanged(ref minWidth, value); }
+    }
+
+    private double minHeight;
+
+    public double MinHeight
+    {
+        get { return minHeight; }
+        set { this.RaiseAndSetIfChanged(ref minHeight, value); }
     }
 
     private bool canResize = true;

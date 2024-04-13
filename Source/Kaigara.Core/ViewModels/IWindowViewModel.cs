@@ -10,4 +10,6 @@ public interface IWindowViewModel
     string? Title { get; set; }
     double Width { get; set; }
     bool CanResize { get; set; }
+    double MinWidth { get; set; }
+    double MinHeight { get; set; }
 }

@@ -9,6 +9,8 @@
         Icon="{Binding IconUri,Converter={x:Static k:UriToAssetConverter.Instance}}"
         WindowStartupLocation="{Binding StartupLocation}"
         Width="{Binding Width}"
+        MinWidth="{Binding MinWidth}"
+        MinHeight="{Binding MinHeight}"
         Height="{Binding Height}"
         SizeToContent="WidthAndHeight"
         CanResize="{Binding CanResize}"
