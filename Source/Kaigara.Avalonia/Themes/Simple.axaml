@@ -11,6 +11,7 @@
         <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/Toolbar.axaml"  />
         <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/ToolbarTray.axaml"  />
         <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/MathUpDown.axaml"  />
+        <MergeResourceInclude Source="avares://Kaigara.Avalonia/Controls/WindowResizeGrip.axaml"  />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Styles.Resources>

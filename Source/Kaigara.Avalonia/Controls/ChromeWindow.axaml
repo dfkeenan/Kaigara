@@ -51,9 +51,15 @@
                 <TitleBar />
               </VisualLayerManager.ChromeOverlayLayer>
               <DockPanel LastChildFill="true" Margin="4">
-                <Grid Name="PART_TitleBar" DockPanel.Dock="Top" ColumnDefinitions="Auto,*">
-                  <Image Grid.Column="0" Margin="4" Source="{TemplateBinding Icon, Converter={x:Static k:WindowIconToBitmapConverter.Instance}}" Stretch="UniformToFill" Width="{TemplateBinding IconSize}" Height="{TemplateBinding IconSize}" />
-                  <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Name="PART_TitleBarContentPresenter" ContentTemplate="{TemplateBinding TitleBarTemplate}" Content="{TemplateBinding Title}" />
+                <Grid Name="PART_TitleBar" DockPanel.Dock="Top" ColumnDefinitions="Auto,*" Margin="4">
+                  <Image Grid.Column="0"  
+                         Source="{TemplateBinding Icon, Converter={x:Static k:WindowIconToBitmapConverter.Instance}}" 
+                         Stretch="UniformToFill" 
+                         Width="{TemplateBinding IconSize}" 
+                         Height="{TemplateBinding IconSize}"
+                         IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
+                         />
+                  <ContentPresenter Grid.Column="1" Margin="4,0,0,0" VerticalAlignment="Center" Name="PART_TitleBarContentPresenter" ContentTemplate="{TemplateBinding TitleBarTemplate}" Content="{TemplateBinding Title}" />
                 </Grid>
                 <ContentPresenter Name="PART_ContentPresenter"
                                   Margin="{TemplateBinding Padding}"

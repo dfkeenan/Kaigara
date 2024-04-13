@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:k="https://github.com/dfkeenan/Kaigara"
+        xmlns:controls="using:Kaigara.Avalonia.Controls">
+  <Design.PreviewWith>
+    <controls:WindowResizeGrip />
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type k:WindowResizeGrip}" TargetType="k:WindowResizeGrip">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}"/>
+    <Setter Property="VerticalAlignment" Value="Bottom"/>
+    <Setter Property="HorizontalAlignment" Value="Right" />
+    <Setter Property="Padding" Value="4" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid Background="{TemplateBinding Background}">
+          <Path Width="12" Height="12" Margin="{TemplateBinding Padding}"
+                Stroke="{TemplateBinding Foreground}"
+                StrokeThickness="1"
+                Stretch="None"
+                Data="F1 M1,10 L3,10 M5,10 L7,10 M9,10 L11,10 M2,9 L2,11 M6,9 L6,11 M10,9 L10,11 M5,6 L7,6 M9,6 L11,6 M6,5 L6,7 M10,5 L10,7 M9,2 L11,2 M10,1 L10,3" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>
