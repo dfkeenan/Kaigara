@@ -24,8 +24,9 @@ public record class OptionsPageMetadata
     }
 }
 
-public record class OptionCategory(string Label, int DisplayOrder = 0);
-public record class OptionCategory<TParent>(string Label, int DisplayOrder = 0) : OptionCategory(Label, DisplayOrder)
+public record class OptionCategory(string Label, int DisplayOrder = 0, Type? ParentType = null);
+public record class OptionCategory<TParent>(string Label, int DisplayOrder = 0) 
+    : OptionCategory(Label, DisplayOrder, typeof(TParent))
     where TParent : OptionCategory
 {
 

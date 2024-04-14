@@ -1,15 +1,11 @@
-﻿using Kaigara.Configuration;
+﻿using ExampleApplication.Configuration;
+using Kaigara.Configuration;
 using Kaigara.Menus;
 using Kaigara.Shell.ViewModels;
 using Microsoft.Extensions.Options;
 using ReactiveUI;
 
 namespace ExampleApplication.Documents.ViewModels;
-
-public record class ExampleConfig : IOptionsModel
-{
-    public string Value { get; init; }
-}
 
 
 public class ExampleDocumentViewModel : ActivatableDocument

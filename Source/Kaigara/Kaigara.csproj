@@ -11,4 +11,9 @@
     <ProjectReference Include="..\Kaigara.Core\Kaigara.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\UI\Views\" />
+    <Folder Include="Configuration\UI\ViewModels\" />
+  </ItemGroup>
+
 </Project>

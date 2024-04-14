@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Kaigara.Avalonia.Controls.Inspector\Kaigara.Avalonia.Controls.Inspector.csproj" />
+    <ProjectReference Include="..\..\Source\Kaigara.Avalonia\Kaigara.Avalonia.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara.Core\Kaigara.Core.csproj" />
     <ProjectReference Include="..\..\Source\Kaigara\Kaigara.csproj" />
     <ProjectReference Include="..\ExampleApplication\ExampleApplication.csproj" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac.Features.Metadata;
@@ -10,7 +11,7 @@ using Kaigara.Dialogs.ViewModels;
 using ReactiveUI;
 
 namespace Kaigara.Configuration.UI.ViewModels;
-public class OptionsDialogViewModel : DialogViewModel<bool>
+public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsPageViewModel>>
 {
 
     public OptionsDialogViewModel(IEnumerable<Lazy<OptionsPageViewModel, OptionsPageMetadata>> pages)
@@ -41,11 +42,17 @@ public class OptionsDialogViewModel : DialogViewModel<bool>
                     var category = (OptionCategory)System.Activator.CreateInstance(categoryType)!;
                     categoryItem = new OptionsPageItem(category.Label, category.DisplayOrder);
                     categoryItems.Add(categoryType, categoryItem);
+
+                    categoryType = category.ParentType!;
                 }
 
-                result ??= categoryItem;
+                if (root is not null)
+                {
+                    categoryItem.Children.Add(root);
+                }
+
                 root = categoryItem;
-                categoryType = categoryType.BaseType!;
+                result ??= categoryItem;
             }
 
             if (root is not null)
@@ -67,10 +74,14 @@ public class OptionsDialogViewModel : DialogViewModel<bool>
 
         FilteredPages = optionsPages;
 
-        CurrentPage = GetChildren(optionsPages).FirstOrDefault(p => p.Page is not null)?.Page!.Value;
+        var defaultPage = GetChildren(optionsPages).FirstOrDefault(p => p.Page is not null)?.Page;
+
+        CurrentPage = defaultPage is null ? null : MaterializePage(defaultPage);
 
     }
 
+    private readonly HashSet<OptionsPageViewModel> materializedPageViewModel = new();
+    private readonly HashSet<OptionsPageViewModel> changedPageViewModels = new();
     private readonly SortedSet<OptionsPageItem> optionsPages;
 
     public IEnumerable<OptionsPageItem> FilteredPages { get;  set; }
@@ -90,7 +101,7 @@ public class OptionsDialogViewModel : DialogViewModel<bool>
 
             if (page is not null)
             {
-                CurrentPage = page.Value;
+                CurrentPage = MaterializePage(page);
             }
         }
     }
@@ -102,9 +113,35 @@ public class OptionsDialogViewModel : DialogViewModel<bool>
         private set => this.RaiseAndSetIfChanged(ref currentPage, value);
     }
 
-    public Task Ok() => Close(true);
+    public Task Ok()
+    {
+        var result = changedPageViewModels.ToList();
+        changedPageViewModels.Clear();
+        return Close(result);
+    }
 
-    public Task Cancel() => Close(false);
+    public Task Cancel()
+    {
+        changedPageViewModels.Clear();
+        return Close(Enumerable.Empty<OptionsPageViewModel>());
+    }
+
+    private OptionsPageViewModel MaterializePage(Lazy<OptionsPageViewModel> lazy)
+    {
+        var viewModel = lazy.Value;
+
+        if (!materializedPageViewModel.Add(viewModel))
+        {
+            viewModel.Changed
+                .Select(e => e.Sender as OptionsPageViewModel)
+                .Subscribe(vm =>
+            {
+                changedPageViewModels.Add(vm!);
+            });
+        }
+
+        return viewModel;
+    }
 
     private static IEnumerable<OptionsPageItem> GetChildren(IEnumerable<OptionsPageItem> pages)
     {

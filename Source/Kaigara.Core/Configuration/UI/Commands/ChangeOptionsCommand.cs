@@ -23,7 +23,7 @@ public class ChangeOptionsCommand(IDialogService dialogService,
     {
         var update = await dialogService.ShowModal(optionsDialogViewModel.Value);
 
-        if (!update) return;
+        if (!update.Any()) return;
 
 
     }
