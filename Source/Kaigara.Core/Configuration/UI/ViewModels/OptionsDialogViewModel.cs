@@ -36,10 +36,12 @@ public class OptionsDialogViewModel : DialogViewModel<bool>
             {
                 if (categoryType?.GetConstructor(Type.EmptyTypes) is null) break;
 
-                var category = (OptionCategory)System.Activator.CreateInstance(categoryType)!;
-
-                categoryItem = new OptionsPageItem(category.Label, category.DisplayOrder);
-                categoryItems.Add(categoryType, categoryItem);
+                if (!categoryItems.TryGetValue(categoryType, out categoryItem))
+                {
+                    var category = (OptionCategory)System.Activator.CreateInstance(categoryType)!;
+                    categoryItem = new OptionsPageItem(category.Label, category.DisplayOrder);
+                    categoryItems.Add(categoryType, categoryItem);
+                }
 
                 result ??= categoryItem;
                 root = categoryItem;
