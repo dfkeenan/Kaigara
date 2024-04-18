@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Autofac;
 using Autofac.Core;
-using Autofac.Features.Metadata;
 using Dock.Model.Controls;
 using Kaigara.Collections.Generic;
 using Kaigara.Commands;

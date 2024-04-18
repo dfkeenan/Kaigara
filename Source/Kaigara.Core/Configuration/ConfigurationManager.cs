@@ -1,13 +1,10 @@
-﻿using Kaigara.Collections.Generic;
-using Kaigara.Configuration.UI.ViewModels;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System.Diagnostics;
-using System.Reactive.Disposables;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
+using Kaigara.Collections.Generic;
+using Kaigara.Configuration.UI.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace Kaigara.Configuration;
 public class ConfigurationManager
@@ -32,7 +29,7 @@ public class ConfigurationManager
         };
     }
 
-    public void BindSection(Type sectionType, object section) 
+    public void BindSection(Type sectionType, object section)
     {
         ArgumentNullException.ThrowIfNull(sectionType);
         ArgumentNullException.ThrowIfNull(section);
@@ -75,7 +72,7 @@ public class ConfigurationManager
         return true;
     }
 
-    
+
 
     private class OptionsPageViewModelConverterFactory : JsonConverterFactory
     {
@@ -103,7 +100,7 @@ public class ConfigurationManager
                 {
                     if (!(property.SetMethod?.IsPublic ?? false)) continue;
                     var i = modelProperties.FindIndex(p => p.Name == property.Name && p.PropertyType == property.PropertyType);
-                    if(i == -1) continue;
+                    if (i == -1) continue;
                     modelProperties.RemoveAt(i);
                     properties.Add(property);
                 }
@@ -121,7 +118,7 @@ public class ConfigurationManager
                 foreach (var property in properties)
                 {
                     writer.WritePropertyName(property.Name);
-                    JsonSerializer.Serialize(writer, property.GetValue(value), property.PropertyType,  options);
+                    JsonSerializer.Serialize(writer, property.GetValue(value), property.PropertyType, options);
                 }
                 writer.WriteEndObject();
             }

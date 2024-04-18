@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Features.Metadata;
-using Avalonia.Controls;
-using Kaigara.Collections.Generic;
 using Kaigara.Dialogs.ViewModels;
 using ReactiveUI;
 
@@ -17,10 +9,10 @@ namespace Kaigara.Configuration.UI.ViewModels;
 public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogResultItem>>
 {
 
-    public OptionsDialogViewModel(ConfigurationManager configurationManager,IEnumerable<LazyPage> pages)
+    public OptionsDialogViewModel(ConfigurationManager configurationManager, IEnumerable<LazyPage> pages)
     {
         Title = "Options";
-        MinWidth = 800; 
+        MinWidth = 800;
         MinHeight = 500;
 
         this.configurationManager = configurationManager ?? throw new ArgumentNullException(nameof(configurationManager));
@@ -68,11 +60,11 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogR
             return result;
         }
 
-        foreach (var page in pages.Where(p => p.Metadata is { Title : not null, CategoryType: not null, ModelType: not null}))
+        foreach (var page in pages.Where(p => p.Metadata is { Title: not null, CategoryType: not null, ModelType: not null }))
         {
             var (modelType, categoryType, title, displayOrder) = page.Metadata;
 
-            var item = new OptionsPageItem( page.Metadata.Title!, page.Metadata.DisplayOrder, page);
+            var item = new OptionsPageItem(page.Metadata.Title!, page.Metadata.DisplayOrder, page);
 
             GetCategoryItem(categoryType!)?.Children.Add(item);
         }
@@ -87,7 +79,7 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogR
     private readonly SortedSet<OptionsPageItem> optionsPages;
     private readonly ConfigurationManager configurationManager;
 
-    public IEnumerable<OptionsPageItem> FilteredPages { get;  set; }
+    public IEnumerable<OptionsPageItem> FilteredPages { get; set; }
 
 
     private OptionsPageItem? currentPageItem;
@@ -98,7 +90,7 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogR
         {
             this.RaiseAndSetIfChanged(ref currentPageItem, value);
 
-            if(value == null) return;
+            if (value == null) return;
 
             var page = value.Page ?? GetChildren(value.Children).FirstOrDefault(p => p.Page is not null)?.Page;
 
@@ -110,9 +102,9 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogR
     }
 
     private OptionsPageViewModel? currentPage;
-    public OptionsPageViewModel? CurrentPage 
-    { 
-        get => currentPage; 
+    public OptionsPageViewModel? CurrentPage
+    {
+        get => currentPage;
         private set => this.RaiseAndSetIfChanged(ref currentPage, value);
     }
 
@@ -198,7 +190,7 @@ public record class OptionsPageItem(string Label, int DisplayOrder, LazyPage? Pa
 internal class OptionsPageItemDisplayComparer : IComparer<OptionsPageItem>
 {
 
-    public static OptionsPageItemDisplayComparer Instance { get; } = new (); 
+    public static OptionsPageItemDisplayComparer Instance { get; } = new();
 
     public int Compare(OptionsPageItem? x, OptionsPageItem? y)
     {

@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kaigara.ViewModels;
-using ReactiveUI;
+﻿using ReactiveUI;
 
 namespace Kaigara.Configuration.UI.ViewModels;
 
-public record class OptionsPageMetadata 
-{     
+public record class OptionsPageMetadata
+{
     public Type? ModelType { get; init; }
     public Type? CategoryType { get; init; }
     public string? Title { get; init; }
@@ -25,7 +19,7 @@ public record class OptionsPageMetadata
 }
 
 public record class OptionCategory(string Label, int DisplayOrder = 0, Type? ParentType = null);
-public record class OptionCategory<TParent>(string Label, int DisplayOrder = 0) 
+public record class OptionCategory<TParent>(string Label, int DisplayOrder = 0)
     : OptionCategory(Label, DisplayOrder, typeof(TParent))
     where TParent : OptionCategory
 {
@@ -36,6 +30,6 @@ public abstract class OptionsPageViewModel : ReactiveObject
 {
     protected OptionsPageViewModel()
     {
-        
+
     }
 }

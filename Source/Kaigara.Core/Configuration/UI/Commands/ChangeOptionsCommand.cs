@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kaigara.Commands;
+﻿using Kaigara.Commands;
 using Kaigara.Configuration.UI.ViewModels;
 using Kaigara.Dialogs;
-using Microsoft.Extensions.Configuration;
 
 namespace Kaigara.Configuration.UI.Commands;
 

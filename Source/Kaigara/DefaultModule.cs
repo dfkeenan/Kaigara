@@ -25,13 +25,13 @@ public class DefaultModule : Module
                 {
 
                 },
-                new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
-                {
-
-                },
                 new MenuItemDefinition("Tools", "_Tools", displayOrder: order += 100)
                 {
                     menuManager.CreateMenuItemDefinition<ChangeOptionsCommand>("ChangeOptions", displayOrder: int.MaxValue)
+                },
+                new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
+                {
+
                 },
                 new MenuItemDefinition("Help", "_Help", displayOrder: order += 100)
                 {

@@ -30,7 +30,7 @@ public class ConfigurationModule : Module
             var configuration = configurationBuilder.Build();
 
             //var x = configuration.GetDebugView();
-            
+
             return configuration;
 
 

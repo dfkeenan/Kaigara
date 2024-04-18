@@ -23,10 +23,10 @@ public class ExampleConfigPageViewModel : OptionsPageViewModel
 {
     private string value;
 
-    public string Value 
-    { 
-        get => value; 
-        init => this.RaiseAndSetIfChanged(ref this.value, value); 
+    public string Value
+    {
+        get => value;
+        init => this.RaiseAndSetIfChanged(ref this.value, value);
     }
 }
 
