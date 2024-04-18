@@ -8,6 +8,7 @@ using CommonServiceLocator;
 using Kaigara.Configuration;
 using Kaigara.MainWindow.Views;
 using Kaigara.Shell;
+using Kaigara.Themes;
 using Kaigara.ViewModels;
 using Microsoft.Extensions.Configuration;
 
@@ -41,6 +42,11 @@ public sealed class ShellAppBuilder : IShellAppBuilder
             .SingleInstance();
 
         containerBuilder
+            .RegisterType<ThemeManager>()
+            .AsSelf()
+            .SingleInstance();
+
+        containerBuilder
             .RegisterInstance(appInfo)
             .ExternallyOwned()
             .AsSelf()
@@ -71,7 +77,7 @@ public sealed class ShellAppBuilder : IShellAppBuilder
         if (!File.Exists(userSettingsFilePath))
             File.WriteAllText(userSettingsFilePath, $"{{{Environment.NewLine}}}");
 
-        containerBuilder.RegisterModule(new ConfigurationModule { UserAppsettingFilePath = userSettingsFilePath, IncludeDefaultUI = true });
+        containerBuilder.RegisterModule(new ConfigurationModule { UserSettingFilePath = userSettingsFilePath, IncludeDefaultUI = true });
 
         return this;
     }

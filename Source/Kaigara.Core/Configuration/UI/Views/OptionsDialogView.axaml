@@ -13,12 +13,17 @@
         <Button Command="{Binding Cancel}">Cancel</Button>
       </k:DialogContentControl.Buttons>
       <Grid ColumnDefinitions="200,*">
-        <Grid RowDefinitions="auto,*">
-          <TextBox Watermark="Search Options" />
+        <Grid RowDefinitions="auto,*" Margin="0,0,4,0">
+          <TextBox Watermark="Search Options"  Margin="0,0,0,4"/>
           <TreeView Grid.Row="1"
                     SelectionMode="Single"
                     ItemsSource="{Binding FilteredPages}"
                     SelectedItem="{Binding CurrentPageItem}">
+            <TreeView.Styles>
+              <Style Selector="TreeViewItem">
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+              </Style>
+            </TreeView.Styles>
             <TreeView.ItemTemplate>
               <TreeDataTemplate ItemsSource="{Binding Children}">
                 <TextBlock Text="{Binding Label}" />

@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Kaigara.Configuration;
 public class ConfigurationModule : Module
 {
-    public string? UserAppsettingFilePath { get; set; }
+    public string? UserSettingFilePath { get; set; }
 
     public bool IncludeDefaultUI { get; set; }
 
@@ -21,8 +21,8 @@ public class ConfigurationModule : Module
             configurationBuilder.SetBasePath(Environment.CurrentDirectory)
                                 .AddJsonFile("appsettings.json", true, true);
 
-            if (UserAppsettingFilePath != null)
-                configurationBuilder.AddJsonFile(UserAppsettingFilePath, true, true);
+            if (!string.IsNullOrEmpty(UserSettingFilePath))
+                configurationBuilder.AddJsonFile(UserSettingFilePath, true, true);
 
             foreach (var action in configBuilderActions)
                 action.Invoke(configurationBuilder);
@@ -42,9 +42,10 @@ public class ConfigurationModule : Module
         builder.Populate(serviceCollection);
 
 
-        builder.RegisterType<ConfigurationModel>()
+        builder.RegisterType<ConfigurationManager>()
+            .WithParameter(nameof(UserSettingFilePath), UserSettingFilePath!)
             .AsSelf()
-            .InstancePerDependency();
+            .SingleInstance();
 
         if (IncludeDefaultUI)
         {

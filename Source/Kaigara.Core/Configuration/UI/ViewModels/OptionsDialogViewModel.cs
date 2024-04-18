@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,15 +11,19 @@ using Kaigara.Collections.Generic;
 using Kaigara.Dialogs.ViewModels;
 using ReactiveUI;
 
+using LazyPage = System.Lazy<Kaigara.Configuration.UI.ViewModels.OptionsPageViewModel, Kaigara.Configuration.UI.ViewModels.OptionsPageMetadata>;
+
 namespace Kaigara.Configuration.UI.ViewModels;
-public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsPageViewModel>>
+public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogResultItem>>
 {
 
-    public OptionsDialogViewModel(IEnumerable<Lazy<OptionsPageViewModel, OptionsPageMetadata>> pages)
+    public OptionsDialogViewModel(ConfigurationManager configurationManager,IEnumerable<LazyPage> pages)
     {
         Title = "Options";
         MinWidth = 800; 
         MinHeight = 500;
+
+        this.configurationManager = configurationManager ?? throw new ArgumentNullException(nameof(configurationManager));
 
         optionsPages = new SortedSet<OptionsPageItem>(OptionsPageItemDisplayComparer.Instance);
         var categoryItems = new Dictionary<Type, OptionsPageItem>();
@@ -73,16 +78,14 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsPageVie
         }
 
         FilteredPages = optionsPages;
-
-        var defaultPage = GetChildren(optionsPages).FirstOrDefault(p => p.Page is not null)?.Page;
-
-        CurrentPage = defaultPage is null ? null : MaterializePage(defaultPage);
-
     }
 
+    private readonly Dictionary<OptionsPageViewModel, OptionsPageMetadata> metadata = new();
     private readonly HashSet<OptionsPageViewModel> materializedPageViewModel = new();
     private readonly HashSet<OptionsPageViewModel> changedPageViewModels = new();
+    private readonly HashSet<OptionsPageViewModel> boundPageViewModels = new();
     private readonly SortedSet<OptionsPageItem> optionsPages;
+    private readonly ConfigurationManager configurationManager;
 
     public IEnumerable<OptionsPageItem> FilteredPages { get;  set; }
 
@@ -115,29 +118,56 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsPageVie
 
     public Task Ok()
     {
-        var result = changedPageViewModels.ToList();
-        changedPageViewModels.Clear();
+        var result = changedPageViewModels
+                        .Select(p => new OptionsDialogResultItem(p, metadata[p]))
+                        .ToList();
         return Close(result);
     }
 
     public Task Cancel()
     {
-        changedPageViewModels.Clear();
-        return Close(Enumerable.Empty<OptionsPageViewModel>());
+        return Close(Enumerable.Empty<OptionsDialogResultItem>());
     }
 
-    private OptionsPageViewModel MaterializePage(Lazy<OptionsPageViewModel> lazy)
+    protected override void OnActivated(CompositeDisposable disposables)
     {
-        var viewModel = lazy.Value;
+        base.OnActivated(disposables);
 
-        if (!materializedPageViewModel.Add(viewModel))
+        if (CurrentPageItem?.Page is LazyPage page)
         {
+            CurrentPage = MaterializePage(page);
+        }
+        else
+        {
+            CurrentPageItem ??= GetChildren(optionsPages).FirstOrDefault(p => p.Page is not null);
+        }
+    }
+    protected override void OnDispose()
+    {
+        base.OnDispose();
+
+        changedPageViewModels.Clear();
+        boundPageViewModels.Clear();
+    }
+
+    private OptionsPageViewModel MaterializePage(LazyPage lazyPage)
+    {
+        var viewModel = lazyPage.Value;
+
+        if (materializedPageViewModel.Add(viewModel))
+        {
+            metadata.Add(viewModel, lazyPage.Metadata);
             viewModel.Changed
-                .Select(e => e.Sender as OptionsPageViewModel)
+                .Select(e => (OptionsPageViewModel)e.Sender)
                 .Subscribe(vm =>
-            {
-                changedPageViewModels.Add(vm!);
-            });
+                {
+                    changedPageViewModels.Add(vm);
+                });
+        }
+
+        if (boundPageViewModels.Add(viewModel))
+        {
+            configurationManager.BindSection(lazyPage.Metadata.ModelType!, viewModel);
         }
 
         return viewModel;
@@ -157,10 +187,12 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsPageVie
     }
 }
 
-public record class OptionsPageItem(string Label, int DisplayOrder, Lazy<OptionsPageViewModel>? Page = null)
+public record class OptionsPageItem(string Label, int DisplayOrder, LazyPage? Page = null)
 {
     public ICollection<OptionsPageItem> Children { get; }
         = new SortedSet<OptionsPageItem>(OptionsPageItemDisplayComparer.Instance);
+
+    public bool IsExpanded { get; set; }
 }
 
 internal class OptionsPageItemDisplayComparer : IComparer<OptionsPageItem>
@@ -170,10 +202,12 @@ internal class OptionsPageItemDisplayComparer : IComparer<OptionsPageItem>
 
     public int Compare(OptionsPageItem? x, OptionsPageItem? y)
     {
-        var result = Comparer<int>.Default.Compare(x.DisplayOrder, y.DisplayOrder);
+        var result = Comparer<int?>.Default.Compare(x?.DisplayOrder, y?.DisplayOrder);
 
         if (result != 0) return result;
 
-        return StringComparer.CurrentCulture.Compare(x.Label, y.Label);
+        return StringComparer.CurrentCulture.Compare(x?.Label, y?.Label);
     }
 }
+
+public record struct OptionsDialogResultItem(OptionsPageViewModel ViewModel, OptionsPageMetadata Metadata);

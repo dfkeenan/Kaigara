@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Kaigara.About;
 using Kaigara.About.Commands;
+using Kaigara.Configuration;
 using Kaigara.Configuration.UI.Commands;
 using Kaigara.Menus;
 
@@ -38,5 +39,9 @@ public class DefaultModule : Module
                 }
                 );
         });
+
+        builder.RegisterType<ThemeOptionsWatcher>()
+            .As<IStartable>()
+            .SingleInstance();
     }
 }
