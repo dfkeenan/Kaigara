@@ -108,6 +108,8 @@ public class OptionsDialogViewModel : DialogViewModel<IEnumerable<OptionsDialogR
         private set => this.RaiseAndSetIfChanged(ref currentPage, value);
     }
 
+    public override object? DefaultResult => Enumerable.Empty<OptionsDialogResultItem>();
+
     public Task Ok()
     {
         var result = changedPageViewModels

@@ -33,7 +33,7 @@ public class DialogService(Application application, ILifetimeScope container) : 
         return dialog.ShowDialog(lifeTime.MainWindow);
     }
 
-    public Task<TResult> ShowModal<TResult>(IDialogViewModel<TResult> viewModel)
+    public async Task<TResult> ShowModal<TResult>(IDialogViewModel<TResult> viewModel)
     {
         if (lifeTime.MainWindow is null) throw new InvalidOperationException("No MainWindow");
 
@@ -42,6 +42,7 @@ public class DialogService(Application application, ILifetimeScope container) : 
             DataContext = viewModel,
         };
 
-        return dialog.ShowDialog<TResult>(lifeTime.MainWindow);
+        var result = await dialog.ShowDialog<TResult>(lifeTime.MainWindow);
+        return result ?? (TResult)viewModel.DefaultResult!;
     }
 }

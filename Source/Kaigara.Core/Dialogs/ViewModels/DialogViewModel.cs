@@ -9,6 +9,8 @@ public abstract class DialogViewModel : WindowViewModel, IDialogViewModel
 {
     internal Interaction<object, Unit> CloseInteraction { get; } = new Interaction<object, Unit>();
 
+    public virtual object? DefaultResult => null;
+
     protected DialogViewModel()
     {
         StartupLocation = WindowStartupLocation.CenterOwner;
