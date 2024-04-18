@@ -58,8 +58,20 @@ public class ConfigurationManager
 
         foreach (var (sectionType, section) in updates)
         {
-            var jsonNode = JsonSerializer.SerializeToNode(section, section.GetType(), jsonSerializerOptions);
-            config[sectionType.FullName!] = jsonNode;
+            var sectionConfig = JsonSerializer.SerializeToNode(section, section.GetType(), jsonSerializerOptions) as JsonObject;
+            var docConfig = config[sectionType.FullName!] as JsonObject;
+
+            if(docConfig is null)
+            {
+                config[sectionType.FullName!] = sectionConfig;
+            }
+            else
+            {
+                foreach (var (key, value) in sectionConfig!)
+                {
+                    docConfig[key] = value?.DeepClone();
+                }
+            }
         }
 
         {
