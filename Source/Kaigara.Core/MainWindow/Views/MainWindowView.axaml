@@ -12,16 +12,12 @@
         Height="{Binding Height}"
         IconSize="24"
         >
-  <!--<kc:ChromeWindow.TitleBarTemplate>
+  <k:ChromeWindow.TitleBarTemplate>
     <DataTemplate>
-      <StackPanel Orientation="Horizontal" Spacing="10">
-        <kcm:DynamicMenu Menu="{Binding MainMenu}" />
-        <TextBlock Text="{Binding Title}"/>
-      </StackPanel>
+      <Menu Classes="DynamicMenu" DataContext="{Binding DataContext}" ItemsSource="{Binding MainMenu.Items}" />
     </DataTemplate>
-  </kc:ChromeWindow.TitleBarTemplate>-->
-  <DockPanel LastChildFill="True">
-    <Menu Classes="DynamicMenu" ItemsSource="{Binding MainMenu.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
+  </k:ChromeWindow.TitleBarTemplate>
+  <DockPanel LastChildFill="True" Margin="0,0,0,5">
     <k:ToolbarTray Classes="DynamicToolbarTray" ItemsSource="{Binding ToolbarTray.Items}" DockPanel.Dock="Top" Margin="0,0,0,5" />
     <ContentControl DockPanel.Dock="Bottom" Margin="-2,2,-2,-2" Content="{Binding StatusBar}"/>
     <ContentControl Content="{Binding Shell}"/>

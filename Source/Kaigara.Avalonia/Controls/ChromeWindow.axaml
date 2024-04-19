@@ -29,6 +29,11 @@
         </Panel>
       </ControlTemplate>
     </Setter>
+    <Setter Property="TitleBarTemplate">
+      <DataTemplate>
+        <TextBlock Text="{Binding Title}"/>
+      </DataTemplate>
+    </Setter>
     <Style Selector="^:platformWindows">
       <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlMidBrush}" />
       <Setter Property="UseLayoutRounding" Value="True" />
@@ -59,7 +64,9 @@
                          Height="{TemplateBinding IconSize}"
                          IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}"
                          />
-                  <ContentPresenter Grid.Column="1" Margin="4,0,0,0" VerticalAlignment="Center" Name="PART_TitleBarContentPresenter" ContentTemplate="{TemplateBinding TitleBarTemplate}" Content="{TemplateBinding Title}" />
+                  <ContentPresenter Grid.Column="1" Margin="4,0,0,0" VerticalAlignment="Center" Name="PART_TitleBarContentPresenter" 
+                                  Content="{TemplateBinding }"
+                                  ContentTemplate="{TemplateBinding TitleBarTemplate}" />
                 </Grid>
                 <ContentPresenter Name="PART_ContentPresenter"
                                   Margin="{TemplateBinding Padding}"
