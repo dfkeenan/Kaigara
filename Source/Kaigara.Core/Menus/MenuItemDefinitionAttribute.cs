@@ -27,13 +27,15 @@ public class MenuItemDefinitionAttribute : Attribute, IMenuItemDefinitionSource
     public string? Label { get; set; }
     public int DisplayOrder { get; set; }
 
+    public CanExecuteBehavior CanExecuteBehavior { get; set; }
+
     public MenuItemLocation Location { get; }
 
     bool IMenuItemDefinitionSource.IsDefined => true;
 
     public MenuItemDefinition? GetDefinition(RegisteredCommandBase? command)
     {
-        var definition = new MenuItemDefinition(Name, Label, IconName, DisplayOrder)
+        var definition = new MenuItemDefinition(Name, Label, IconName, DisplayOrder, CanExecuteBehavior)
         {
             RegisteredCommand = command
         };

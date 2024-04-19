@@ -1,16 +1,18 @@
 ﻿using System.Diagnostics;
+using ExampleApplication.Documents.ViewModels;
 using ExampleApplication.Tools.ViewModels;
 using Kaigara.Commands;
 using Kaigara.Menus;
 using Kaigara.Shell;
+using Kaigara.Shell.Commands;
 using Kaigara.Toolbars;
 
 namespace ExampleApplication.Commands;
 
 [MenuItemDefinition("Example1", "MainMenu/File/Example")]
-[ToolbarItemDefinition("Example1", "MainToolbarTray/Example")]
+[ToolbarItemDefinition("Example1", "MainToolbarTray/Example", CanExecuteBehavior = Kaigara.CanExecuteBehavior.Visible)]
 [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "Run")]
-public class ExampleCommand : RegisteredCommand
+public class ExampleCommand : ActiveDocumentCommand<ExampleDocumentViewModel>
 {
     private readonly IShell shell;
 

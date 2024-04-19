@@ -26,15 +26,16 @@ public class ToolbarItemDefinitionAttribute : Attribute, IToolbarItemDefinitionS
     public string? IconName { get; set; }
     public string? Label { get; set; }
     public int DisplayOrder { get; set; }
+    public CanExecuteBehavior CanExecuteBehavior { get; set; }
     public ToolbarItemLocation Location { get; }
 
     bool IToolbarItemDefinitionSource.IsDefined => true;
 
     public ToolbarItemDefinition? GetDefinition(RegisteredCommandBase? command)
     {
-        var definition = new ToolbarItemDefinition(Name, Label, IconName, DisplayOrder)
+        var definition = new ToolbarItemDefinition(Name, Label, IconName, DisplayOrder, CanExecuteBehavior)
         {
-            RegisteredCommand = command
+            RegisteredCommand = command,
         };
 
         return definition;

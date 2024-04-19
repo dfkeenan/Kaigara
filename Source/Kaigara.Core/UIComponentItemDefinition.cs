@@ -1,4 +1,5 @@
 ﻿using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Autofac;
 using Avalonia.Input;
@@ -7,18 +8,26 @@ using ReactiveUI;
 
 namespace Kaigara;
 
+public enum CanExecuteBehavior
+{
+    Enabled,
+    Visible
+}
+
 public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     where T : UIComponentItemDefinition<T>
 {
     private string? label;
     private string? iconName;
+    private CanExecuteBehavior canExecuteBehavior;
     private bool isVisible;
     private RegisteredCommandBase? registeredCommand;
     private List<Action<IComponentContext>>? bindings;
     private CompositeDisposable disposables;
     private CompositeDisposable bindingDisposables;
+    private IDisposable? canExecuteBinding;
 
-    public UIComponentItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
+    public UIComponentItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0, CanExecuteBehavior canExecuteBehavior = CanExecuteBehavior.Enabled)
     {
         Name = name ?? throw new ArgumentNullException(nameof(name));
         this.label = label;
@@ -27,6 +36,7 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
         bindingDisposables = new CompositeDisposable();
         isVisible = true;
         DisplayOrder = displayOrder;
+        this.canExecuteBehavior = canExecuteBehavior;
     }
 
     public string Name { get; }
@@ -64,6 +74,13 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
             this.RaisePropertyChanged(nameof(Label));
             this.RaisePropertyChanged(nameof(Command));
             this.RaisePropertyChanged(nameof(InputGesture));
+
+            canExecuteBinding?.Dispose();
+
+            canExecuteBinding = registeredCommand
+                ?.CanExecute
+                ?.Where(c => canExecuteBehavior == CanExecuteBehavior.Visible)
+                ?.BindTo(this, t => t.IsVisible);
         }
     }
 

@@ -8,8 +8,8 @@ public class MenuItemDefinition : UIComponentItemDefinition<MenuItemDefinition>,
 {
     private readonly ObservableCollection<MenuItemDefinition> items;
 
-    public MenuItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
-        : base(name, label, iconName, displayOrder)
+    public MenuItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0, CanExecuteBehavior canExecuteBehavior = CanExecuteBehavior.Enabled)
+        : base(name, label, iconName, displayOrder, canExecuteBehavior)
     {
         items = new SortedObservableCollection<MenuItemDefinition>(DisplayOrderComparer); ;
         Items = Collections.ObjectModel.ObservableCollectionExtensions.AsReadOnlyObservableCollection<MenuItemDefinition>(items);

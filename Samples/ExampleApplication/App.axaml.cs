@@ -65,7 +65,7 @@ public partial class App : Application
                 var exampleToolbar = new ToolbarDefinition("Example")
                 {
                     new ToolbarItemDefinition("First")//.BindCommand<ExampleCommand>(),
-                }.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
+                };//.VisibleWhen<IShell>(s => s.Documents.Active.Is<ExampleDocumentViewModel>());
 
                 toolBarManager.Register(new ToolbarLocation("MainToolbarTray"), exampleToolbar);
 

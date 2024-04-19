@@ -26,9 +26,7 @@ public abstract class RegisteredAsyncCommand : RegisteredCommandBase
 
     protected override ICommand CreateCommand()
     {
-        var canExecute = GetCanExecute();
-        CanExecute = canExecute ?? Observable.Return(true);
-        return ReactiveCommand.CreateFromTask(OnExecuteAsync, canExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.CreateFromTask(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
     }
 
     protected abstract Task OnExecuteAsync();
@@ -55,9 +53,7 @@ public abstract class RegisteredAsyncCommand<TParam> : RegisteredCommandBase
 
     protected override ICommand CreateCommand()
     {
-        var canExecute = GetCanExecute();
-        CanExecute = canExecute ?? Observable.Return(true);
-        return ReactiveCommand.CreateFromTask<TParam>(OnExecuteAsync, canExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.CreateFromTask<TParam>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
     }
 
     protected abstract Task OnExecuteAsync(TParam param);

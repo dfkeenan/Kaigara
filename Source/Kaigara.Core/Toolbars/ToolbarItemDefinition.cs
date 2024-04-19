@@ -2,8 +2,8 @@
 
 public class ToolbarItemDefinition : UIComponentItemDefinition<ToolbarItemDefinition>, IUIComponentDefinition
 {
-    public ToolbarItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0)
-        : base(name, label, iconName, displayOrder)
+    public ToolbarItemDefinition(string name, string? label = null, string? iconName = null, int displayOrder = 0, CanExecuteBehavior canExecuteBehavior = CanExecuteBehavior.Enabled)
+        : base(name, label, iconName, displayOrder, canExecuteBehavior)
     {
     }
 

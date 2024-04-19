@@ -70,6 +70,7 @@ public abstract class RegisteredCommandBase : ReactiveObject
 
     private KeyGesture? keyGesture;
     private ICommand? command;
+    private IObservable<bool>? canExecute;
 
     public KeyGesture? InputGesture
     {
@@ -79,7 +80,7 @@ public abstract class RegisteredCommandBase : ReactiveObject
 
     public ICommand Command => command ??= CreateCommand();
 
-    public IObservable<bool>? CanExecute { get; protected set; }
+    public IObservable<bool>? CanExecute => canExecute ??= GetCanExecute();
 
     protected virtual IObservable<bool> GetCanExecute() => Observable.Return(true);
     protected abstract ICommand CreateCommand();

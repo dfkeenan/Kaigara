@@ -27,9 +27,7 @@ public abstract class RegisteredCommand : RegisteredCommandBase
 
     protected override ICommand CreateCommand()
     {
-        var canExecute = GetCanExecute();
-        CanExecute = canExecute ?? Observable.Return(true);
-        return ReactiveCommand.Create(OnExecute, canExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.Create(OnExecute, CanExecute, AvaloniaScheduler.Instance);
     }
 
     protected abstract void OnExecute();
@@ -56,10 +54,7 @@ public abstract class RegisteredCommand<TParam> : RegisteredCommandBase
 
     protected override ICommand CreateCommand()
     {
-        var canExecute = GetCanExecute();
-        CanExecute = canExecute ?? Observable.Return(true);
-
-        return ReactiveCommand.Create<TParam>(OnExecute, canExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.Create<TParam>(OnExecute, CanExecute, AvaloniaScheduler.Instance);
     }
 
     protected abstract void OnExecute(TParam param);
