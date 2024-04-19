@@ -4,7 +4,237 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dock="clr-namespace:Dock.Avalonia.Controls;assembly=Dock.Avalonia">
 
+  <Design.PreviewWith>
+    <dock:DockTarget />
+  </Design.PreviewWith>
+  
+  <Styles.Resources >
+    <ResourceDictionary>
+      <SolidColorBrush x:Key="DockIconBackground" Color="{DynamicResource ThemeBackgroundColor}" />
+      <SolidColorBrush x:Key="DockIconForeground" Color="{DynamicResource ThemeForegroundColor}" />
+
+      <SolidColorBrush x:Key="DockTargetEmptyBorder" Color="{DynamicResource ThemeAccentColor}" />
+      <SolidColorBrush x:Key="DockTargetEmptyBackground" Color="{DynamicResource ThemeBackgroundColor}" Opacity="0.8" />
+      
+      <DrawingImage x:Key="DockAnchorableBottom">
+        <DrawingImage.Drawing>
+          <DrawingGroup>
+            <DrawingGroup.Children>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="0,0,32,32" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconForeground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="4,16,24,12" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="5,19,22,8" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="{DynamicResource ThemeAccentColor}" />
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <PathGeometry FillRule="EvenOdd" Figures="M12,6L20,6 16,10" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup.Children>
+          </DrawingGroup>
+        </DrawingImage.Drawing>
+      </DrawingImage>
+      <DrawingImage x:Key="DockAnchorableRight">
+        <DrawingImage.Drawing>
+          <DrawingGroup>
+            <DrawingGroup.Children>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="0,0,32,32" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconForeground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="16,4,12,24" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="17,7,10,20" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="{DynamicResource ThemeAccentColor}" />
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <PathGeometry FillRule="EvenOdd" Figures="M6,12L10,16 6,20" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup.Children>
+          </DrawingGroup>
+        </DrawingImage.Drawing>
+      </DrawingImage>
+      <DrawingImage x:Key="DockDocumentInside">
+        <DrawingImage.Drawing>
+          <DrawingGroup>
+            <DrawingGroup.Children>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="0,0,32,32" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconForeground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="4,4,24,24" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="5,7,22,20" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup.Children>
+          </DrawingGroup>
+        </DrawingImage.Drawing>
+      </DrawingImage>
+      <DrawingImage x:Key="DockAnchorableLeft">
+        <DrawingImage.Drawing>
+          <DrawingGroup>
+            <DrawingGroup.Children>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="0,0,32,32" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconForeground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="4,4,12,24" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="5,7,10,20" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="{DynamicResource ThemeAccentColor}" />
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <PathGeometry FillRule="EvenOdd" Figures="M22,16L26,12 26,20" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup.Children>
+          </DrawingGroup>
+        </DrawingImage.Drawing>
+      </DrawingImage>
+      <DrawingImage x:Key="DockAnchorableTop">
+        <DrawingImage.Drawing>
+          <DrawingGroup>
+            <DrawingGroup.Children>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="0,0,32,32" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconForeground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="4,4,24,12" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing Brush="{DynamicResource DockIconBackground}">
+                <GeometryDrawing.Geometry>
+                  <RectangleGeometry Rect="5,7,22,8" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+              <GeometryDrawing>
+                <GeometryDrawing.Brush>
+                  <SolidColorBrush Color="{DynamicResource ThemeAccentColor}" />
+                </GeometryDrawing.Brush>
+                <GeometryDrawing.Geometry>
+                  <PathGeometry FillRule="EvenOdd" Figures="M12,26L16,22 20,26" />
+                </GeometryDrawing.Geometry>
+              </GeometryDrawing>
+            </DrawingGroup.Children>
+          </DrawingGroup>
+        </DrawingImage.Drawing>
+      </DrawingImage>
+
+      <DrawingImage x:Key="DockTargetEmpty">
+        <DrawingImage.Drawing>
+          <DrawingGroup>
+            <DrawingGroup.Children>
+              <GeometryDrawing Brush="{DynamicResource DockTargetEmptyBackground}" Geometry="M40.5,0.5L79.5,0.5 79.5,23.5 96.5,40.5 119.5,40.5 119.5,79.5 96.5,79.5 79.5,96.5 79.5,119.6 40.5,119.5 40.5,96.5 23.5,79.5 0.5,79.5 0.5,40.5 23.5,40.5 40.5,23.5z">
+                <GeometryDrawing.Pen>
+                  <Pen Brush="{DynamicResource DockTargetEmptyBorder}" Thickness="1">
+                    <Pen.DashStyle>
+                      <DashStyle Offset="0" Dashes="" />
+                    </Pen.DashStyle>
+                  </Pen>
+                </GeometryDrawing.Pen>
+              </GeometryDrawing>
+            </DrawingGroup.Children>
+          </DrawingGroup>
+        </DrawingImage.Drawing>
+      </DrawingImage>
+    </ResourceDictionary>
+  </Styles.Resources>
+  
+
   <Style Selector="dock|HostWindowTitleBar">
     <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+  </Style>
+
+  <Style Selector="dock|DockTarget">
+    <Setter Property="Background" Value="Transparent"/>
+    <Setter Property="Template" >
+      <ControlTemplate>
+        <Grid x:Name="PART_IndicatorGrid" RowDefinitions="*,*" ColumnDefinitions="*,*" x:CompileBindings="True">
+          <Panel x:Name="PART_TopIndicator" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" />
+          <Panel x:Name="PART_BottomIndicator" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" />
+          <Panel x:Name="PART_LeftIndicator" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" />
+          <Panel x:Name="PART_RightIndicator" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" />
+          <Panel x:Name="PART_CenterIndicator" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" />
+          <Panel x:Name="PART_SelectorPanel" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="0">
+            <Grid x:Name="PART_SelectorGrid" RowDefinitions="*,*,*" ColumnDefinitions="*,*,*">
+              <Image x:Name="PART_SelectorBackground" Grid.ColumnSpan="3" Grid.RowSpan="3" />
+              <Image x:Name="PART_TopSelector" Grid.Row="0" Grid.Column="1" />
+              <Image x:Name="PART_BottomSelector" Grid.Row="2" Grid.Column="1" />
+              <Image x:Name="PART_LeftSelector" Grid.Row="1" Grid.Column="0" />
+              <Image x:Name="PART_RightSelector" Grid.Row="1" Grid.Column="2" />
+              <Image x:Name="PART_CenterSelector" Grid.Row="1" Grid.Column="1" />
+            </Grid>
+          </Panel>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+
+  <Style Selector="dock|DockTarget /template/ Image#PART_TopSelector">
+    <Setter Property="Source" Value="{StaticResource DockAnchorableTop}" />
+  </Style>
+
+  <Style Selector="dock|DockTarget /template/ Image#PART_BottomSelector">
+    <Setter Property="Source" Value="{StaticResource DockAnchorableBottom}" />
+  </Style>
+
+  <Style Selector="dock|DockTarget /template/ Image#PART_LeftSelector">
+    <Setter Property="Source" Value="{StaticResource DockAnchorableLeft}" />
+  </Style>
+
+  <Style Selector="dock|DockTarget /template/ Image#PART_RightSelector">
+    <Setter Property="Source" Value="{StaticResource DockAnchorableRight}" />
+  </Style>
+
+  <Style Selector="dock|DockTarget /template/ Image#PART_CenterSelector">
+    <Setter Property="Source" Value="{StaticResource DockDocumentInside}" />
+  </Style>
+
+  <Style Selector="dock|DockTarget /template/ Image#PART_SelectorBackground">
+    <Setter Property="Source" Value="{StaticResource DockTargetEmpty}" />
   </Style>
 </Styles>
