@@ -59,6 +59,22 @@ public class ShellViewModel : ViewModel, IShell
 
         factory.WindowClosing += OnDockWindowClosing;
 
+        //Dockables.Active.Subscribe(d =>
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+        //});
+
+        //Documents.Active.Subscribe(d =>
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+        //});
+
+        //Tools.Active.Subscribe(d =>
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
+        //});
+
+
         //var fo = new ReactiveDockFactory(factory);
 
         //fo.ActiveDockableChanged.Select(e => e.EventArgs.Dockable).Subscribe(d =>
@@ -73,12 +89,12 @@ public class ShellViewModel : ViewModel, IShell
 
         //fo.DockableClosed.Select(e => e.EventArgs.Dockable).Subscribe(d =>
         //{
-        //    Debug.WriteLine($"Closed {d?.Id ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"Closed {d?.Id ?? "NULL"}");
         //});
 
         //fo.WindowRemoved.Select(e => e.EventArgs.Window).Subscribe(d =>
         //{
-        //    Debug.WriteLine($"Window Removed {d?.Id ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"Window Removed {d?.Id ?? "NULL"}");
         //});
     }
     private void OnDockWindowClosing(object? sender, WindowClosingEventArgs e)

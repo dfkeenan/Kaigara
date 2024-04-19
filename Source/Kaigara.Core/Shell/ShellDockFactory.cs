@@ -33,13 +33,12 @@ public class ShellDockFactory : Factory
 
     public override IRootDock CreateLayout()
     {
-        var mainDocumentsDock = new DocumentDock
-        {
-            Id = ShellDockIds.Documents,
-            Title = "Documents",
-            IsCollapsable = false,
-            VisibleDockables = CreateList<IDockable>()
-        };
+        var mainDocumentsDock = CreateDocumentDock();
+        mainDocumentsDock.Id = ShellDockIds.Documents;
+        mainDocumentsDock.Title = "Documents";
+        mainDocumentsDock.IsCollapsable = false;
+        mainDocumentsDock.VisibleDockables = CreateList<IDockable>();
+        
 
         var mainLayout = new ProportionalDock
         {
@@ -85,6 +84,16 @@ public class ShellDockFactory : Factory
     public override IRootDock CreateRootDock()
     {
         return new ShellRootDockViewModel();
+    }
+
+    public override IToolDock CreateToolDock()
+    {
+        return base.CreateToolDock();
+    }
+
+    public override IDocumentDock CreateDocumentDock()
+    {
+        return base.CreateDocumentDock();
     }
 
     public override void InitLayout(IDockable layout)
@@ -179,16 +188,16 @@ public class ShellDockFactory : Factory
         return toolDock;
     }
 
-    private (ToolDock toolDock, ProportionalDock dock) GetToolDock(Alignment alignment, Orientation orientation)
+    private (IToolDock toolDock, ProportionalDock dock) GetToolDock(Alignment alignment, Orientation orientation)
     {
-        var toolDock = new ToolDock()
-        {
-            ActiveDockable = null,
-            VisibleDockables = base.CreateList<IDockable>(),
-            Alignment = alignment,
-            IsCollapsable = true,
+        var toolDock = CreateToolDock();
 
-        };
+        toolDock.ActiveDockable = null;
+        toolDock.VisibleDockables = base.CreateList<IDockable>();
+        toolDock.Alignment = alignment;
+        toolDock.IsCollapsable = true;
+
+        
         var dock = new ProportionalDock
         {
             Proportion = 0.25,
