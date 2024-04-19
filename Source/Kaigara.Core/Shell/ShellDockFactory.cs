@@ -1,14 +1,71 @@
-﻿using Dock.Model.Controls;
+﻿using Avalonia.Controls;
+using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.ReactiveUI;
 using Dock.Model.ReactiveUI.Controls;
+using Dock.Model.ReactiveUI.Core;
+using Kaigara.MainWindow.ViewModels;
+using Kaigara.MainWindow.Views;
+using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
+using System.Reactive.Linq;
 
 namespace Kaigara.Shell;
 
 public class ShellDockFactory : Factory
 {
+    static ShellDockFactory()
+    {
+        var deactivated = from x in WindowBase.IsActiveProperty.Changed
+                          where x.NewValue.Value
+                          let rootDock = x.Sender switch
+                          {
+                              MainWindowView { DataContext: MainWindowViewModel m } => m.Shell.Layout,
+                              ReactiveHostWindow { Window.Layout: IRootDock r } => r,
+                              _ => null
+                          }
+                          where rootDock is not null
+                          select rootDock;
 
+        deactivated.Subscribe(rootDock =>
+        {
+            static IEnumerable<IDockable> Enumerate(IEnumerable<IDockable> dockables)
+            {
+                foreach (IDockable dockable in dockables)
+                {
+                    yield return dockable;
+
+                    if(dockable is IDock dock && dock.VisibleDockables is object)
+                    {
+                        foreach (var item in Enumerate(dock.VisibleDockables))
+                        {
+                            yield return item;
+                        }
+                    }
+                }
+            }
+
+            if(rootDock.Factory is ShellDockFactory factory)
+            {
+                if (rootDock.VisibleDockables is object)
+                {
+                    foreach (var item in Enumerate(rootDock.VisibleDockables))
+                    {
+                        switch (item)
+                        {
+                            case ShellDocumentDock docDock:
+                                factory.InitActiveDockable(docDock.ActiveDockable, docDock);
+                                break;
+
+                            case ShellToolDock toolDock:
+                                factory.InitActiveDockable(toolDock.ActiveDockable, toolDock);
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     private readonly Func<IHostWindow> hostWindowFactory;
     private IRootDock? rootDock;
@@ -88,12 +145,12 @@ public class ShellDockFactory : Factory
 
     public override IToolDock CreateToolDock()
     {
-        return base.CreateToolDock();
+        return new ShellToolDock();
     }
 
     public override IDocumentDock CreateDocumentDock()
     {
-        return base.CreateDocumentDock();
+        return new ShellDocumentDock();
     }
 
     public override void InitLayout(IDockable layout)

@@ -2,7 +2,7 @@
 
 namespace Kaigara.Shell.ViewModels;
 
-internal class ShellRootDockViewModel : RootDock
+internal class ShellToolDock : ToolDock
 {
 
 }

@@ -59,21 +59,17 @@ public class ShellViewModel : ViewModel, IShell
 
         factory.WindowClosing += OnDockWindowClosing;
 
-        //Dockables.Active.Subscribe(d =>
+        //void Debug(IDockable? dockable)
         //{
-        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
-        //});
+        //    System.Diagnostics.Debug.WriteLine($"Active Document {Documents.Active.Value?.Title ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"Active Tool {Tools.Active.Value?.Title ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"Active Dockable {Dockables.Active.Value?.Title ?? "NULL"}");
+        //    System.Diagnostics.Debug.WriteLine($"--------------------------------------------------------");
+        //}
 
-        //Documents.Active.Subscribe(d =>
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
-        //});
-
-        //Tools.Active.Subscribe(d =>
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"Active {d?.Id ?? "NULL"}");
-        //});
-
+        //Dockables.Active.Subscribe(Debug);
+        //Documents.Active.Subscribe(Debug);
+        //Tools.Active.Subscribe(Debug);
 
         //var fo = new ReactiveDockFactory(factory);
 
