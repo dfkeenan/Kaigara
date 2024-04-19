@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.10" />
-        <PackageReference Include="ReactiveUI" Version="19.5.72" />
+        <PackageReference Include="ReactiveUI" Version="19.6.1" />
         <PackageReference Include="System.Reflection.Context" Version="8.0.0" />
     </ItemGroup>
     <ItemGroup>

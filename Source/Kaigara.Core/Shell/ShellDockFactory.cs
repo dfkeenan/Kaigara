@@ -35,7 +35,7 @@ public class ShellDockFactory : Factory
                 {
                     yield return dockable;
 
-                    if(dockable is IDock dock && dock.VisibleDockables is object)
+                    if (dockable is IDock dock && dock.VisibleDockables is object)
                     {
                         foreach (var item in Enumerate(dock.VisibleDockables))
                         {
@@ -45,7 +45,7 @@ public class ShellDockFactory : Factory
                 }
             }
 
-            if(rootDock.Factory is ShellDockFactory factory)
+            if (rootDock.Factory is ShellDockFactory factory)
             {
                 if (rootDock.VisibleDockables is object)
                 {
@@ -114,7 +114,8 @@ public class ShellDockFactory : Factory
             Id = "MainLayoutVertical",
             Title = "MainLayoutVertical",
             Orientation = Orientation.Vertical,
-            ActiveDockable = null,
+            ActiveDockable = mainLayout,
+            DefaultDockable = mainLayout,
             VisibleDockables = base.CreateList<IDockable>
             (
                 mainLayout
@@ -252,15 +253,15 @@ public class ShellDockFactory : Factory
         toolDock.ActiveDockable = null;
         toolDock.VisibleDockables = base.CreateList<IDockable>();
         toolDock.Alignment = alignment;
-        toolDock.IsCollapsable = true;
-
+        toolDock.IsCollapsable = false;
+        toolDock.GripMode = GripMode.Visible;
         
         var dock = new ProportionalDock
         {
             Proportion = 0.25,
             IsCollapsable = true,
             Orientation = orientation,
-            ActiveDockable = null,
+            ActiveDockable = toolDock,
             VisibleDockables = base.CreateList<IDockable>
            (
                 toolDock
