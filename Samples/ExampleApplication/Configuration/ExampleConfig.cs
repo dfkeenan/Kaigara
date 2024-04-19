@@ -26,7 +26,7 @@ public class ExampleConfigPageViewModel : OptionsPageViewModel
     public string Value
     {
         get => value;
-        init => this.RaiseAndSetIfChanged(ref this.value, value);
+        set => this.RaiseAndSetIfChanged(ref this.value, value);
     }
 }
 
