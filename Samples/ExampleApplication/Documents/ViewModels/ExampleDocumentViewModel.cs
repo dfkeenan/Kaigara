@@ -1,4 +1,6 @@
-﻿using ExampleApplication.Configuration;
+﻿using System.Reactive.Disposables;
+using Avalonia.Threading;
+using ExampleApplication.Configuration;
 using Kaigara.Configuration;
 using Kaigara.Menus;
 using Kaigara.Shell.ViewModels;
@@ -14,12 +16,12 @@ public class ExampleDocumentViewModel : ActivatableDocument
     {
         Id = Guid.NewGuid().ToString();
         Title = "Example Document";
-
-        configProperty = configMonitor.AsObservable().ToProperty(this, d => d.Config, configMonitor.CurrentValue);
+        this.configMonitor = configMonitor;
     }
 
     private bool ischecked;
-    private readonly ObservableAsPropertyHelper<ExampleConfig> configProperty;
+    private ObservableAsPropertyHelper<ExampleConfig>? configProperty;
+    private readonly IOptionsMonitor<ExampleConfig> configMonitor;
 
     public bool IsChecked
     {
@@ -27,11 +29,18 @@ public class ExampleDocumentViewModel : ActivatableDocument
         set { this.RaiseAndSetIfChanged(ref ischecked, value); }
     }
 
-    public ExampleConfig Config { get => configProperty.Value; }
+    public ExampleConfig? Config { get => configProperty?.Value; }
+
+    protected override void OnActivated(CompositeDisposable disposables)
+    {
+        base.OnActivated(disposables);
+        configProperty ??= configMonitor.AsObservable().ToProperty(this, d => d.Config, configMonitor.CurrentValue)!;
+    }
 
     protected override void OnDispose()
     {
         base.OnDispose();
-        configProperty.Dispose();
+        configProperty?.Dispose();
+        configProperty = null;
     }
 }
