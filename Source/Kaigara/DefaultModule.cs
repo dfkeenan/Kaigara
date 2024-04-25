@@ -31,7 +31,7 @@ public class DefaultModule : Module
                 },
                 new MenuItemDefinition("Window", "_Window", displayOrder: order += 100)
                 {
-
+                    new MenuItemGroupDefinition("DocumentTabCommands")
                 },
                 new MenuItemDefinition("Help", "_Help", displayOrder: order += 100)
                 {

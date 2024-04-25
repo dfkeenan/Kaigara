@@ -103,9 +103,16 @@ public class ShellDockFactory : Factory
             Title = "MainLayout",
             Orientation = Orientation.Horizontal,
             ActiveDockable = null,
-            VisibleDockables = base.CreateList<IDockable>
+            VisibleDockables = CreateList<IDockable>
             (
-                mainDocumentsDock
+                new ProportionalDock
+                {
+                    Orientation = Orientation.Vertical,
+                    VisibleDockables = CreateList<IDockable>
+                    (
+                        mainDocumentsDock
+                    )
+                }
             )
         };
 
@@ -116,7 +123,7 @@ public class ShellDockFactory : Factory
             Orientation = Orientation.Vertical,
             ActiveDockable = mainLayout,
             DefaultDockable = mainLayout,
-            VisibleDockables = base.CreateList<IDockable>
+            VisibleDockables = CreateList<IDockable>
             (
                 mainLayout
             )
@@ -251,7 +258,7 @@ public class ShellDockFactory : Factory
         var toolDock = CreateToolDock();
 
         toolDock.ActiveDockable = null;
-        toolDock.VisibleDockables = base.CreateList<IDockable>();
+        toolDock.VisibleDockables = CreateList<IDockable>();
         toolDock.Alignment = alignment;
         toolDock.IsCollapsable = false;
         toolDock.GripMode = GripMode.Visible;
@@ -262,7 +269,7 @@ public class ShellDockFactory : Factory
             IsCollapsable = true,
             Orientation = orientation,
             ActiveDockable = toolDock,
-            VisibleDockables = base.CreateList<IDockable>
+            VisibleDockables = CreateList<IDockable>
            (
                 toolDock
            )

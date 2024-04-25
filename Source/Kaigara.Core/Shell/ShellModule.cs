@@ -24,13 +24,15 @@ public sealed class ShellModule : Module
                .As<IFactory>()
                .SingleInstance();
 
+        builder.RegisterCommands<ShellModule>();
+
         builder.Register(c =>
         {
             ICommandManager commandManager = c.Resolve<ICommandManager>();
 
             ReactiveHostWindow window = new ReactiveHostWindow()
             {
-                [!Window.TitleProperty] = new Binding("ActiveDockable.Title")
+                [!Window.TitleProperty] = new Binding("ActiveDockable.ActiveDockable.Title")
             };
 
             window.WhenActivated(d =>
