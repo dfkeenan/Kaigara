@@ -11,7 +11,7 @@
     <Setter Property="Header" Value="{Binding Label}"/>
     <Setter Property="ItemsSource" Value="{Binding Items}"/>
     <Setter Property="Command" Value="{Binding Command}"/>
-    <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+    <!--<Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>-->
     <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
     <Setter Property="Icon" Value="{Binding IconName, Converter={k:NameToResourceConverter }}"/>

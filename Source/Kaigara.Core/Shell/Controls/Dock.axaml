@@ -2,12 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:dock="clr-namespace:Dock.Avalonia.Controls;assembly=Dock.Avalonia">
+        xmlns:core="using:Dock.Model.Core"
+        xmlns:dmc="using:Dock.Model.Controls"
+        xmlns:dock="clr-namespace:Dock.Avalonia.Controls;assembly=Dock.Avalonia"
+        xmlns:k="https://github.com/dfkeenan/Kaigara">
 
   <Design.PreviewWith>
     <dock:DockTarget />
   </Design.PreviewWith>
-  
+
   <Styles.Resources >
     <ResourceDictionary>
       <SolidColorBrush x:Key="DockIconBackground" Color="{DynamicResource ThemeBackgroundColor}" />
@@ -15,7 +18,7 @@
 
       <SolidColorBrush x:Key="DockTargetEmptyBorder" Color="{DynamicResource ThemeAccentColor}" />
       <SolidColorBrush x:Key="DockTargetEmptyBackground" Color="{DynamicResource ThemeBackgroundColor}" Opacity="0.8" />
-      
+
       <DrawingImage x:Key="DockAnchorableBottom">
         <DrawingImage.Drawing>
           <DrawingGroup>
@@ -181,9 +184,123 @@
           </DrawingGroup>
         </DrawingImage.Drawing>
       </DrawingImage>
+
+
+      <ContextMenu x:Key="DocumentTabStripItemContextMenu"  x:DataType="core:IDockable" x:CompileBindings="True">
+        <ContextMenu.Template>
+          <ControlTemplate>
+            <Border Padding="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}">
+              <ScrollViewer Theme="{StaticResource SimpleMenuScrollViewer}">
+                <StackPanel Orientation="Vertical">
+                  <ItemsControl Classes="DynamicMenu" ItemsSource="{Binding Owner.((k:ShellDockFactory)Factory).DocumentContextMenu.Items}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <MenuItem CommandParameter="{Binding $parent[ContextMenu].DataContext}"/>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                  <Separator IsVisible="{Binding !!Owner.((k:ShellDockFactory)Factory).DocumentContextMenu.Items.Count}" />
+                  <ItemsPresenter Name="PART_ItemsPresenter"
+                                ItemsPanel="{TemplateBinding ItemsPanel}"
+                                KeyboardNavigation.TabNavigation="Continue" />
+                </StackPanel>
+              </ScrollViewer>
+            </Border>
+          </ControlTemplate>
+        </ContextMenu.Template>
+        
+        <MenuItem Header="_Float"
+                Command="{Binding Owner.Factory.FloatDockable}"
+                CommandParameter="{Binding}"
+                IsVisible="{Binding CanFloat}"/>
+        <MenuItem Header="_Close"
+                  Command="{Binding Owner.Factory.CloseDockable}"
+                  CommandParameter="{Binding}"
+                  IsVisible="{Binding CanClose}"/>
+        <MenuItem Header="Close other tabs"
+                  Command="{Binding Owner.Factory.CloseOtherDockables}"
+                  CommandParameter="{Binding}"
+                  IsVisible="{Binding CanClose}"/>
+        <MenuItem Header="Close all tabs"
+                  Command="{Binding Owner.Factory.CloseAllDockables}"
+                  CommandParameter="{Binding}"
+                  IsVisible="{Binding CanClose}"/>
+        <MenuItem Header="_Close tabs to the left"
+                  Command="{Binding Owner.Factory.CloseLeftDockables}"
+                  CommandParameter="{Binding}"
+                  IsVisible="{Binding CanClose}"/>
+        <MenuItem Header="_Close tabs to the right"
+                  Command="{Binding Owner.Factory.CloseRightDockables}"
+                  CommandParameter="{Binding}"
+                  IsVisible="{Binding CanClose}"/>
+      </ContextMenu>
+
+      <!--
+    <ContextMenu x:Key="ToolTabStripItemContextMenu"  x:DataType="dmc:IToolDock" x:CompileBindings="True">
+      <MenuItem Header="_Float"
+                Command="{Binding Owner.Factory.FloatDockable}"
+                CommandParameter="{Binding}"
+                IsVisible="{Binding CanFloat}"/>
+      <MenuItem Header="_Dock"
+                Command="{Binding Owner.Factory.PinDockable}"
+                CommandParameter="{Binding}"
+                IsEnabled="{Binding OriginalOwner, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}"
+                IsVisible="{Binding CanPin, FallbackValue=False}"/>
+      <MenuItem Header="_Auto Hide"
+                Command="{Binding Owner.Factory.PinDockable}"
+                CommandParameter="{Binding }"
+                IsEnabled="{Binding OriginalOwner, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=False}">
+        <MenuItem.IsVisible>
+          <MultiBinding Converter="{x:Static BoolConverters.And}">
+            <Binding Path="CanPin" FallbackValue="{x:False}" />
+            <Binding Path="$parent[HostWindow]" Converter="{x:Static ObjectConverters.IsNull}" />
+          </MultiBinding>
+        </MenuItem.IsVisible>
+      </MenuItem>
+      <MenuItem Header="_Close"
+                Command="{Binding Owner.Factory.CloseDockable}"
+                CommandParameter="{Binding}"
+                IsVisible="{Binding CanClose}"/>
+      <MenuItem Header="Hello"/>
+    </ContextMenu>
+    <MenuFlyout x:Key="ToolChromeControlContextMenu"
+               x:DataType="dmc:IToolDock" x:CompileBindings="True">
+      <MenuItem Header="_Float"
+                Command="{Binding Owner.Factory.FloatDockable}"
+                CommandParameter="{Binding ActiveDockable}"
+                IsVisible="{Binding ActiveDockable.CanFloat, FallbackValue=False}"/>
+      <MenuItem Header="_Dock"
+                Command="{Binding Owner.Factory.PinDockable}"
+                CommandParameter="{Binding ActiveDockable}"
+                IsEnabled="{Binding ActiveDockable.OriginalOwner, Converter={x:Static ObjectConverters.IsNotNull}, FallbackValue=False}"
+                IsVisible="{Binding ActiveDockable.CanPin, FallbackValue=False}"/>
+      <MenuItem Header="_Auto Hide"
+                Command="{Binding Owner.Factory.PinDockable}"
+                CommandParameter="{Binding ActiveDockable}"
+                IsEnabled="{Binding ActiveDockable.OriginalOwner, Converter={x:Static ObjectConverters.IsNull}, FallbackValue=False}">
+        <MenuItem.IsVisible>
+          <MultiBinding Converter="{x:Static BoolConverters.And}">
+            <Binding Path="ActiveDockable.CanPin" FallbackValue="{x:False}" />
+            <Binding Path="$parent[ToolChromeControl].IsFloating" Converter="{x:Static BoolConverters.Not}" />
+          </MultiBinding>
+        </MenuItem.IsVisible>
+      </MenuItem>
+      <MenuItem Header="_Close"
+                Command="{Binding Owner.Factory.CloseDockable}"
+                CommandParameter="{Binding ActiveDockable}"
+                IsVisible="{Binding ActiveDockable.CanClose, FallbackValue=False}"/>
+      <MenuItem Header="Hello"/>
+    </MenuFlyout>-->
     </ResourceDictionary>
+
+
+
+
   </Styles.Resources>
-  
 
   <Style Selector="dock|HostWindowTitleBar">
     <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />

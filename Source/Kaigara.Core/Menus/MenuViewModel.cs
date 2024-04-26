@@ -13,7 +13,7 @@ public class MenuViewModel : IDisposable
         items = Collections.ObjectModel.ObservableCollectionExtensions.ToReadOnlyObservableCollectionOf<MenuItemDefinition, IMenuItemViewModel>(definition.Items, (Func<MenuItemDefinition, IMenuItemViewModel>)(d => d.Build()));
     }
 
-    public IEnumerable<IMenuItemViewModel> Items => items;
+    public ReadOnlyObservableCollection<IMenuItemViewModel> Items => items;
 
     public MenuDefinition Definition => definition;
 

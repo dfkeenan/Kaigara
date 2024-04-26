@@ -1,5 +1,6 @@
 ﻿using System.Reactive.Disposables;
 using Autofac;
+using Autofac.Features.AttributeFilters;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Dock.Model.Core;
@@ -22,9 +23,12 @@ public sealed class ShellModule : Module
 
         builder.RegisterType<ShellDockFactory>()
                .As<IFactory>()
-               .SingleInstance();
+               .SingleInstance()
+               .WithAttributeFiltering();
 
         builder.RegisterCommands<ShellModule>();
+
+        builder.RegisterMenu(new Menus.MenuDefinition("DocumentContextMenu"));
 
         builder.Register(c =>
         {

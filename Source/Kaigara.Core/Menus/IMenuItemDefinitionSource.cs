@@ -4,11 +4,8 @@ using Kaigara.Commands;
 namespace Kaigara.Menus;
 public interface IMenuItemDefinitionSource
 {
+    [MemberNotNullWhen(returnValue: true, nameof(Location))]
     bool IsDefined { get; }
-
-    [MemberNotNullWhen(returnValue: true, nameof(IsDefined))]
     MenuItemLocation? Location { get; }
-
-    [MemberNotNullWhen(returnValue: true, nameof(IsDefined))]
     MenuItemDefinition? GetDefinition(RegisteredCommandBase? command);
 }

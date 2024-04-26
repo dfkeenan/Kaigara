@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Autofac.Features.AttributeFilters;
+using Avalonia.Controls;
 using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.ReactiveUI;
@@ -6,6 +7,7 @@ using Dock.Model.ReactiveUI.Controls;
 using Dock.Model.ReactiveUI.Core;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
+using Kaigara.Menus;
 using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
 using System.Reactive.Linq;
@@ -68,6 +70,7 @@ public class ShellDockFactory : Factory
     }
 
     private readonly Func<IHostWindow> hostWindowFactory;
+    private readonly Lazy<MenuViewModel> documentContextMenu;
     private IRootDock? rootDock;
     private ProportionalDock? mainLayout;
     private ProportionalDock? mainLayoutVertical;
@@ -78,14 +81,12 @@ public class ShellDockFactory : Factory
 
     private Dictionary<string, IToolDock> toolDockLocator = new Dictionary<string, IToolDock>();
 
-    public ShellDockFactory(Func<IHostWindow> hostWindowFactory)
-    {
-        if (hostWindowFactory is null)
-        {
-            throw new ArgumentNullException(nameof(hostWindowFactory));
-        }
+    public MenuViewModel DocumentContextMenu => documentContextMenu.Value;
 
-        this.hostWindowFactory = hostWindowFactory;
+    public ShellDockFactory(Func<IHostWindow> hostWindowFactory, [KeyFilter("DocumentContextMenu")] Lazy<MenuViewModel> documentContextMenu)
+    {
+        this.hostWindowFactory = hostWindowFactory ?? throw new ArgumentNullException(nameof(hostWindowFactory));
+        this.documentContextMenu = documentContextMenu;
     }
 
     public override IRootDock CreateLayout()
