@@ -4,7 +4,7 @@
 
 using System;
 
-namespace CommunityToolkit.Mvvm.Input;
+namespace Kaigara.Input;
 
 /// <summary>
 /// Options to customize the behavior of <see cref="AsyncRelayCommand"/> and <see cref="AsyncRelayCommand{T}"/> instances.

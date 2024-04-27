@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace CommunityToolkit.Mvvm.ComponentModel.__Internals;
+namespace Kaigara.ComponentModel.__Internals;
 
 /// <summary>
 /// An internal helper used to support <see cref="ObservableObject"/> and generated code from its template.
@@ -15,7 +15,7 @@ namespace CommunityToolkit.Mvvm.ComponentModel.__Internals;
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 [Obsolete("This type is not intended to be used directly by user code")]
-public static class __TaskExtensions
+internal static class __TaskExtensions
 {
     /// <summary>
     /// Gets an awaitable object that skips end validation.

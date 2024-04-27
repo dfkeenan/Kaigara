@@ -6,7 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
-namespace CommunityToolkit.Mvvm.Input.Internals;
+namespace Kaigara.Input.Internals;
 
 /// <summary>
 /// A <see cref="ICommand"/> implementation wrapping <see cref="IAsyncRelayCommand"/> to support cancellation.

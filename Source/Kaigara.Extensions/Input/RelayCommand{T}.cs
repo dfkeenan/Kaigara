@@ -9,7 +9,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.Mvvm.Input;
+namespace Kaigara.Input;
 
 /// <summary>
 /// A generic command whose sole purpose is to relay its functionality to other

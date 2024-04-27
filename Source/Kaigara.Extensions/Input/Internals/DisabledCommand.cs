@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Input;
 
-namespace CommunityToolkit.Mvvm.Input.Internals;
+namespace Kaigara.Input.Internals;
 
 /// <summary>
 /// A reusable <see cref="ICommand"/> instance that is always disabled.

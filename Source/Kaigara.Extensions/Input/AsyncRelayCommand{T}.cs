@@ -7,12 +7,12 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel.__Internals;
-using CommunityToolkit.Mvvm.Input.Internals;
+using Kaigara.ComponentModel.__Internals;
+using Kaigara.Input.Internals;
 
 #pragma warning disable CS0618, CA1001
 
-namespace CommunityToolkit.Mvvm.Input;
+namespace Kaigara.Input;
 
 /// <summary>
 /// A generic command that provides a more specific version of <see cref="AsyncRelayCommand"/>.

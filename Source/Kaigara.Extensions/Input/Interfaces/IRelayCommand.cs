@@ -4,7 +4,7 @@
 
 using System.Windows.Input;
 
-namespace CommunityToolkit.Mvvm.Input;
+namespace Kaigara.Input;
 
 /// <summary>
 /// An interface expanding <see cref="ICommand"/> with the ability to raise

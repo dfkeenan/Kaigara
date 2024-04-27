@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input.Internals;
+using Kaigara.Input.Internals;
 
-namespace CommunityToolkit.Mvvm.Input;
+namespace Kaigara.Input;
 
 /// <summary>
 /// Extensions for the <see cref="IAsyncRelayCommand"/> type.

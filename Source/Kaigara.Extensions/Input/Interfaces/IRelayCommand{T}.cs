@@ -4,7 +4,7 @@
 
 using System.Windows.Input;
 
-namespace CommunityToolkit.Mvvm.Input;
+namespace Kaigara.Input;
 
 /// <summary>
 /// A generic interface representing a more specific version of <see cref="IRelayCommand"/>.
