@@ -11,10 +11,15 @@
     <Setter Property="Header" Value="{Binding Label}"/>
     <Setter Property="ItemsSource" Value="{Binding Items}"/>
     <Setter Property="Command" Value="{Binding Command}"/>
-    <!--<Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>-->
     <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
-    <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
     <Setter Property="Icon" Value="{Binding IconName, Converter={k:NameToResourceConverter }}"/>
+    <Setter Property="IsVisible" >
+      <MultiBinding Converter="{x:Static k:CanExecuteToIsVisibleConverer.Instance}">
+        <Binding Path="IsVisible" />
+        <Binding Path="$self.IsEffectivelyEnabled" />
+        <Binding Path="CanExecuteBehavior" />
+      </MultiBinding>
+    </Setter>
   </Style>
 
   <Style Selector=".DynamicMenu MenuItem /template/ ContentPresenter#icon">

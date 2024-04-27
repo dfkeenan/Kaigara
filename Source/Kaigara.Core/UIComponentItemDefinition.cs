@@ -8,15 +8,12 @@ using ReactiveUI;
 
 namespace Kaigara;
 
-public enum CanExecuteBehavior
-{
-    Enabled,
-    Visible
-}
-
 public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     where T : UIComponentItemDefinition<T>
 {
+    public static Comparer<T> DisplayOrderComparer { get; }
+        = Comparer<T>.Create((x, y) => x.DisplayOrder.CompareTo(y.DisplayOrder));
+
     private string? label;
     private string? iconName;
     private CanExecuteBehavior canExecuteBehavior;
@@ -56,6 +53,9 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
     public ICommand? Command => registeredCommand?.Command;
     public KeyGesture? InputGesture => registeredCommand?.InputGesture;
 
+
+    public CanExecuteBehavior CanExecuteBehavior => canExecuteBehavior;
+
     protected ICollection<Action<IComponentContext>> Bindings
     {
         get
@@ -77,10 +77,10 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
 
             canExecuteBinding?.Dispose();
 
-            canExecuteBinding = registeredCommand
-                ?.CanExecute
-                ?.Where(c => canExecuteBehavior == CanExecuteBehavior.Visible)
-                ?.BindTo(this, t => t.IsVisible);
+            //canExecuteBinding = registeredCommand
+            //    ?.CanExecute
+            //    ?.Where(c => canExecuteBehavior == CanExecuteBehavior.Visible)
+            //    ?.BindTo(this, t => t.IsVisible);
         }
     }
 
@@ -139,6 +139,5 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
         bindingDisposables.Dispose();
     }
 
-    public static Comparer<T> DisplayOrderComparer { get; }
-        = Comparer<T>.Create((x, y) => x.DisplayOrder.CompareTo(y.DisplayOrder));
+    
 }

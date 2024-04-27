@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Avalonia.Input;
+using Kaigara.Commands;
 using ReactiveUI;
 
 namespace Kaigara.Toolbars;
@@ -27,8 +28,10 @@ internal class DefinedToolbarItemViewModel : ReactiveObject, IToolbarItemViewMod
 
     public virtual bool IsVisible => Definition.IsVisible;
     public virtual ICommand? Command => Definition.Command;
+
+    public virtual CanExecuteBehavior CanExecuteBehavior => Definition.CanExecuteBehavior;
+
     public virtual KeyGesture? InputGesture => Definition.InputGesture;
-    public virtual object? CommandParameter => null;
 
     public void Dispose()
     {

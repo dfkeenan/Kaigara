@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Avalonia.Input;
+using Kaigara.Commands;
 
 namespace Kaigara.Menus;
 
@@ -26,8 +27,9 @@ internal class MenuItemSeparatorViewModel : IMenuItemViewModel
     public virtual bool IsVisible => true;
 
     public virtual ICommand? Command => null;
+
+    public CanExecuteBehavior CanExecuteBehavior => CanExecuteBehavior.Enabled;
     public virtual KeyGesture? InputGesture => null;
-    public virtual object? CommandParameter => null;
     public virtual IEnumerable<IMenuItemViewModel> Items => Enumerable.Empty<IMenuItemViewModel>();
 
     public void Dispose()

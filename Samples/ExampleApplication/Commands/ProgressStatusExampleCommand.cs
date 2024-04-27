@@ -7,7 +7,7 @@ namespace ExampleApplication.Commands;
 
 [ToolbarItemDefinition("ProgressExample", "MainToolbarTray/Example")]
 [CommandDefinition("Progress Example Command", IconName = "Execute")]
-public class ProgressStatusExampleCommand : RegisteredAsyncCommand
+public class ProgressStatusExampleCommand : ReactiveRegisteredAsyncCommand
 {
     private readonly IStatusBar statusBar;
 
@@ -16,7 +16,7 @@ public class ProgressStatusExampleCommand : RegisteredAsyncCommand
         this.statusBar = statusBar;
     }
 
-    protected override Task OnExecuteAsync()
+    protected override Task OnExecuteAsync(CancellationToken cancellationToken)
     {
         return Task.Run(async () =>
         {
@@ -28,6 +28,6 @@ public class ProgressStatusExampleCommand : RegisteredAsyncCommand
             }
 
             statusBar.Ready();
-        });
+        }, cancellationToken);
     }
 }

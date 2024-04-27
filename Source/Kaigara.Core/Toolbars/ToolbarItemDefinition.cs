@@ -1,4 +1,6 @@
-﻿namespace Kaigara.Toolbars;
+﻿using Kaigara.Commands;
+
+namespace Kaigara.Toolbars;
 
 public class ToolbarItemDefinition : UIComponentItemDefinition<ToolbarItemDefinition>, IUIComponentDefinition
 {

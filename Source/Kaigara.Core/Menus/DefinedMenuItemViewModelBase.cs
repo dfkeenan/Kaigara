@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Avalonia.Input;
+using Kaigara.Commands;
 using ReactiveUI;
 
 namespace Kaigara.Menus;
@@ -23,8 +24,8 @@ internal class DefinedMenuItemViewModelBase : ReactiveObject, IDisposable, IMenu
     public virtual bool IsVisible => Definition.IsVisible;
 
     public virtual ICommand? Command => Definition.Command;
+    public CanExecuteBehavior CanExecuteBehavior => Definition.CanExecuteBehavior;
     public virtual KeyGesture? InputGesture => Definition.InputGesture;
-    public virtual object? CommandParameter => null;
     public virtual IEnumerable<IMenuItemViewModel> Items => Enumerable.Empty<IMenuItemViewModel>();
 
     public void Dispose()

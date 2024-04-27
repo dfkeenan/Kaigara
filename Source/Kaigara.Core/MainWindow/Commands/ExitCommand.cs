@@ -7,7 +7,7 @@ namespace Kaigara.MainWindow.Commands;
 
 [MenuItemDefinition("Exit", "MainMenu/File/ExitGroup", Label = "E_xit")]
 [CommandDefinition("Example Command", DefaultInputGesture = "Alt+F4")]
-public class ExitApplicationCommand : RegisteredCommand
+public class ExitApplicationCommand : ReactiveRegisteredCommand
 {
     protected override void OnExecute()
     {

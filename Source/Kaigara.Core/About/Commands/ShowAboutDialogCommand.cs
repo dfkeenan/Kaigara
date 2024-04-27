@@ -5,7 +5,7 @@ using Kaigara.Dialogs;
 namespace Kaigara.About.Commands;
 
 
-public class ShowAboutDialogCommand : RegisteredAsyncCommand
+public class ShowAboutDialogCommand : ReactiveRegisteredAsyncCommand
 {
     private readonly ApplicationInfo applicationInfo;
     private readonly IDialogService dialogService;
@@ -18,7 +18,7 @@ public class ShowAboutDialogCommand : RegisteredAsyncCommand
         Label = $"_About {applicationInfo.ProductName}";
     }
 
-    protected override Task OnExecuteAsync()
+    protected override Task OnExecuteAsync(CancellationToken cancellationToken)
     {
         return dialogService.ShowModal<IAboutDialogViewModel>();
     }

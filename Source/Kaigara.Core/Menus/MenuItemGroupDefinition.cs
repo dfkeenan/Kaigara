@@ -1,4 +1,6 @@
-﻿namespace Kaigara.Menus;
+﻿using Kaigara.Commands;
+
+namespace Kaigara.Menus;
 
 public class MenuItemGroupDefinition : MenuItemDefinition
 {

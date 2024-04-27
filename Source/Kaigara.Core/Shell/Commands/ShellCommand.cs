@@ -4,12 +4,12 @@ using Kaigara.Commands;
 using Kaigara.Reactive;
 
 namespace Kaigara.Shell.Commands;
-public abstract class ShellCommand : RegisteredCommand
+public abstract class ShellCommand : ReactiveRegisteredCommand
 {
     public required IShell Shell { get; init; }
 }
 
-public abstract class ShellAsyncCommand : RegisteredAsyncCommand
+public abstract class ShellAsyncCommand : ReactiveRegisteredAsyncCommand
 {
     public required IShell Shell { get; init; }
 }
@@ -47,12 +47,12 @@ public abstract class ActiveDocumentAsyncCommand<TDocument> : ShellAsyncCommand
     protected virtual IObservable<bool> GetCanExecute(TDocument document)
         => Observable.Return(true);
 
-    protected override Task OnExecuteAsync()
+    protected override Task OnExecuteAsync(CancellationToken cancellationToken)
     {
-        return OnExecuteAsync((TDocument)Shell!.Documents.Active.Value!);
+        return OnExecuteAsync((TDocument)Shell!.Documents.Active.Value!, cancellationToken);
     }
 
-    protected virtual Task OnExecuteAsync(TDocument document)
+    protected virtual Task OnExecuteAsync(TDocument document, CancellationToken cancellationToken)
     {
         return Task.CompletedTask;
     }

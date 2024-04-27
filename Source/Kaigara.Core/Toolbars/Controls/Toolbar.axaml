@@ -2,13 +2,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="https://github.com/dfkeenan/Kaigara"
         xmlns:vm="using:Kaigara.Toolbars">
-    <Design.PreviewWith>
-        <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
-        </Border>
-    </Design.PreviewWith>
+  <Design.PreviewWith>
+    <Border Padding="20">
+      <!-- Add Controls for Previewer Here -->
+    </Border>
+  </Design.PreviewWith>
 
-    <!-- Add Styles Here -->
+  <!-- Add Styles Here -->
   <Style Selector=".DynamicToolbarTray k|Toolbar" >
     <Setter Property="ItemsSource" Value="{Binding Items}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
@@ -16,13 +16,18 @@
       <DataTemplate>
         <ContentPresenter Content="{Binding}" >
           <ContentPresenter.DataTemplates>
-              <DataTemplate  DataType="vm:ToolbarItemSeparatorViewModel">
-                  <Separator />
-              </DataTemplate>
+            <DataTemplate  DataType="vm:ToolbarItemSeparatorViewModel">
+              <Separator />
+            </DataTemplate>
             <DataTemplate DataType="vm:IToolbarItemViewModel">
-              <Button Command="{Binding Command}" 
-                      CommandParameter="{Binding CommandParameter}"
-                      IsVisible="{Binding IsVisible}">
+              <Button Command="{Binding Command}" >
+                <Button.IsVisible>
+                  <MultiBinding Converter="{x:Static k:CanExecuteToIsVisibleConverer.Instance}">
+                    <Binding Path="IsVisible" />
+                    <Binding Path="$self.IsEffectivelyEnabled" />
+                    <Binding Path="CanExecuteBehavior" />
+                  </MultiBinding>
+                </Button.IsVisible>
                 <ToolTip.Tip>
                   <MultiBinding StringFormat="{}{0} {1}">
                     <Binding Path="Label" />
@@ -31,7 +36,7 @@
                 </ToolTip.Tip>
                 <StackPanel Orientation="Horizontal">
                   <Image Width="16" Height="16"
-                         IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" 
+                         IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
                          Source="{Binding IconName, Converter={k:NameToResourceConverter }}">
                   </Image>
                   <TextBlock Text="{Binding Label}" IsVisible="{Binding IconName, Converter={x:Static StringConverters.IsNullOrEmpty}}" />
@@ -48,7 +53,9 @@
     <Setter Property="Command" Value="{Binding Command}"/>
     <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
     <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
-    --><!--<Setter Property="Icon" Value="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}"/>--><!--
+    -->
+  <!--<Setter Property="Icon" Value="{Binding IconName, Converter={x:Static k:NameToResourceConverter.Instance}}"/>-->
+  <!--
     
   </Style>-->
 </Styles>

@@ -4,7 +4,7 @@ using Kaigara.Menus;
 using Kaigara.Toolbars;
 
 namespace Kaigara.Dialogs.Commands;
-public class ShowDialogCommand : RegisteredAsyncCommand, IToolbarItemDefinitionSource, IMenuItemDefinitionSource
+public class ShowDialogCommand : ReactiveRegisteredAsyncCommand, IToolbarItemDefinitionSource, IMenuItemDefinitionSource
 {
     private readonly IDialogService dialogService;
     private readonly Func<IDialogViewModel> dialogFactory;
@@ -48,7 +48,7 @@ public class ShowDialogCommand : RegisteredAsyncCommand, IToolbarItemDefinitionS
     MenuItemDefinition? IMenuItemDefinitionSource.GetDefinition(RegisteredCommandBase? command)
         => menuItemDefinitionSource?.GetDefinition(command);
 
-    protected override async Task OnExecuteAsync()
+    protected override async Task OnExecuteAsync(CancellationToken cancellationToken)
     {
         var dialog = dialogFactory();
         await dialogService.ShowModal(dialog);

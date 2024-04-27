@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Avalonia.Input;
+using Kaigara.Commands;
 using ReactiveUI;
 
 namespace Kaigara.Toolbars;
@@ -134,9 +135,7 @@ public class ToolbarItemSeparatorViewModel : IToolbarItemViewModel
     }
 
     public ICommand? Command => null;
-
-    public object? CommandParameter => null;
-
+    public CanExecuteBehavior CanExecuteBehavior => CanExecuteBehavior.Enabled;
     public KeyGesture? InputGesture => null;
 
     public bool IsVisible => true;
@@ -144,6 +143,7 @@ public class ToolbarItemSeparatorViewModel : IToolbarItemViewModel
     public string? Label => "-";
 
     public string? IconName => null;
+
 
     public void Dispose()
     {
