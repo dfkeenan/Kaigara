@@ -1,27 +1,32 @@
-﻿using System.Windows.Input;
+﻿using System.Reactive.Linq;
 using Dock.Model.ReactiveUI.Controls;
 using ExampleApplication.Documents.ViewModels;
 using Kaigara.Commands;
 using Kaigara.Menus;
+using Kaigara.Shell;
+using ReactiveUI;
 
 namespace ExampleApplication.Commands;
 
-[MenuItemDefinition("ExampleDocumentContextMenu", "DocumentContextMenu", CanExecuteBehavior = Kaigara.CanExecuteBehavior.Visible)]
+[MenuItemDefinition("ExampleDocumentContextMenu", "DocumentContextMenu", CanExecuteBehavior = CanExecuteBehavior.Visible)]
 [CommandDefinition("Example Document Command", IconName = "Run")]
 public class ExampleDocumentContextCommand : RegisteredCommand<Document>
 {
-    protected override void OnExecute(Document param)
+    public required IShell Shell { get; init; }
+
+    protected override void OnRegistered(ICommandManager commandManager)
     {
-        
+        commandManager.RequerySuggested
+            .Subscribe(e => NotifyCanExecuteChanged());
     }
 
-    //private bool IsDocumetnOK(Document param)
-    //{
-    //    return param is ExampleDocumentViewModel;
-    //}
+    protected override bool CanExecute(Document? parameter)
+    {
+        return parameter is ExampleDocumentViewModel;
+    }
 
-    //protected override ICommand CreateCommand()
-    //{
-    //    return base.CreateCommand().OverrideCanExecute<Document>(IsDocumetnOK);
-    //}
+    protected override void OnExecute(Document? param)
+    {
+
+    }
 }

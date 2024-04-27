@@ -2,7 +2,7 @@
 
 namespace Kaigara.Menus;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 public class MenuItemDefinitionAttribute : Attribute, IMenuItemDefinitionSource
 {
     public MenuItemDefinitionAttribute(string name, string locationPath)

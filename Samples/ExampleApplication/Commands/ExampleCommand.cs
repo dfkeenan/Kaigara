@@ -10,7 +10,7 @@ using Kaigara.Toolbars;
 namespace ExampleApplication.Commands;
 
 [MenuItemDefinition("Example1", "MainMenu/File/Example")]
-[ToolbarItemDefinition("Example1", "MainToolbarTray/Example", CanExecuteBehavior = Kaigara.CanExecuteBehavior.Visible)]
+[ToolbarItemDefinition("Example1", "MainToolbarTray/Example", CanExecuteBehavior = CanExecuteBehavior.Visible)]
 [CommandDefinition("Example Command", DefaultInputGesture = "Ctrl+E", IconName = "Run")]
 public class ExampleCommand : ActiveDocumentCommand<ExampleDocumentViewModel>
 {

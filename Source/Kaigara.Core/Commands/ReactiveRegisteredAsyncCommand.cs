@@ -53,8 +53,8 @@ public abstract class ReactiveRegisteredAsyncCommand<TParam> : ReactiveRegistere
 
     protected override ICommand CreateCommand()
     {
-        return ReactiveCommand.CreateFromTask<TParam>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.CreateFromTask<TParam?>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
     }
 
-    protected abstract Task OnExecuteAsync(TParam param, CancellationToken cancellationToken);
+    protected abstract Task OnExecuteAsync(TParam? parameter, CancellationToken cancellationToken);
 }

@@ -78,4 +78,9 @@ public abstract class RegisteredCommandBase : ReactiveObject
 
     public ICommand Command => command ??= CreateCommand();
     protected abstract ICommand CreateCommand();
+
+    protected internal virtual void OnRegistered(ICommandManager commandManager)
+    {
+
+    }
 }

@@ -57,5 +57,5 @@ public abstract class ReactiveRegisteredCommand<TParam> : ReactiveRegisteredComm
         return ReactiveCommand.Create<TParam>(OnExecute, CanExecute, AvaloniaScheduler.Instance);
     }
 
-    protected abstract void OnExecute(TParam param);
+    protected abstract void OnExecute(TParam? parameter);
 }

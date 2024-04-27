@@ -7,7 +7,7 @@
         </Border>
     </Design.PreviewWith>
   
-  <Style Selector=".DynamicMenu MenuItem">
+  <Style Selector=".DynamicMenu MenuItem" >
     <Setter Property="Header" Value="{Binding Label}"/>
     <Setter Property="ItemsSource" Value="{Binding Items}"/>
     <Setter Property="Command" Value="{Binding Command}"/>
@@ -15,9 +15,9 @@
     <Setter Property="Icon" Value="{Binding IconName, Converter={k:NameToResourceConverter }}"/>
     <Setter Property="IsVisible" >
       <MultiBinding Converter="{x:Static k:CanExecuteToIsVisibleConverer.Instance}">
-        <Binding Path="IsVisible" />
-        <Binding Path="$self.IsEffectivelyEnabled" />
-        <Binding Path="CanExecuteBehavior" />
+        <Binding Path="IsVisible" Mode="OneWay" />
+        <Binding Path="$self.IsEffectivelyEnabled" Mode="OneWay" />
+        <Binding Path="CanExecuteBehavior" Mode="OneWay" />
       </MultiBinding>
     </Setter>
   </Style>

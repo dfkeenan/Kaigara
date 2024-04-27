@@ -60,13 +60,16 @@ public class MenuManager : IMenuManager
 
     private void RegisterCommand(RegisteredCommandBase command)
     {
-        var definitionAttribute = command.GetType().GetCustomAttribute<MenuItemDefinitionAttribute>();
+        var definitionAttributes = command.GetType().GetCustomAttributes<MenuItemDefinitionAttribute>();
 
-        if (definitionAttribute is not null)
+        if (definitionAttributes.Any())
         {
-            var definition = definitionAttribute.GetDefinition(command)!;
+            foreach (var definitionAttribute in definitionAttributes)
+            {
+                var definition = definitionAttribute.GetDefinition(command)!;
 
-            Register(definitionAttribute.Location, definition);
+                Register(definitionAttribute.Location, definition);
+            }
         }
         else if (command is IMenuItemDefinitionSource source && source.IsDefined)
         {

@@ -186,57 +186,14 @@
       </DrawingImage>
 
 
-      <ContextMenu x:Key="DocumentTabStripItemContextMenu"  x:DataType="core:IDockable" x:CompileBindings="True">
-        <ContextMenu.Template>
-          <ControlTemplate>
-            <Border Padding="{TemplateBinding Padding}"
-                    Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                    CornerRadius="{TemplateBinding CornerRadius}">
-              <ScrollViewer Theme="{StaticResource SimpleMenuScrollViewer}">
-                <StackPanel Orientation="Vertical">
-                  <ItemsControl Classes="DynamicMenu" ItemsSource="{Binding Owner.((k:ShellDockFactory)Factory).DocumentContextMenu.Items}">
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <MenuItem CommandParameter="{Binding $parent[ContextMenu].DataContext}"/>
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                  </ItemsControl>
-                  <Separator IsVisible="{Binding !!Owner.((k:ShellDockFactory)Factory).DocumentContextMenu.Items.Count}" />
-                  <ItemsPresenter Name="PART_ItemsPresenter"
-                                ItemsPanel="{TemplateBinding ItemsPanel}"
-                                KeyboardNavigation.TabNavigation="Continue" />
-                </StackPanel>
-              </ScrollViewer>
-            </Border>
-          </ControlTemplate>
-        </ContextMenu.Template>
-        
-        <MenuItem Header="_Float"
-                Command="{Binding Owner.Factory.FloatDockable}"
-                CommandParameter="{Binding}"
-                IsVisible="{Binding CanFloat}"/>
-        <MenuItem Header="_Close"
-                  Command="{Binding Owner.Factory.CloseDockable}"
-                  CommandParameter="{Binding}"
-                  IsVisible="{Binding CanClose}"/>
-        <MenuItem Header="Close other tabs"
-                  Command="{Binding Owner.Factory.CloseOtherDockables}"
-                  CommandParameter="{Binding}"
-                  IsVisible="{Binding CanClose}"/>
-        <MenuItem Header="Close all tabs"
-                  Command="{Binding Owner.Factory.CloseAllDockables}"
-                  CommandParameter="{Binding}"
-                  IsVisible="{Binding CanClose}"/>
-        <MenuItem Header="_Close tabs to the left"
-                  Command="{Binding Owner.Factory.CloseLeftDockables}"
-                  CommandParameter="{Binding}"
-                  IsVisible="{Binding CanClose}"/>
-        <MenuItem Header="_Close tabs to the right"
-                  Command="{Binding Owner.Factory.CloseRightDockables}"
-                  CommandParameter="{Binding}"
-                  IsVisible="{Binding CanClose}"/>
+      <ContextMenu x:Key="DocumentTabStripItemContextMenu"  
+                   Classes="DynamicMenu"
+                   ItemsSource="{Binding Owner.((k:ShellDockFactory)Factory).DocumentContextMenu.Items}">
+        <ContextMenu.Styles>
+          <Style Selector="MenuItem" >
+            <Setter Property="CommandParameter" Value="{Binding $parent[ContextMenu].DataContext}"/>
+          </Style>
+        </ContextMenu.Styles>
       </ContextMenu>
 
       <!--
