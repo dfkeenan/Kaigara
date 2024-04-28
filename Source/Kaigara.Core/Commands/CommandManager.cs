@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -9,21 +10,10 @@ using ReactiveUI;
 
 namespace Kaigara.Commands;
 
-public class CommandManager : ICommandManager
+public class CommandManager : ICommandManager, IDisposable
 {
-    private static CommandManager? Instance;
-
-    static CommandManager()
-    {
-        //HACK: This is terrible, find another way
-        InputElement.GotFocusEvent.AddClassHandler<TopLevel>((t, e) =>
-        {
-            Instance?.requerySuggested.Invoke(Instance, EventArgs.Empty);
-        }, handledEventsToo: true);
-    }
-
     private readonly ObservableCollection<RegisteredCommandBase> commands;
-
+    private CompositeDisposable? disposables;
     public CommandManager(IEnumerable<RegisteredCommandBase> commands)
     {
         if (commands is null)
@@ -31,12 +21,12 @@ public class CommandManager : ICommandManager
             throw new ArgumentNullException(nameof(commands));
         }
 
+        disposables = new CompositeDisposable();
+
         RequerySuggested = Observable.FromEventPattern<Action<object?, EventArgs>, EventArgs>(e => requerySuggested += e, e => requerySuggested -= e)
                                                 .Select(p => p.EventArgs)
                                                 .Throttle(TimeSpan.FromMilliseconds(500))
                                                 .ObserveOn(RxApp.MainThreadScheduler);
-        
-        Instance ??= this;
 
         this.commands = new ObservableCollection<RegisteredCommandBase>(commands);
 
@@ -48,6 +38,12 @@ public class CommandManager : ICommandManager
         }
 
         this.commands.CollectionChanged += Commands_CollectionChanged;
+
+        //HACK: This is terrible, find another way
+        InputElement.GotFocusEvent.AddClassHandler<TopLevel>((t, e) =>
+        {
+            requerySuggested.Invoke(this, EventArgs.Empty);
+        }, handledEventsToo: true).DisposeWith(disposables);
     }
 
     private void Commands_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -69,6 +65,12 @@ public class CommandManager : ICommandManager
             case NotifyCollectionChangedAction.Reset:
                 break;
         }
+    }
+
+    public void Dispose()
+    {
+        disposables?.Dispose();
+        disposables = null;
     }
 
     public ReadOnlyObservableCollection<RegisteredCommandBase> Commands { get; }
