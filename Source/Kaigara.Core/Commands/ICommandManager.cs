@@ -8,4 +8,6 @@ public interface ICommandManager
     IObservable<EventArgs> RequerySuggested { get; }
 
     event EventHandler<EventArgs> RequerySuggestedEvent;
+
+    void RegisterCommand(RegisteredCommandBase command);
 }

@@ -375,7 +375,14 @@ public static class ContainerBuilderExtensions
                            .AsSelf()
                            .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies)
                            .As<RegisteredCommandBase>()
-                           .SingleInstance();
+                           .SingleInstance()
+                           .AutoActivate()
+                           .OnActivated((e)=> 
+                           {
+                               var command = (RegisteredCommandBase)e.Instance;
+                               var manager = e.Context.Resolve<ICommandManager>();
+                               manager.RegisterCommand(command);
+                           });
         return builder;
     }
 
