@@ -22,7 +22,7 @@
     </Setter>
   </Style>
 
-  <Style Selector=".DynamicMenu MenuItem /template/ ContentPresenter#icon">
+  <Style Selector=".DynamicMenu MenuItem /template/ ContentControl#PART_IconPresenter">
     <Setter Property="ContentTemplate">
       <DataTemplate>
         <Image Source="{Binding}" />
