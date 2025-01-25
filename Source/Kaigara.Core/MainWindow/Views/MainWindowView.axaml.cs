@@ -30,7 +30,7 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
     {
         AvaloniaXamlLoader.Load(this);
 #if DEBUG
-        this.AttachDevTools();
+        //this.AttachDevTools();
 #endif
     }
 }
