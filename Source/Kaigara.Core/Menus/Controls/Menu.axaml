@@ -12,7 +12,13 @@
     <Setter Property="ItemsSource" Value="{Binding Items}"/>
     <Setter Property="Command" Value="{Binding Command}"/>
     <Setter Property="InputGesture" Value="{Binding InputGesture}"/>
-    <Setter Property="Icon" Value="{Binding IconName, Converter={k:NameToResourceConverter }}"/>
+    <Setter Property="Icon" >
+      <MultiBinding Converter="{x:Static k:ThemedNameToResourceConverter.Instance}">
+        <Binding Path="IconName" />
+        <Binding Path="$self" />
+        <Binding Path="$self.ActualThemeVariant" />
+      </MultiBinding>
+    </Setter>
     <Setter Property="IsVisible" >
       <MultiBinding Converter="{x:Static k:CanExecuteToIsVisibleConverer.Instance}">
         <Binding Path="IsVisible" Mode="OneWay" />

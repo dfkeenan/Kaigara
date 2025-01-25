@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml.XamlIl.Runtime;
+using Avalonia.Styling;
 
 namespace Kaigara.Avalonia.Converters;
 
@@ -30,6 +31,26 @@ public class NameToResourceConverter : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+}
+
+
+public class ThemedNameToResourceConverter : IMultiValueConverter
+{
+    public static ThemedNameToResourceConverter Instance { get; } = new();
+
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if(values is [string name, IResourceHost resourceHost, ThemeVariant theme])
+        {
+            
+            if (resourceHost.TryFindResource(name, theme, out var resource) == true)
+            {
+                return resource!;
+            }
+        }
+
+        return AvaloniaProperty.UnsetValue;
     }
 }
 
