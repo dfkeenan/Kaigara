@@ -5,7 +5,7 @@ using Kaigara.Dialogs;
 namespace Kaigara.About.Commands;
 
 
-public class ShowAboutDialogCommand : ReactiveRegisteredAsyncCommand
+public class ShowAboutDialogCommand : RegisteredAsyncCommand
 {
     private readonly ApplicationInfo applicationInfo;
     private readonly IDialogService dialogService;

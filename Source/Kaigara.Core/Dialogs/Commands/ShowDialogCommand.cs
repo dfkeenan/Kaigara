@@ -4,7 +4,7 @@ using Kaigara.Menus;
 using Kaigara.Toolbars;
 
 namespace Kaigara.Dialogs.Commands;
-public class ShowDialogCommand : ReactiveRegisteredAsyncCommand, IToolbarItemDefinitionSource, IMenuItemDefinitionSource
+public class ShowDialogCommand : RegisteredAsyncCommand, IToolbarItemDefinitionSource, IMenuItemDefinitionSource
 {
     private readonly IDialogService dialogService;
     private readonly Func<IDialogViewModel> dialogFactory;

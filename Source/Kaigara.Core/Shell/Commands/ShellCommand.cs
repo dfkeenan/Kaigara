@@ -4,12 +4,12 @@ using Kaigara.Commands;
 using Kaigara.Reactive;
 
 namespace Kaigara.Shell.Commands;
-public abstract class ShellCommand : ReactiveRegisteredCommand
+public abstract class ShellCommand : RegisteredCommand
 {
     public required IShell Shell { get; init; }
 }
 
-public abstract class ShellAsyncCommand : ReactiveRegisteredAsyncCommand
+public abstract class ShellAsyncCommand : RegisteredAsyncCommand
 {
     public required IShell Shell { get; init; }
 }

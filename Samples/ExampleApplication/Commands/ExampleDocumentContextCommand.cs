@@ -9,7 +9,7 @@ namespace ExampleApplication.Commands;
 
 [MenuItemDefinition("ExampleDocumentContextMenu", "DocumentContextMenu", CanExecuteBehavior = CanExecuteBehavior.Visible)]
 [CommandDefinition("Example Document Command", IconName = "Run")]
-public class ExampleDocumentContextCommand : ReactiveRegisteredCommand<Document>
+public class ExampleDocumentContextCommand : RegisteredCommand<Document>
 {
     public required IShell Shell { get; init; }
 

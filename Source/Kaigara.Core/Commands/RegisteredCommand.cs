@@ -5,20 +5,20 @@ using ReactiveUI;
 
 namespace Kaigara.Commands;
 
-public abstract class ReactiveRegisteredCommand : ReactiveRegisteredCommandBase
+public abstract class RegisteredCommand : RegisteredCommandBase
 {
-    public ReactiveRegisteredCommand()
+    public RegisteredCommand()
         : base()
     {
 
     }
 
-    public ReactiveRegisteredCommand(CommandDefinitionAttribute? attribute)
+    public RegisteredCommand(CommandDefinitionAttribute? attribute)
         : base(attribute)
     {
     }
 
-    protected ReactiveRegisteredCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
+    protected RegisteredCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
         : base(name, label, keyGesture, iconName)
     {
 
@@ -32,20 +32,20 @@ public abstract class ReactiveRegisteredCommand : ReactiveRegisteredCommandBase
     protected abstract void OnExecute();
 }
 
-public abstract class ReactiveRegisteredCommand<TParam> : ReactiveRegisteredCommandBase
+public abstract class RegisteredCommand<TParam> : RegisteredCommandBase
 {
-    public ReactiveRegisteredCommand()
+    public RegisteredCommand()
        : base()
     {
 
     }
 
-    public ReactiveRegisteredCommand(CommandDefinitionAttribute? attribute)
+    public RegisteredCommand(CommandDefinitionAttribute? attribute)
         : base(attribute)
     {
     }
 
-    protected ReactiveRegisteredCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
+    protected RegisteredCommand(string name, string label, KeyGesture? keyGesture, string? iconName)
         : base(name, label, keyGesture, iconName)
     {
 

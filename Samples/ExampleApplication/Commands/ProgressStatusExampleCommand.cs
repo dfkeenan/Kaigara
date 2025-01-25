@@ -7,7 +7,7 @@ namespace ExampleApplication.Commands;
 
 [ToolbarItemDefinition("ProgressExample", "MainToolbarTray/Example")]
 [CommandDefinition("Progress Example Command", IconName = "Execute")]
-public class ProgressStatusExampleCommand : ReactiveRegisteredAsyncCommand
+public class ProgressStatusExampleCommand : RegisteredAsyncCommand
 {
     private readonly IStatusBar statusBar;
 

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Reactive.Linq;
+using System.Reflection;
 using System.Windows.Input;
 using Avalonia.Input;
 using ReactiveUI;
@@ -83,6 +84,7 @@ public abstract class RegisteredCommandBase : ReactiveObject
     {
 
     }
+    protected virtual IObservable<bool> GetCanExecute() => Observable.Return(true);
 
     protected internal virtual bool CanExecute(object? parameter)
         => true;

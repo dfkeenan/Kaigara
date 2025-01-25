@@ -5,7 +5,7 @@ using Kaigara.Menus;
 
 namespace Kaigara.Shell.Commands;
 
-public abstract class DockableCommandBase : ReactiveRegisteredCommand<IDockable>
+public abstract class DockableCommandBase : RegisteredCommand<IDockable>
 {
     public required IShell Shell { get; init; }
 

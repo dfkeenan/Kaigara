@@ -7,7 +7,7 @@ namespace Kaigara.Configuration.UI.Commands;
 [CommandDefinition("Options", IconName = "Settings")]
 public class ChangeOptionsCommand(IDialogService dialogService,
                                   ConfigurationManager configuration,
-                                  Lazy<OptionsDialogViewModel> optionsDialogViewModel) : ReactiveRegisteredAsyncCommand
+                                  Lazy<OptionsDialogViewModel> optionsDialogViewModel) : RegisteredAsyncCommand
 {
     private readonly IDialogService dialogService = dialogService ?? throw new ArgumentNullException(nameof(dialogService));
     private readonly ConfigurationManager configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
