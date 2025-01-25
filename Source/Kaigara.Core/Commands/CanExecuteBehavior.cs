@@ -18,7 +18,7 @@ public class CanExecuteToIsVisibleConverer : IMultiValueConverter
         return values switch
         {
         [bool isVisible, bool isEnabled, CanExecuteBehavior behavior]
-            => isVisible && CanExecuteBehavior.Visible switch
+            => isVisible && behavior switch
             {
                 CanExecuteBehavior.Enabled => true,
                 CanExecuteBehavior.Visible => isEnabled,
