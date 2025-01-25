@@ -1,5 +1,4 @@
 ﻿using System.Reactive.Disposables;
-using Avalonia.Threading;
 using ExampleApplication.Configuration;
 using Kaigara.Configuration;
 using Kaigara.Menus;

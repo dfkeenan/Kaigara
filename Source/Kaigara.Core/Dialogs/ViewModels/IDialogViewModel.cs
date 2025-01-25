@@ -8,5 +8,5 @@ public interface IDialogViewModel : IWindowViewModel
 
 public interface IDialogViewModel<TResult> : IDialogViewModel
 {
-    
+
 }

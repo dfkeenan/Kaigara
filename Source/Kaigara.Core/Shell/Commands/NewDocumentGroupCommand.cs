@@ -22,7 +22,7 @@ public abstract class NewDocumentGroupCommand : ShellCommand
     }
     protected void SplitDocumentGroup(Document sourceDockable, DockOperation operation)
     {
-        
+
         if (sourceDockable.Owner is not DocumentDock sourceDockableOwner) return;
         if (sourceDockableOwner.Owner is not IDock targetDock) return;
         if (targetDock.Factory is not IFactory factory) return;

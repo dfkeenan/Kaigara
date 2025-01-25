@@ -1,5 +1,4 @@
-﻿using System.Reactive.Linq;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using Avalonia.Input;
 using Avalonia.ReactiveUI;
 using ReactiveUI;
@@ -26,7 +25,7 @@ public abstract class ReactiveRegisteredAsyncCommand : ReactiveRegisteredCommand
 
     protected override ICommand CreateCommand()
     {
-        return ReactiveCommand.CreateFromTask(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.CreateFromTask(OnExecuteAsync, GetCanExecute(), AvaloniaScheduler.Instance);
     }
 
     protected abstract Task OnExecuteAsync(CancellationToken cancellationToken);
@@ -53,8 +52,16 @@ public abstract class ReactiveRegisteredAsyncCommand<TParam> : ReactiveRegistere
 
     protected override ICommand CreateCommand()
     {
-        return ReactiveCommand.CreateFromTask<TParam?>(OnExecuteAsync, CanExecute, AvaloniaScheduler.Instance);
+        return ReactiveCommand.CreateFromTask<TParam?>(OnExecuteAsync, GetCanExecute(), AvaloniaScheduler.Instance);
     }
 
     protected abstract Task OnExecuteAsync(TParam? parameter, CancellationToken cancellationToken);
+
+    protected internal override bool CanExecute(object? parameter)
+       => CanExecute((TParam?)parameter);
+
+    protected virtual bool CanExecute(TParam? parameter)
+    {
+        return true;
+    }
 }

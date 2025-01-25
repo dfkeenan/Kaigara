@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac.Features.OwnedInstances;
-using Avalonia.Controls;
+﻿using System.Reactive.Linq;
 using Dock.Model.Core;
 using Kaigara.Commands;
 using Kaigara.Menus;
-using ReactiveUI;
 
 namespace Kaigara.Shell.Commands;
 
-
-
-
-public abstract class DockableCommandBase : RegisteredCommand<IDockable>
+public abstract class DockableCommandBase : ReactiveRegisteredCommand<IDockable>
 {
     public required IShell Shell { get; init; }
 

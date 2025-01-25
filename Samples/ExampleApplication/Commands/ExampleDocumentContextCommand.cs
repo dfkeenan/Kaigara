@@ -4,13 +4,12 @@ using ExampleApplication.Documents.ViewModels;
 using Kaigara.Commands;
 using Kaigara.Menus;
 using Kaigara.Shell;
-using ReactiveUI;
 
 namespace ExampleApplication.Commands;
 
 [MenuItemDefinition("ExampleDocumentContextMenu", "DocumentContextMenu", CanExecuteBehavior = CanExecuteBehavior.Visible)]
 [CommandDefinition("Example Document Command", IconName = "Run")]
-public class ExampleDocumentContextCommand : RegisteredCommand<Document>
+public class ExampleDocumentContextCommand : ReactiveRegisteredCommand<Document>
 {
     public required IShell Shell { get; init; }
 

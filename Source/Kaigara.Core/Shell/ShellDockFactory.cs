@@ -1,16 +1,15 @@
-﻿using Autofac.Features.AttributeFilters;
+﻿using System.Reactive.Linq;
+using Autofac.Features.AttributeFilters;
 using Avalonia.Controls;
 using Dock.Model.Controls;
 using Dock.Model.Core;
 using Dock.Model.ReactiveUI;
 using Dock.Model.ReactiveUI.Controls;
-using Dock.Model.ReactiveUI.Core;
 using Kaigara.MainWindow.ViewModels;
 using Kaigara.MainWindow.Views;
 using Kaigara.Menus;
 using Kaigara.Shell.Controls;
 using Kaigara.Shell.ViewModels;
-using System.Reactive.Linq;
 
 namespace Kaigara.Shell;
 
@@ -96,7 +95,7 @@ public class ShellDockFactory : Factory
         mainDocumentsDock.Title = "Documents";
         mainDocumentsDock.IsCollapsable = false;
         mainDocumentsDock.VisibleDockables = CreateList<IDockable>();
-        
+
 
         var mainLayout = new ProportionalDock
         {
@@ -263,7 +262,7 @@ public class ShellDockFactory : Factory
         toolDock.Alignment = alignment;
         toolDock.IsCollapsable = false;
         toolDock.GripMode = GripMode.Visible;
-        
+
         var dock = new ProportionalDock
         {
             Proportion = 0.25,

@@ -377,7 +377,7 @@ public static class ContainerBuilderExtensions
                            .As<RegisteredCommandBase>()
                            .SingleInstance()
                            .AutoActivate()
-                           .OnActivated((e)=> 
+                           .OnActivated((e) =>
                            {
                                var command = (RegisteredCommandBase)e.Instance;
                                var manager = e.Context.Resolve<ICommandManager>();

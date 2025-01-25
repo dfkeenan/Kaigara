@@ -2,7 +2,7 @@
 
 public class ConsoleRedirectWriter : RedirectWriter
 {
-    TextWriter consoleTextWriter; //keeps Visual Studio console in scope.
+    private TextWriter consoleTextWriter; //keeps Visual Studio console in scope.
 
     public ConsoleRedirectWriter()
     {

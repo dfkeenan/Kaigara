@@ -5,7 +5,7 @@ using Scriban;
 
 namespace Kaigara.SourceGenerators;
 
-class TemplateHelper
+internal class TemplateHelper
 {
     private static readonly string[] resourceNames;
 

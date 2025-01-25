@@ -134,9 +134,7 @@ public class ShellViewModel : ViewModel, IShell
         return factory.GetDockable<IToolDock>(dockId)!;
     }
 
-
-
-    static IEnumerable<IDockable> GetDocumentsAndTools(IDockable dockable)
+    private static IEnumerable<IDockable> GetDocumentsAndTools(IDockable dockable)
     {
 
         if (dockable is IDocument || dockable is ITool)

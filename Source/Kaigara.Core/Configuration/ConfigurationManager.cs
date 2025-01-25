@@ -61,7 +61,7 @@ public class ConfigurationManager
             var sectionConfig = JsonSerializer.SerializeToNode(section, section.GetType(), jsonSerializerOptions) as JsonObject;
             var docConfig = config[sectionType.FullName!] as JsonObject;
 
-            if(docConfig is null)
+            if (docConfig is null)
             {
                 config[sectionType.FullName!] = sectionConfig;
             }
@@ -100,7 +100,7 @@ public class ConfigurationManager
             return converters.GetOrAdd(typeToConvert, t => new Converter(t));
         }
 
-        class Converter : JsonConverter<OptionsPageViewModel>
+        private class Converter : JsonConverter<OptionsPageViewModel>
         {
             private readonly List<PropertyInfo> properties = new();
             public Converter(Type typeToConvert)

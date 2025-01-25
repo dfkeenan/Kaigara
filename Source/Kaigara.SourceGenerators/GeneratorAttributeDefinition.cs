@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Kaigara.SourceGenerators;
 
-class GeneratorAttributeDefinition
+internal class GeneratorAttributeDefinition
 {
     private readonly AttributeTargets targets;
 
@@ -36,7 +36,7 @@ class GeneratorAttributeDefinition
         => symbol.GetAttributes().Any(ad => ad.AttributeClass!.ToDisplayString() == FullName);
 }
 
-class GeneratorAttributePropertyDefinition
+internal class GeneratorAttributePropertyDefinition
 {
     public GeneratorAttributePropertyDefinition(string typeName, string name, bool constructor = false)
     {

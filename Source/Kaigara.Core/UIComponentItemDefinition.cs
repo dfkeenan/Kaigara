@@ -1,5 +1,4 @@
 ﻿using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Windows.Input;
 using Autofac;
 using Avalonia.Input;
@@ -139,5 +138,5 @@ public abstract class UIComponentItemDefinition<T> : ReactiveObject, IDisposable
         bindingDisposables.Dispose();
     }
 
-    
+
 }

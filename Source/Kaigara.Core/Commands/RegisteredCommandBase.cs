@@ -68,7 +68,7 @@ public abstract class RegisteredCommandBase : ReactiveObject
     }
 
     private KeyGesture? keyGesture;
-    private ICommand? command;
+    private CommandNotifier? command;
 
     public KeyGesture? InputGesture
     {
@@ -76,11 +76,60 @@ public abstract class RegisteredCommandBase : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref keyGesture, value);
     }
 
-    public ICommand Command => command ??= CreateCommand();
+    public ICommand Command => command ??= new CommandNotifier(CreateCommand(), CanExecute);
     protected abstract ICommand CreateCommand();
 
     protected internal virtual void OnRegistered(ICommandManager commandManager)
     {
 
+    }
+
+    protected internal virtual bool CanExecute(object? parameter)
+        => true;
+
+    protected void NotifyCanExecuteChanged() => command?.NotifyCanExecuteChanged();
+
+    private class CommandNotifier : ICommand
+    {
+        private readonly ICommand command;
+        private readonly Func<object?, bool> canExecute;
+        private EventHandler? canExecuteChanged;
+
+        public CommandNotifier(ICommand command, Func<object?, bool> canExecute)
+        {
+            this.command = command;
+            this.canExecute = canExecute;
+            command.CanExecuteChanged += (s, args) => canExecuteChanged?.Invoke(this, args);
+        }
+
+        public event EventHandler? CanExecuteChanged
+        {
+            add
+            {
+                canExecuteChanged += value;
+            }
+
+            remove
+            {
+                canExecuteChanged -= value;
+            }
+        }
+
+        public bool CanExecute(object? parameter)
+        {
+            if (!command.CanExecute(parameter)) return false;
+
+            return canExecute(parameter);
+        }
+
+        public void Execute(object? parameter)
+        {
+            command.Execute(parameter);
+        }
+
+        public void NotifyCanExecuteChanged()
+        {
+            canExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

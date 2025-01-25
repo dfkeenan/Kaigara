@@ -83,7 +83,7 @@ public class AutoNotifySourceGenerator : ISourceGenerator
     /// <summary>
     /// Created on demand before each generation pass
     /// </summary>
-    class SyntaxReceiver : ISyntaxContextReceiver
+    private class SyntaxReceiver : ISyntaxContextReceiver
     {
         private GeneratorAttributeDefinition autoNotifyAttribute;
         private GeneratorAttributeDefinition autoNotifyAllAttribute;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Avalonia.Controls;
@@ -15,7 +14,7 @@ public class CommandManager : ICommandManager, IDisposable
     private CompositeDisposable? disposables;
     public CommandManager()
     {
-        
+
 
         disposables = new CompositeDisposable();
 

@@ -11,19 +11,19 @@ public enum CanExecuteBehavior
 
 public class CanExecuteToIsVisibleConverer : IMultiValueConverter
 {
-    public static CanExecuteToIsVisibleConverer Instance { get; } = new ();
+    public static CanExecuteToIsVisibleConverer Instance { get; } = new();
 
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-        return values switch 
+        return values switch
         {
-            [bool isVisible, bool isEnabled, CanExecuteBehavior behavior] 
-                => isVisible && CanExecuteBehavior.Visible switch
-                {
-                    CanExecuteBehavior.Enabled => true,
-                    CanExecuteBehavior.Visible => isEnabled,
-                    _ => true,
-                },
+        [bool isVisible, bool isEnabled, CanExecuteBehavior behavior]
+            => isVisible && CanExecuteBehavior.Visible switch
+            {
+                CanExecuteBehavior.Enabled => true,
+                CanExecuteBehavior.Visible => isEnabled,
+                _ => true,
+            },
             _ => true,
         };
     }
