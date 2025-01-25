@@ -11,7 +11,7 @@ public partial class StatusBarView : ReactiveUserControl<StatusBarViewModel>
     public StatusBarView()
     {
         InitializeComponent();
-
+        if (Design.IsDesignMode) return;
         this.WhenActivated(d =>
         {
             if (ViewModel is not null && StatusItemsControl.ItemsPanelRoot is Grid itemsPanelGrid)

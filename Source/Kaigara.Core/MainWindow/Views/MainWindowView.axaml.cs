@@ -1,5 +1,6 @@
 using System.Reactive.Disposables;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Kaigara.Avalonia.ReactiveUI;
 using Kaigara.Commands;
@@ -14,6 +15,9 @@ public class MainWindowView : ReactiveChromeWindow<MainWindowViewModel>
     public MainWindowView()
     {
         InitializeComponent();
+
+        if (Design.IsDesignMode) return;
+
         this.WhenActivated(d =>
         {
             ViewModel?.CommandManager.SyncKeyBindings(this.KeyBindings).DisposeWith(d);
